@@ -1,0 +1,35 @@
+version: '0.0.1'
+
+services:
+  postgres:
+    container_name: ktk_postgres
+    image: postgres:17-alpine
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    networks:
+      - backend
+    env_file:
+      - ./ktk-server/.env
+  redis:
+    container_name: ktk_redis
+    image: redis:7.2-alpine
+    restart: always 
+    env_file:
+      - ./ktk-server/.env
+    ports:
+      - 6379:6379
+    networks:
+      - backend
+    volumes:
+      - redis_data:/data
+    command: sh -c "redis-server --requirepass $${REDIS_PASSWORD}"
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  backend:
