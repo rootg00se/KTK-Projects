@@ -1,7 +1,7 @@
 import { ms, StringValue } from "@/libs/common/utils/ms.util";
 import { ConfigService } from "@nestjs/config";
+import { RedisStore } from "connect-redis";
 import { SessionOptions } from "express-session";
-import { RedisStore } from "node_modules/connect-redis/dist/connect-redis";
 import { RedisClientType } from "redis";
 
 export const sessionConfig = (configService: ConfigService, redis: RedisClientType): SessionOptions => ({

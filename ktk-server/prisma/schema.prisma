@@ -1,0 +1,240 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model accounts {
+  account_id          String        @id(map: "pk_accounts_account_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  provider            provider_type
+  refresh_token       String?
+  access_token        String
+  access_expires_in   Int
+  created_at          DateTime?     @default(now()) @db.Timestamp(6)
+  user_id             String        @db.Uuid
+  provider_account_id String        @db.VarChar
+  users               users         @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "fk_accounts_users")
+
+  @@unique([provider, provider_account_id], map: "unq_accounts_provider_provider_user_id")
+  @@index([user_id], map: "idx_accounts_user_id")
+}
+
+model chat_members {
+  user_id    String   @db.Uuid
+  chat_id    String   @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  chats      chats    @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, map: "fk_chat_members_chat_id")
+  users      users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "fk_chat_members_user_id")
+
+  @@id([user_id, chat_id], map: "pk_chat_members")
+}
+
+model chats {
+  chat_id      String         @id(map: "pk_chats_chat_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  type         chat_type      @default(private)
+  created_at   DateTime       @default(now()) @db.Timestamp(6)
+  updated_at   DateTime       @default(now()) @db.Timestamp(6)
+  chat_members chat_members[]
+  messages     messages[]
+  projects     projects[]
+}
+
+model messages {
+  message_id String   @id(map: "messages_message_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  sender_id  String   @db.Uuid
+  chat_id    String   @db.Uuid
+  content    String
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @default(now()) @db.Timestamp(6)
+  chats      chats    @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, map: "fk_messages_chats_chat_id")
+  users      users    @relation(fields: [sender_id], references: [user_id], onDelete: Cascade, map: "fk_messages_users_sender_id")
+}
+
+model project_likes {
+  project_id String   @db.Uuid
+  user_id    String   @db.Uuid
+  projects   projects @relation(fields: [project_id], references: [project_id], onDelete: Cascade, map: "fk_project_likes_project_id")
+  users      users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "fk_project_likes_user_id")
+
+  @@id([project_id, user_id], map: "pk_project_likes")
+  @@index([project_id], map: "idx_project_likes_project_id")
+  @@index([user_id], map: "idx_project_likes_user_id")
+}
+
+model project_members {
+  project_id String   @db.Uuid
+  user_id    String   @db.Uuid
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  projects   projects @relation(fields: [project_id], references: [project_id], onDelete: Cascade, map: "fk_project_members_project_id")
+  users      users    @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "fk_project_members_user_id")
+
+  @@id([project_id, user_id], map: "pk_project_members")
+}
+
+model projects {
+  project_id      String            @id(map: "pk_projects_project_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  status          project_status    @default(working)
+  title           String            @db.VarChar(64)
+  chat_id         String            @db.Uuid
+  content_url     String            @unique
+  project_link    String
+  created_at      DateTime          @default(now()) @db.Timestamp(6)
+  updated_at      DateTime          @default(now()) @db.Timestamp(6)
+  project_likes   project_likes[]
+  project_members project_members[]
+  chats           chats             @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, map: "fk_projects_chats_chat_id")
+  projects_tags   projects_tags[]
+  questions       questions[]
+
+  @@index([project_id], map: "idx_projects_project_id")
+}
+
+model projects_tags {
+  project_id String   @db.Uuid
+  tag_id     String   @db.Uuid
+  projects   projects @relation(fields: [project_id], references: [project_id], onDelete: Cascade, map: "fk_projects_tags_project_id")
+  tags       tags     @relation(fields: [tag_id], references: [tag_id], onDelete: Cascade, map: "fk_projects_tags_tag_id")
+
+  @@id([project_id, tag_id], map: "pk_projects_tags")
+}
+
+model questions {
+  question_id     String      @id(map: "pk_questions_question_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  parent_id       String?     @db.Uuid
+  user_id         String      @db.Uuid
+  project_id      String      @db.Uuid
+  text            String
+  created_at      DateTime    @default(now()) @db.Timestamp(6)
+  updated_at      DateTime    @default(now()) @db.Timestamp(6)
+  questions       questions?  @relation("questionsToquestions", fields: [parent_id], references: [question_id], onUpdate: NoAction, map: "fk_questions_parent_parent_id")
+  other_questions questions[] @relation("questionsToquestions")
+  projects        projects    @relation(fields: [project_id], references: [project_id], onDelete: Cascade, map: "fk_questions_projects_project_id")
+  users           users       @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "fk_questions_users_user_id")
+}
+
+model skills {
+  skill_id     String         @id(map: "pk_skills_skill_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  badge_url    String         @unique
+  name         String         @unique @db.VarChar
+  created_at   DateTime       @default(now()) @db.Timestamp(6)
+  users_skills users_skills[]
+}
+
+model tags {
+  tag_id        String          @id(map: "pk_tags_tag_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name          String          @unique @db.VarChar(64)
+  badge_url     String          @unique
+  created_at    DateTime        @default(now()) @db.Timestamp(6)
+  projects_tags projects_tags[]
+}
+
+model task_trackers {
+  task_tracker_id String   @id(map: "pk_task_trackers_task_tracker_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  project_id      String   @db.Uuid
+  name            String   @db.VarChar(64)
+  created_at      DateTime @default(now()) @db.Timestamp(6)
+  tasks           tasks[]
+}
+
+model tasks {
+  task_id         String        @id(map: "pk_tasks_task_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  status          task_status   @default(in_progress)
+  task_tracker_id String        @db.Uuid
+  text            String        @db.VarChar
+  created_at      DateTime      @default(now()) @db.Timestamp(6)
+  updated_at      DateTime      @default(now()) @db.Timestamp(6)
+  task_trackers   task_trackers @relation(fields: [task_tracker_id], references: [task_tracker_id], onDelete: Cascade, map: "fk_tasks_task_trackers_task_tracker_id")
+}
+
+model tokens {
+  token_id   String     @id(map: "pk_tokens_token_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  user_id    String     @db.Uuid
+  token      String
+  type       token_type
+  expires_in DateTime   @db.Timestamp(6)
+  created_at DateTime   @default(now()) @db.Timestamp(6)
+  users      users      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "fk_tokens_users_user_id")
+}
+
+model users {
+  user_id                                      String            @id(map: "pk_users_user_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  email                                        String            @unique @db.VarChar
+  password_hash                                String?
+  nickname                                     String            @unique @db.VarChar(64)
+  display_name                                 String?           @db.VarChar(64)
+  avatar_url                                   String?           @unique
+  is_verified                                  Boolean           @default(false)
+  method                                       auth_method       @default(credentials)
+  profile_data                                 String?           @unique
+  banner_url                                   String?           @unique
+  created_at                                   DateTime          @default(now()) @db.Timestamp(6)
+  updated_at                                   DateTime          @default(now()) @db.Timestamp(6)
+  accounts                                     accounts[]
+  chat_members                                 chat_members[]
+  messages                                     messages[]
+  project_likes                                project_likes[]
+  project_members                              project_members[]
+  questions                                    questions[]
+  tokens                                       tokens[]
+  users_friends_users_friends_friend_idTousers users_friends[]   @relation("users_friends_friend_idTousers")
+  users_friends_users_friends_user_idTousers   users_friends[]   @relation("users_friends_user_idTousers")
+  users_skills                                 users_skills[]
+
+  @@index([email], map: "idx_users_email")
+  @@index([nickname(ops: raw("gin_trgm_ops"))], map: "idx_users_nickname", type: Gin)
+}
+
+model users_friends {
+  user_id                              String   @db.Uuid
+  friend_id                            String   @db.Uuid
+  created_at                           DateTime @default(now()) @db.Timestamp(6)
+  users_users_friends_friend_idTousers users    @relation("users_friends_friend_idTousers", fields: [friend_id], references: [user_id], onDelete: Cascade, map: "fk_users_friends_friend_id")
+  users_users_friends_user_idTousers   users    @relation("users_friends_user_idTousers", fields: [user_id], references: [user_id], onDelete: Cascade, map: "fk_users_friends_user_id")
+
+  @@id([friend_id, user_id], map: "pk_users_friends")
+}
+
+model users_skills {
+  skill_id String @db.Uuid
+  user_id  String @db.Uuid
+  skills   skills @relation(fields: [skill_id], references: [skill_id], onDelete: Cascade, map: "fk_users_skills_skill_id")
+  users    users  @relation(fields: [user_id], references: [user_id], onDelete: Cascade, map: "fk_users_skills_user_id")
+
+  @@id([skill_id, user_id], map: "pk_users_skills")
+}
+
+enum auth_method {
+  oauth
+  credentials
+}
+
+enum chat_type {
+  group
+  private
+}
+
+enum project_status {
+  working
+  paused
+  completed
+  abandoned
+}
+
+enum provider_type {
+  google
+  github
+}
+
+enum task_status {
+  marked
+  completed
+  in_progress
+}
+
+enum token_type {
+  reset_password
+  verify_email
+}
