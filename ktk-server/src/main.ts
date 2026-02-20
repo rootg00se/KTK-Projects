@@ -8,6 +8,7 @@ import session from "express-session";
 import { sessionConfig } from "./config/session.config";
 import { GlobalFilter } from "./libs/common/filters/global.filter";
 import { GlobalLogger } from "./libs/common/logger/logger.service";
+import passport from "passport";
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
 
     app.setGlobalPrefix("api/v1");
     app.use(cookieParser(config.getOrThrow<string>("COOKIE_SECRET")));
+    app.useLogger(new GlobalLogger());
     
     app.useGlobalPipes(
       new ValidationPipe({
@@ -25,7 +27,11 @@ async function bootstrap() {
       }),
     );
 
-    app.useLogger(new GlobalLogger());
+    app.use(session(sessionConfig(config, redis)));
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+
     app.useGlobalFilters(new GlobalFilter());
 
     app.enableCors({
@@ -33,8 +39,6 @@ async function bootstrap() {
         credentials: true,
         exposedHeaders: ["set-cookie"],
     });
-
-    app.use(session(sessionConfig(config, redis)));
 
     await app.listen(config.getOrThrow<number>("APPLICATION_PORT"));
 }
