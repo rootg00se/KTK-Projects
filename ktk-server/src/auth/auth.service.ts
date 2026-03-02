@@ -3,11 +3,13 @@ import { LoginDto } from "./dto/login.dto";
 import { UsersService } from "@/users/users.service";
 import { hash, verify } from "argon2";
 import { RegisterDto } from "./dto/register.dto";
+import { EmailConfirmationService } from "./email-confirmation/email-confirmation.service";
 
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly usersService: UsersService
+        private readonly usersService: UsersService,
+        private readonly emailConfirmationService: EmailConfirmationService
     ) {}
 
     async register(registerDto: RegisterDto) {
@@ -21,6 +23,8 @@ export class AuthService {
             nickname: registerDto.nickname,
             password: hashedPasswod
         });
+
+        await this.emailConfirmationService.sendConfirmationToken(createdUser);
 
         return createdUser;
     }

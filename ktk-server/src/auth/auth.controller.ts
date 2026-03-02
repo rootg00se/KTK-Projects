@@ -18,6 +18,7 @@ import { ValidateLoginGuard } from "./guards/validate-login.guard";
 import { LocalGuard } from "./guards/local.guard";
 import { type User } from "@/shared/types/user.type";
 import { ConfigService } from "@nestjs/config";
+import { Recaptcha } from "@nestlab/google-recaptcha";
 
 @Controller("auth")
 export class AuthController {
@@ -28,20 +29,15 @@ export class AuthController {
     ) {}
 
     @Post("register")
+    @Recaptcha()
     async register(@Body() registerDto: RegisterDto, @Req() req: Request) {
         const user = await this.authService.register(registerDto);
-
-        await new Promise<void>((resolve, reject) => {
-            req.logIn(user, err => {
-                if (err) reject(err);
-                resolve();
-            });
-        });
 
         return user;
     }
 
     @Post("login")
+    @Recaptcha()
     @UseGuards(ValidateLoginGuard, LocalGuard)
     async login(@Authorized() user: User, @Req() req: Request) {
         await new Promise<void>((resolve, reject) => {
