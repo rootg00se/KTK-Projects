@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
   moduleFormat = "cjs"
 }
 
@@ -13,7 +13,6 @@ model accounts {
   provider            provider_type
   refresh_token       String?
   access_token        String
-  access_expires_in   Int
   created_at          DateTime?     @default(now()) @db.Timestamp(6)
   user_id             String        @db.Uuid
   provider_account_id String        @db.VarChar

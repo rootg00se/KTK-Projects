@@ -19,14 +19,20 @@ import { LocalGuard } from "./guards/local.guard";
 import { type User } from "@/shared/types/user.type";
 import { ConfigService } from "@nestjs/config";
 import { Recaptcha } from "@nestlab/google-recaptcha";
+import { OAuth2Guard } from "./guards/oauth2.guard";
+import { provider_type } from "@prisma/generated/enums";
 
 @Controller("auth")
 export class AuthController {
+    private readonly CLIENT_URL: string;
+
     constructor(
         private readonly authService: AuthService,
         private readonly usersService: UsersService,
         private readonly configService: ConfigService
-    ) {}
+    ) {
+        this.CLIENT_URL = configService.getOrThrow<string>("CLIENT_ORIGIN");
+    }
 
     @Post("register")
     @Recaptcha()
@@ -67,6 +73,26 @@ export class AuthController {
                 });
             });
         });
+    }
+
+    @Get("oauth2/google")
+    @UseGuards(OAuth2Guard(provider_type.google))
+    googleOAuth() {}
+
+    @Get("oauth2/google/redirect")
+    @UseGuards(OAuth2Guard(provider_type.google))
+    googleOAuthRedirect(@Res() res: Response) {
+        res.status(302).redirect(this.CLIENT_URL);
+    }
+
+    @Get("oauth2/github")
+    @UseGuards(OAuth2Guard(provider_type.github))
+    githubOAuth() {}
+
+    @Get("oauth2/github/redirect")
+    @UseGuards(OAuth2Guard(provider_type.github))
+    githubOAuthRedirect(@Res() res: Response) {
+        res.status(302).redirect(this.CLIENT_URL);
     }
 
     @Get("check")

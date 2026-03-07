@@ -63,7 +63,6 @@ CREATE TABLE accounts (
     provider provider_type NOT NULL,
     refresh_token TEXT,
     access_token TEXT NOT NULL,
-    access_expires_in INT NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     user_id UUID NOT NULL,
     provider_account_id VARCHAR NOT NULL,

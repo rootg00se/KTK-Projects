@@ -10,6 +10,8 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { googleRecaptchaConfig } from "@/config/recaptcha.config";
 import { EmailConfirmationModule } from './email-confirmation/email-confirmation.module';
 import { PasswordModule } from './password/password.module';
+import { GithubStrategy } from "./strategies/github.strategy";
+import { GoogleStrategy } from "./strategies/google.strategy";
 
 @Module({
     imports: [
@@ -24,6 +26,6 @@ import { PasswordModule } from './password/password.module';
         PasswordModule,
     ],
     controllers: [AuthController],
-    providers: [AuthService, LocalStrategy, SessionSerializer],
+    providers: [AuthService, LocalStrategy, GithubStrategy, GoogleStrategy, SessionSerializer],
 })
 export class AuthModule {}
