@@ -94,10 +94,4 @@ export class AuthController {
     githubOAuthRedirect(@Res() res: Response) {
         res.status(302).redirect(this.CLIENT_URL);
     }
-
-    @Get("check")
-    @UseGuards(AuthenticatedGuard)
-    async checkUser(@Authorized() user: User) {
-        return user;
-    }
 }

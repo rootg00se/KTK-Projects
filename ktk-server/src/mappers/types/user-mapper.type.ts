@@ -1,6 +1,6 @@
 import { auth_method, provider_type } from "@prisma/generated/enums";
 
-export interface IUserData {
+export type UserMapper = {
     email: string;
     user_id: string;
     nickname: string;
@@ -28,4 +28,4 @@ export interface IUserData {
         provider: provider_type;
         provider_account_id: string;
     }[];
-}
+};
