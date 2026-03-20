@@ -7,7 +7,10 @@ export type UserMapper = {
     avatar_url: string | null;
     profile_data: string | null;
     banner_url: string | null;
-    password_hash: string | null;
+    profile_data_key: string | null;
+    avatar_key: string | null;
+    banner_key: string | null
+    password_hash?: string | null;
     display_name: string | null;
     is_verified: boolean;
     method: auth_method;

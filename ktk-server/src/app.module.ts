@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from "./prisma/prisma.module";
 import { ChatsModule } from './chats/chats.module';
 import { ProjectsModule } from './projects/projects.module';
+import { S3StorageModule } from './libs/s3-storage/s3-storage.module';
 
 @Module({
     imports: [
@@ -17,7 +18,8 @@ import { ProjectsModule } from './projects/projects.module';
         UsersModule,
         PrismaModule,
         ChatsModule,
-        ProjectsModule
+        ProjectsModule,
+        S3StorageModule
     ],
     controllers: [],
     providers: [],

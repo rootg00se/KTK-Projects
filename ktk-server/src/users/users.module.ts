@@ -3,9 +3,10 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { ChatsModule } from '@/chats/chats.module';
 import { ProjectsModule } from '@/projects/projects.module';
+import { S3StorageModule } from '@/libs/s3-storage/s3-storage.module';
 
 @Module({
-  imports: [ChatsModule, ProjectsModule],
+  imports: [ChatsModule, ProjectsModule, S3StorageModule],
   controllers: [UsersController],
   providers: [UsersService],
   exports: [UsersService],

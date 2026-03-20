@@ -11,6 +11,6 @@ export class RegisterDto {
 
     @IsString({ message: "Nickname should be a string" })
     @IsNotEmpty({ message: "Nickname can't be empty" })
-    @Length(2, 64, { message: "Password length should be between 2 and 64 character" })
+    @Length(2, 64, { message: "Nickname length should be between 2 and 64 character" })
     nickname: string;
 }

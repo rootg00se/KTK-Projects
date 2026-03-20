@@ -21,6 +21,9 @@ CREATE TABLE users (
     method auth_method NOT NULL DEFAULT 'credentials',
     profile_data TEXT UNIQUE,
     banner_url TEXT UNIQUE,
+    banner_key VARCHAR,
+    avatar_key VARCHAR,
+    profile_data_key VARCHAR,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
