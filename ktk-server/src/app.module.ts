@@ -7,6 +7,8 @@ import { PrismaModule } from "./prisma/prisma.module";
 import { ChatsModule } from './chats/chats.module';
 import { ProjectsModule } from './projects/projects.module';
 import { S3StorageModule } from './libs/s3-storage/s3-storage.module';
+import { SkillsModule } from './skills/skills.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
     imports: [
@@ -19,7 +21,9 @@ import { S3StorageModule } from './libs/s3-storage/s3-storage.module';
         PrismaModule,
         ChatsModule,
         ProjectsModule,
-        S3StorageModule
+        S3StorageModule,
+        SkillsModule,
+        TagsModule
     ],
     controllers: [],
     providers: [],
