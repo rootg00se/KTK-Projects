@@ -3,7 +3,7 @@ import { appendFileSync, existsSync, mkdirSync } from "fs";
 import { dirname, join } from "path";
 
 export class GlobalLogger implements LoggerService {
-    private readonly logFile = join(__dirname, "../../../../logs/app.log");
+    private readonly logFile = join(process.cwd(), "logs/app.log");
     private readonly consoleLogger = new ConsoleLogger();
 
     private writeToFile(level: LogLevel, message: any, context?: string, trace?: string) {
@@ -19,7 +19,7 @@ export class GlobalLogger implements LoggerService {
         appendFileSync(this.logFile, log);
     }
 
-    log(message: any, context: string) {
+    log(message: any, context?: string) {
         this.writeToFile("log", message, context);
         this.consoleLogger.log(message, context);
     }
@@ -29,17 +29,17 @@ export class GlobalLogger implements LoggerService {
         this.consoleLogger.error(message, trace, context);
     }
 
-    warn(message: any, context: string) {
+    warn(message: any, context?: string) {
         this.writeToFile("warn", message, context);
         this.consoleLogger.warn(message, context);
     }
 
-    debug(message: any, context: string) {
+    debug(message: any, context?: string) {
         this.writeToFile("debug", message, context);
         this.consoleLogger.debug(message, context);
     }
 
-    verbose(message: any, context: string) {
+    verbose(message: any, context?: string) {
         this.writeToFile("verbose", message, context);
         this.consoleLogger.verbose(message, context);
     }

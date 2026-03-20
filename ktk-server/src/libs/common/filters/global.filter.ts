@@ -6,7 +6,7 @@ import { dirname, join } from "path";
 @Catch()
 export class GlobalFilter implements ExceptionFilter {
     private readonly logger = new Logger(GlobalFilter.name);
-    private readonly logFile = join(__dirname, "../../../../logs/exceptions.log");
+    private readonly logFile = join(process.cwd(), "logs/exceptions.log");
 
     private writeToFile(error: string) {
         const logDir = dirname(this.logFile);

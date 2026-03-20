@@ -11,7 +11,9 @@ import { GlobalLogger } from "./libs/common/logger/logger.service";
 import passport from "passport";
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, {
+        logger: new GlobalLogger(),
+    });
     const config = app.get(ConfigService);
 
     const redis: RedisClientType = createClient({ url: config.getOrThrow<string>("REDIS_URI") });
@@ -19,12 +21,11 @@ async function bootstrap() {
 
     app.setGlobalPrefix("api/v1");
     app.use(cookieParser(config.getOrThrow<string>("COOKIE_SECRET")));
-    app.useLogger(new GlobalLogger());
-    
+
     app.useGlobalPipes(
-      new ValidationPipe({
-        transform: true,
-      }),
+        new ValidationPipe({
+            transform: true,
+        }),
     );
 
     app.use(session(sessionConfig(config, redis)));
@@ -32,7 +33,7 @@ async function bootstrap() {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    // app.useGlobalFilters(new GlobalFilter());
+    app.useGlobalFilters(new GlobalFilter());
 
     app.enableCors({
         origin: config.getOrThrow<string>("CLIENT_ORIGIN"),
