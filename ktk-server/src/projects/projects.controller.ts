@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Patch,
+    Post,
+    Query,
+    UseGuards,
+} from "@nestjs/common";
 import { ProjectsService } from "./projects.service";
 import { Authorized } from "@/auth/decorators/authorized.decorator";
 import { UpdateProjectDto } from "./dto/update-project.dto";
@@ -9,18 +19,19 @@ import { AddParticipantDto } from "./dto/add-participant.dto";
 import { QuestionsService } from "@/questions/questions.service";
 import { ProjectsPaginationDto } from "./dto/projects-pagination.dto";
 import { CreateProjectDto } from "./dto/create-project.dto";
+import { CreateQuestionDto } from "../questions/dto/create-question.dto";
 
 @Controller("projects")
 export class ProjectsController {
     constructor(
         private readonly projectsService: ProjectsService,
-        private readonly questionsService: QuestionsService
+        private readonly questionsService: QuestionsService,
     ) {}
 
     @Post()
     async createProject(
         @Authorized("user_id") userId: string,
-        @Body() createProjectDto: CreateProjectDto
+        @Body() createProjectDto: CreateProjectDto,
     ) {
         return await this.projectsService.createProject(userId, createProjectDto);
     }
@@ -42,10 +53,25 @@ export class ProjectsController {
         return await this.projectsService.toggleProjectsLike(projectId, userId, true);
     }
 
+    @Post(":id/questions")
+    @UseGuards(AuthenticatedGuard)
+    async createQuestion(
+        @Param("id") projectId: string,
+        @Body() createQuestionDto: CreateQuestionDto,
+        @Authorized("user_id") userId: string,
+    ) {
+        return await this.questionsService.createQuestion(
+            projectId,
+            userId,
+            createQuestionDto.text,
+            createQuestionDto.questionId,
+        );
+    }
+
     @Get()
     async getAllProjects(
         @Authorized("user_id") userId: string,
-        @Query() paginationQuery: ProjectsPaginationDto
+        @Query() paginationQuery: ProjectsPaginationDto,
     ) {
         return await this.projectsService.getAllProjects(paginationQuery, userId);
     }

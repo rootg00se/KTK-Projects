@@ -1,21 +1,101 @@
-import { PrismaService } from '@/prisma/prisma.service';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from "@/prisma/prisma.service";
+import { Injectable, NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class QuestionsService {
     constructor(private readonly prismaService: PrismaService) {}
 
     async getProjectQuestions(projectId: string) {
-        const project = this.prismaService.projects.findUnique({
-            where: { project_id: projectId },
-        });
-
-        if (!project) throw new NotFoundException("Project with that id not found");
+        const existingProject = await this.checkIfProjectExist(projectId);
+        if (!existingProject) throw new NotFoundException("Project with that id not found");
 
         const questions = await this.prismaService.questions.findMany({
-            where: { project_id: projectId }
+            where: { project_id: projectId, parent_id: null },
         });
 
         return questions;
+    }
+
+    async createQuestion(
+        projectId: string,
+        userId: string,
+        text: string,
+        parentId?: string,
+    ) {
+        const existingProject = await this.checkIfProjectExist(projectId);
+        if (parentId) await this.checkIfQuestionExists(parentId);
+
+        const createdQuestion = await this.prismaService.questions.create({
+            data: {
+                text: text,
+                projects: { connect: { project_id: existingProject.project_id } },
+                users: { connect: { user_id: userId } },
+                ...(parentId && {
+                    questions: {
+                        connect: { question_id: parentId },
+                    },
+                }),
+            },
+            include: { users: { omit: { password_hash: true } } }
+        });
+
+        return createdQuestion;
+    }
+
+    async getQuestionReplies(questionId: string) {
+        const existingQuestion = await this.checkIfQuestionExists(questionId);
+
+        const replies = await this.prismaService.questions.findMany({
+            where: {
+                parent_id: existingQuestion.question_id,
+            },
+            orderBy: { created_at: "asc" },
+            include: { users: { omit: { password_hash: true } } }
+        });
+
+        return replies;
+    }
+
+    async deleteQuestion(questionId: string) {
+        const existingQuestion = await this.checkIfQuestionExists(questionId);
+
+        const deletedQuestion = await this.prismaService.questions.delete({
+            where: { question_id: existingQuestion.question_id },
+            include: { users: { omit: { password_hash: true } } }
+        });
+
+        return deletedQuestion;
+    }
+
+    async updateQuestion(questionId: string, text: string) {
+        const existingQuestion = await this.checkIfQuestionExists(questionId);
+
+        const updatedQuestion = await this.prismaService.questions.update({
+            where: { question_id: existingQuestion.question_id },
+            data: { text },
+            include: { users: { omit: { password_hash: true } } }
+        });
+
+        return updatedQuestion;
+    }
+
+    private async checkIfProjectExist(projectId: string) {
+        const existingProject = await this.prismaService.projects.findUnique({
+            where: { project_id: projectId },
+        });
+
+        if (!existingProject) throw new NotFoundException("Project with such id not found");
+
+        return existingProject;
+    }
+
+    private async checkIfQuestionExists(questionId: string) {
+        const existingQuestions = await this.prismaService.questions.findUnique({
+            where: { question_id: questionId },
+        });
+
+        if (!existingQuestions) throw new NotFoundException("Question with such id not found");
+
+        return existingQuestions;
     }
 }
