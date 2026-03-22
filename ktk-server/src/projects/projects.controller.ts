@@ -1,45 +1,72 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { ProjectsService } from "./projects.service";
 import { Authorized } from "@/auth/decorators/authorized.decorator";
 import { UpdateProjectDto } from "./dto/update-project.dto";
 import { updateProjectStatusDto } from "./dto/update-project-status.dto";
+import { AuthenticatedGuard } from "@/auth/guards/authenticated.guard";
+import { UpdateProjectContentDto } from "./dto/update-project-content.dto";
+import { AddParticipantDto } from "./dto/add-participant.dto";
+import { QuestionsService } from "@/questions/questions.service";
+import { ProjectsPaginationDto } from "./dto/projects-pagination.dto";
+import { CreateProjectDto } from "./dto/create-project.dto";
 
 @Controller("projects")
 export class ProjectsController {
-    constructor(private readonly projectsService: ProjectsService) {}
+    constructor(
+        private readonly projectsService: ProjectsService,
+        private readonly questionsService: QuestionsService
+    ) {}
 
     @Post()
-    async createProject() {}
+    async createProject(
+        @Authorized("user_id") userId: string,
+        @Body() createProjectDto: CreateProjectDto
+    ) {
+        return await this.projectsService.createProject(userId, createProjectDto);
+    }
 
-    @Post(":id/members")
-    async addUserToTheProject() {}
+    @Post(":id/participants")
+    async addUserToTheProject(
+        @Param("id") projectId: string,
+        @Body() addParticipantDto: AddParticipantDto,
+    ) {
+        return await this.projectsService.addParticipantToProject(
+            projectId,
+            addParticipantDto.userId,
+        );
+    }
 
     @Post(":id/like")
-    async likePost() {}
+    @UseGuards(AuthenticatedGuard)
+    async likePost(@Param("id") projectId: string, @Authorized("user_id") userId: string) {
+        return await this.projectsService.toggleProjectsLike(projectId, userId, true);
+    }
 
     @Get()
-    async getAllProjects(@Authorized("user_id") userId: string) {
-        return await this.projectsService.getAllProjects(userId);
+    async getAllProjects(
+        @Authorized("user_id") userId: string,
+        @Query() paginationQuery: ProjectsPaginationDto
+    ) {
+        return await this.projectsService.getAllProjects(paginationQuery, userId);
     }
 
     @Get(":id")
-    async getProjectById(@Param(":id") projectId: string, @Authorized("user_id") userId: string) {
+    async getProjectById(@Param("id") projectId: string, @Authorized("user_id") userId: string) {
         return await this.projectsService.getProjectById(projectId, userId);
     }
 
     @Get(":id/questions")
-    async getProjectQuestions() {}
+    async getProjectQuestions(@Param("id") projectId: string) {
+        return await this.questionsService.getProjectQuestions(projectId);
+    }
 
     @Get(":id/participants")
-    async getProjectParticipants() {}
-
-    @Get(":id/taskTrackers")
-    async getProjectTaskTrackers() {}
-
-    @Get(":id/chats")
-    async getProjectChats() {}
+    async getProjectParticipants(@Param("id") projectId: string) {
+        return await this.projectsService.getProjectParticipants(projectId);
+    }
 
     @Patch(":id")
+    @UseGuards(AuthenticatedGuard)
     async updateProject(
         @Param("id") projectId: string,
         @Body() updateProjectDto: UpdateProjectDto,
@@ -48,9 +75,18 @@ export class ProjectsController {
     }
 
     @Patch(":id/content")
-    async updateProjectContent() {}
+    async updateProjectContent(
+        @Param("id") projectId: string,
+        @Body() updateProjectContentDto: UpdateProjectContentDto,
+    ) {
+        return await this.projectsService.updateProjectContent(
+            projectId,
+            updateProjectContentDto.content,
+        );
+    }
 
     @Patch(":id/status")
+    @UseGuards(AuthenticatedGuard)
     async updateProjectStatus(
         @Param("id") projectId: string,
         @Body() updateProjectStatusDto: updateProjectStatusDto,
@@ -62,11 +98,19 @@ export class ProjectsController {
     }
 
     @Delete(":id")
-    async deleteProject() {}
+    @UseGuards(AuthenticatedGuard)
+    async deleteProject(@Param("id") projectId: string) {
+        return await this.projectsService.deleteProject(projectId);
+    }
 
     @Delete(":id/dislike")
-    async dislikePost() {}
+    @UseGuards(AuthenticatedGuard)
+    async dislikePost(@Param("id") projectId: string, @Authorized("user_id") userId: string) {
+        return await this.projectsService.toggleProjectsLike(projectId, userId, false);
+    }
 
-    @Delete(":projectId/members/:userId")
-    async removeUserFromProject() {}
+    @Delete(":id/participants/:userId")
+    async removeUserFromProject(@Param("id") projectId: string, @Param("userId") userId: string) {
+        return await this.projectsService.removeParticipantFromProject(projectId, userId);
+    }
 }

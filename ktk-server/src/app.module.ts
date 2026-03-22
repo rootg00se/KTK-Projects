@@ -9,6 +9,7 @@ import { ProjectsModule } from './projects/projects.module';
 import { S3StorageModule } from './libs/s3-storage/s3-storage.module';
 import { SkillsModule } from './skills/skills.module';
 import { TagsModule } from './tags/tags.module';
+import { QuestionsModule } from './questions/questions.module';
 
 @Module({
     imports: [
@@ -23,7 +24,8 @@ import { TagsModule } from './tags/tags.module';
         ProjectsModule,
         S3StorageModule,
         SkillsModule,
-        TagsModule
+        TagsModule,
+        QuestionsModule
     ],
     controllers: [],
     providers: [],

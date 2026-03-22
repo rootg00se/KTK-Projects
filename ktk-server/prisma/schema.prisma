@@ -78,14 +78,17 @@ model projects {
   project_id      String            @id(map: "pk_projects_project_id") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   status          project_status    @default(working)
   title           String            @db.VarChar(64)
-  chat_id         String            @db.Uuid
+  chat_id         String?           @db.Uuid
   content_url     String            @unique
-  project_link    String
+  project_link    String?
   created_at      DateTime          @default(now()) @db.Timestamp(6)
   updated_at      DateTime          @default(now()) @db.Timestamp(6)
+  content_key     String
+  creator_id      String            @db.Uuid
   project_likes   project_likes[]
   project_members project_members[]
-  chats           chats             @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, map: "fk_projects_chats_chat_id")
+  chats           chats?            @relation(fields: [chat_id], references: [chat_id], onDelete: Cascade, map: "fk_projects_chats_chat_id")
+  users           users             @relation(fields: [creator_id], references: [user_id], onDelete: Cascade, map: "fk_projects_users_user_id")
   projects_tags   projects_tags[]
   questions       questions[]
 
@@ -180,6 +183,7 @@ model users {
   messages                                     messages[]
   project_likes                                project_likes[]
   project_members                              project_members[]
+  projects                                     projects[]
   questions                                    questions[]
   tokens                                       tokens[]
   users_friends_users_friends_friend_idTousers users_friends[]   @relation("users_friends_friend_idTousers")

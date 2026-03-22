@@ -90,11 +90,14 @@ CREATE TABLE projects (
     title VARCHAR(64) NOT NULL,
     chat_id UUID NOT NULL,
     content_url TEXT NOT NULL UNIQUE,
-    project_link TEXT NOT NULL,
+    content_key TEXT NOT NULL,
+    project_link TEXT,
+    creator_id UUID NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
     CONSTRAINT fk_projects_chats_chat_id FOREIGN KEY (chat_id) REFERENCES chats(chat_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_projects_users_user_id FOREIGN KEY (creator_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT pk_projects_project_id PRIMARY KEY (project_id)
 );
 
