@@ -20,12 +20,15 @@ import { QuestionsService } from "@/questions/questions.service";
 import { ProjectsPaginationDto } from "./dto/projects-pagination.dto";
 import { CreateProjectDto } from "./dto/create-project.dto";
 import { CreateQuestionDto } from "../questions/dto/create-question.dto";
+import { TaskTrackersService } from "@/task-trackers/task-trackers.service";
+import { CreateTaskTrackerDto } from "@/task-trackers/dto/create-task-tracker.dto";
 
 @Controller("projects")
 export class ProjectsController {
     constructor(
         private readonly projectsService: ProjectsService,
         private readonly questionsService: QuestionsService,
+        private readonly taskTrackersService: TaskTrackersService,
     ) {}
 
     @Post()
@@ -51,6 +54,18 @@ export class ProjectsController {
     @UseGuards(AuthenticatedGuard)
     async likePost(@Param("id") projectId: string, @Authorized("user_id") userId: string) {
         return await this.projectsService.toggleProjectsLike(projectId, userId, true);
+    }
+
+    @Post(":id/task-trackers")
+    @UseGuards(AuthenticatedGuard)
+    async createTaskTracker(
+        @Param("id") projectId: string,
+        @Body() createTaskTrackerDto: CreateTaskTrackerDto,
+    ) {
+        return await this.taskTrackersService.createTaskTracker(
+            projectId,
+            createTaskTrackerDto.name,
+        );
     }
 
     @Post(":id/questions")
@@ -89,6 +104,11 @@ export class ProjectsController {
     @Get(":id/participants")
     async getProjectParticipants(@Param("id") projectId: string) {
         return await this.projectsService.getProjectParticipants(projectId);
+    }
+
+    @Get(":id/task-trackers")
+    async getProjectTaskTrackers(@Param("id") projectId: string) {
+        return await this.taskTrackersService.getProjectTaskTrackers(projectId);
     }
 
     @Patch(":id")

@@ -10,6 +10,8 @@ import { S3StorageModule } from './libs/s3-storage/s3-storage.module';
 import { SkillsModule } from './skills/skills.module';
 import { TagsModule } from './tags/tags.module';
 import { QuestionsModule } from './questions/questions.module';
+import { TaskTrackersModule } from './task-trackers/task-trackers.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
     imports: [
@@ -25,7 +27,9 @@ import { QuestionsModule } from './questions/questions.module';
         S3StorageModule,
         SkillsModule,
         TagsModule,
-        QuestionsModule
+        QuestionsModule,
+        TaskTrackersModule,
+        TasksModule
     ],
     controllers: [],
     providers: [],
