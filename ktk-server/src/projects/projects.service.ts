@@ -8,12 +8,14 @@ import { ProjectsPaginationDto } from "./dto/projects-pagination.dto";
 import { v4 } from "uuid";
 import { QueryMode } from "@prisma/generated/internal/prismaNamespace";
 import { CreateProjectDto } from "./dto/create-project.dto";
+import { ChatsService } from "@/chats/chats.service";
 
 @Injectable()
 export class ProjectsService {
     constructor(
         private readonly prismaService: PrismaService,
         private readonly s3StorageService: S3StorageService,
+        private readonly chatsService: ChatsService,
     ) {}
 
     async createProject(userId: string, createProjectDto: CreateProjectDto) {
@@ -26,6 +28,8 @@ export class ProjectsService {
         const existingMembers = await this.prismaService.users.findMany({
             where: { user_id: { in: createProjectDto.members } },
         });
+
+        const chat = await this.chatsService.createProjectChat(existingMembers);
 
         const file: Express.Multer.File = {
             fieldname: "project",
@@ -49,11 +53,8 @@ export class ProjectsService {
                 project_link: createProjectDto.projectLink || null,
                 content_key: fileData.fileKey,
                 content_url: fileData.fileUrl,
-                users: {
-                    connect: {
-                        user_id: userId,
-                    },
-                },
+                chat_id: chat.chat_id,
+                creator_id: userId,
                 projects_tags: {
                     createMany: {
                         data: existingTags.map(tag => ({
@@ -65,9 +66,9 @@ export class ProjectsService {
                     createMany: {
                         data: existingMembers.map(user => ({
                             user_id: user.user_id,
-                        }))
-                    }
-                }
+                        })),
+                    },
+                },
             },
             ...this.projectsInclude(userId),
         });
@@ -322,7 +323,7 @@ export class ProjectsService {
     }
 
     private async checkIfProjectExists(projectId: string) {
-        const project = this.prismaService.projects.findUnique({
+        const project = await this.prismaService.projects.findUnique({
             where: { project_id: projectId },
         });
 

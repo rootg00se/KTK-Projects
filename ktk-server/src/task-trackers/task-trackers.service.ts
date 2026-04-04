@@ -60,7 +60,7 @@ export class TaskTrackersService {
     }
 
     private async checkIfProjectExists(projectId: string) {
-        const project = this.prismaService.projects.findUnique({
+        const project = await this.prismaService.projects.findUnique({
             where: { project_id: projectId },
         });
 

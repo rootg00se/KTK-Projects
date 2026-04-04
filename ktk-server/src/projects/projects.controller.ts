@@ -22,6 +22,7 @@ import { CreateProjectDto } from "./dto/create-project.dto";
 import { CreateQuestionDto } from "../questions/dto/create-question.dto";
 import { TaskTrackersService } from "@/task-trackers/task-trackers.service";
 import { CreateTaskTrackerDto } from "@/task-trackers/dto/create-task-tracker.dto";
+import { ChatsService } from "@/chats/chats.service";
 
 @Controller("projects")
 export class ProjectsController {
@@ -29,6 +30,7 @@ export class ProjectsController {
         private readonly projectsService: ProjectsService,
         private readonly questionsService: QuestionsService,
         private readonly taskTrackersService: TaskTrackersService,
+        private readonly chatsService: ChatsService
     ) {}
 
     @Post()
@@ -89,6 +91,12 @@ export class ProjectsController {
         @Query() paginationQuery: ProjectsPaginationDto,
     ) {
         return await this.projectsService.getAllProjects(paginationQuery, userId);
+    }
+
+    @Get(":id/chats")
+    @UseGuards(AuthenticatedGuard)
+    getProjectChat(@Param("id") projectId: string) {
+        return this.chatsService.getProjectChat(projectId);
     }
 
     @Get(":id")

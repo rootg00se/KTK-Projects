@@ -12,6 +12,7 @@ import { TagsModule } from './tags/tags.module';
 import { QuestionsModule } from './questions/questions.module';
 import { TaskTrackersModule } from './task-trackers/task-trackers.module';
 import { TasksModule } from './tasks/tasks.module';
+import { MessagesModule } from './messages/messages.module';
 
 @Module({
     imports: [
@@ -29,7 +30,8 @@ import { TasksModule } from './tasks/tasks.module';
         TagsModule,
         QuestionsModule,
         TaskTrackersModule,
-        TasksModule
+        TasksModule,
+        MessagesModule
     ],
     controllers: [],
     providers: [],
