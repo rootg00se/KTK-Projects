@@ -1,0 +1,1 @@
+export { LikeProject } from "./ui/like-projects.ui"

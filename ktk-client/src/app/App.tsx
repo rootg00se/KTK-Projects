@@ -9,6 +9,8 @@ import { VerifyPage } from "@/pages/verify";
 import { ConfirmPage } from "@/pages/confirm";
 import { PasswordResetPage } from "@/pages/password-reset";
 import { NewPasswordPage } from "@/pages/new-password";
+import { AppLayout } from "./layouts/app-layout";
+import { HomePage } from "@/pages/home";
 
 const App: React.FC = () => {
     return (
@@ -17,6 +19,9 @@ const App: React.FC = () => {
                 <Route path="*" element={<NotFoundPage />} />
                 <Route path="/verify" element={<VerifyPage />} />
                 <Route path="/confirm" element={<ConfirmPage />} />
+                <Route path="/" element={<AppLayout />}>
+                    <Route path="/" element={<HomePage />} />
+                </Route>
                 <Route path="/" element={<AuthLayout />}>
                     <Route path="/sign-up" element={<SignUpPage />} />
                     <Route path="/sign-in" element={<SignInPage />} />

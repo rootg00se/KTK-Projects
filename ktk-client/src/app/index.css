@@ -129,3 +129,30 @@
     @apply font-sans;
     }
 }
+
+._container {
+    max-width: 1250px;
+    margin: 0 auto;
+    padding: 0px 15px;
+}
+
+.wrap {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+body {
+  background-color: #fafafa;
+}
+
+.scrollbar {
+  overflow: scroll;
+  scrollbar-width: thin;
+  overflow-x: hidden;
+}
