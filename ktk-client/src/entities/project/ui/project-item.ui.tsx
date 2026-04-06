@@ -37,7 +37,7 @@ export const ProjectItem: React.FC<IProjectItemProps> = ({
                 <div className="flex items-start justify-between">
                     <div className="flex items-center gap-4 mb-3">
                         <Avatar className="w-12 h-12">
-                            {avatar && <AvatarImage src={avatar} />}
+                           <AvatarImage src={avatar || ""} />
                             <AvatarFallback className="text-sm bg-[#dadada]">{displayName.slice(0, 2)}</AvatarFallback>
                         </Avatar>
                         <div>

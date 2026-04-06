@@ -11,17 +11,22 @@ export class QuestionsService {
 
         const questions = await this.prismaService.questions.findMany({
             where: { project_id: projectId, parent_id: null },
+            include: { users: { omit: { password_hash: true } } },
         });
 
         return questions;
     }
 
-    async createQuestion(
-        projectId: string,
-        userId: string,
-        text: string,
-        parentId?: string,
-    ) {
+    async getUserQuestions(userId: string) {
+        const questions = await this.prismaService.questions.findMany({
+            where: { user_id: userId, parent_id: null },
+            include: { users: { omit: { password_hash: true } } },
+        });
+
+        return questions;
+    }
+
+    async createQuestion(projectId: string, userId: string, text: string, parentId?: string) {
         const existingProject = await this.checkIfProjectExist(projectId);
         if (parentId) await this.checkIfQuestionExists(parentId);
 
@@ -36,7 +41,7 @@ export class QuestionsService {
                     },
                 }),
             },
-            include: { users: { omit: { password_hash: true } } }
+            include: { users: { omit: { password_hash: true } } },
         });
 
         return createdQuestion;
@@ -50,7 +55,7 @@ export class QuestionsService {
                 parent_id: existingQuestion.question_id,
             },
             orderBy: { created_at: "asc" },
-            include: { users: { omit: { password_hash: true } } }
+            include: { users: { omit: { password_hash: true } } },
         });
 
         return replies;
@@ -61,7 +66,7 @@ export class QuestionsService {
 
         const deletedQuestion = await this.prismaService.questions.delete({
             where: { question_id: existingQuestion.question_id },
-            include: { users: { omit: { password_hash: true } } }
+            include: { users: { omit: { password_hash: true } } },
         });
 
         return deletedQuestion;
@@ -73,7 +78,7 @@ export class QuestionsService {
         const updatedQuestion = await this.prismaService.questions.update({
             where: { question_id: existingQuestion.question_id },
             data: { text },
-            include: { users: { omit: { password_hash: true } } }
+            include: { users: { omit: { password_hash: true } } },
         });
 
         return updatedQuestion;

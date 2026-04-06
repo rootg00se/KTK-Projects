@@ -13,6 +13,7 @@ import { AppLayout } from "./layouts/app-layout";
 import { HomePage } from "@/pages/home";
 import { AuthProtectedRoutes } from "./routes/auth-protected-routes";
 import { GuestProtectedRoutes } from "./routes/guest-protected-routes";
+import { ProfilePage } from "@/pages/profile";
 
 const App: React.FC = () => {
     return (
@@ -25,6 +26,7 @@ const App: React.FC = () => {
                 </Route>
                 <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/profile/:id" element={<ProfilePage />} />
                 </Route>
                 <Route path="/" element={<AuthLayout />}>
                     <Route element={<GuestProtectedRoutes />}>

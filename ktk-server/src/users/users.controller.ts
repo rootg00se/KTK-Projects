@@ -24,6 +24,7 @@ import { UpdateUserDto } from "./dto/update-user.dto";
 import { UpdateUserSkillsDto } from "./dto/update-user-skills.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { UpdateUserProfileDto } from "./dto/update-user-profile.dto";
+import { QuestionsService } from "@/questions/questions.service";
 
 @Controller("users")
 export class UsersController {
@@ -31,6 +32,7 @@ export class UsersController {
         private readonly usersService: UsersService,
         private readonly chatsService: ChatsService,
         private readonly projectsService: ProjectsService,
+        private readonly questionsService: QuestionsService
     ) {}
 
     @Get()
@@ -58,6 +60,11 @@ export class UsersController {
     @Get(":id/projects")
     async getUserProjects(@Param("id") userId: string) {
         return await this.projectsService.getAllUserProjects(userId);
+    }
+
+    @Get(":id/questions")
+    async getUserQuestions(@Param("id") userId: string) {
+        return await this.questionsService.getUserQuestions(userId);
     }
 
     @Get(":id/friends")

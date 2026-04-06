@@ -1,5 +1,5 @@
 import { $api } from "@/shared/api/api";
-import { PROJECTS_ENDPOINT } from "../lib/constants";
+import { PROJECTS_ENDPOINT, USER_PROJECT_ENDPOINT } from "../lib/constants";
 import type { IPaginationProjectResponse, IProjectResponse, ProjectsFilterDto } from "../model/types";
 
 export const projectsApi = {
@@ -14,5 +14,8 @@ export const projectsApi = {
     },
     dislikeProject: async ({ projectId }: { projectId: string }) => {
         return $api.delete<IProjectResponse>(`${PROJECTS_ENDPOINT}/${projectId}/dislike`);
+    },
+    getUserProjects: async (userId: string) => {
+        return $api.get<IProjectResponse[]>(`${USER_PROJECT_ENDPOINT}/${userId}/projects`);
     },
 };

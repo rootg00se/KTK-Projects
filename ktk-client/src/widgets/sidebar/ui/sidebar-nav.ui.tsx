@@ -22,9 +22,9 @@ export const SidebarNav: React.FC = () => {
                 <p className="">Главная</p>
             </NavLink>
             <NavLink
-                to={`/profile/${userId}?tab=posts`}
+                to={`/profile/${userId}?tab=projects`}
                 style={({ isActive }) => ({
-                    color: isActive && (tab === "posts" || !tab) ? "#ec003f" : "#09090b",
+                    color: isActive && (tab === "projects" || !tab) ? "#a0350c" : "#09090b",
                 })}
                 className="flex items-center gap-3 py-2 w-full rounded-md cursor-pointer"
             >
@@ -32,9 +32,9 @@ export const SidebarNav: React.FC = () => {
                 <p className="">Мои проекты</p>
             </NavLink>
             <NavLink
-                to={`/profile/${userId}?tab=answers`}
+                to={`/profile/${userId}?tab=questions`}
                 style={({ isActive }) => ({
-                    color: isActive && tab === "answers" ? "#ec003f" : "#09090b",
+                    color: isActive && tab === "questions" ? "#a0350c" : "#09090b",
                 })}
                 className="flex items-center gap-3 py-2 w-full rounded-md cursor-pointer"
             >
