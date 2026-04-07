@@ -32,7 +32,7 @@ export const QuestionItem: React.FC<IQuestionProps> = ({
                     </div>
                 </div>
             </div>
-            <p className="mb-1">{text}</p>
+            <p className="mb-1 text-[16px] hover:underline cursor-pointer inline-block max-w-140">{text}</p>
         </div>
     );
 };

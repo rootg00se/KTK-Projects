@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Button, Tooltip, TooltipContent, TooltipTrigger } from "@/shared/components/ui";
+import { Button } from "@/shared/components/ui";
 import { selectUserId, useProfile } from "@/entities/user";
 import { useParams } from "react-router-dom";
 import { LogoutButton } from "@/features/logout-button";
 import { UpdateAvatar } from "@/features/update-avatar";
 import { UpdateBanner } from "@/features/update-banner";
 import { MarkdownReader } from "@/features/markdown-reader";
+import { SkillList } from "@/features/skill-list";
 
 export const ProfileInfo: React.FC = () => {
     const [editMode, setEditMode] = useState(false);
@@ -49,21 +50,10 @@ export const ProfileInfo: React.FC = () => {
                             className="mb-4 w-full max-w-40"
                             variant={editMode ? "secondary" : "default"}
                         >
-                            {editMode ? "Cancel" : "Edit profile"}
+                            {editMode ? "Отмена" : "Редактировать"}
                         </Button>
                     )}
-                    <div className="flex">
-                        {userProfileData.skills.map((skill) => (
-                            <Tooltip>
-                                <TooltipTrigger className="max-w-8 not-last:-mr-2">
-                                    <img className="w-full" src={skill.badge_url} alt="" />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>{skill.name}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        ))}
-                    </div>
+                    <SkillList editable={editMode} skills={userProfileData.skills} />
                 </div>
             </div>
             <div className="p-5">

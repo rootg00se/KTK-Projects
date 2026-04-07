@@ -16,7 +16,7 @@ interface IProjectItemProps {
     avatar: string | null;
     className?: string;
     likes: number;
-    userId: string
+    userId: string;
     isLiked: boolean;
 }
 

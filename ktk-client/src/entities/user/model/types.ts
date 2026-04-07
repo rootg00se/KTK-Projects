@@ -6,12 +6,17 @@ type Account = {
     provider_account_id: string;
 };
 
-type Skill = {
+export type Skill = {
     skill_id: string;
     badge_url: string;
     name: string;
     created_at: Date;
 };
+
+export type UpdateSkillsDto = {
+    skillsToAddIds: string[],
+    skillsToRemoveIds: string[]
+}
 
 export interface IUserResponse {
     user_id: string;

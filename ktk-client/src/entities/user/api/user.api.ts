@@ -1,6 +1,6 @@
 import { $api } from "@/shared/api/api";
 import { USER_ENDPOINT, USER_ENDPOINTS } from "../lib/constants";
-import type { IUserResponse } from "../model/types";
+import type { IUserResponse, UpdateSkillsDto } from "../model/types";
 
 export const userApi = {
     baseKey: "users",
@@ -22,4 +22,7 @@ export const userApi = {
     deleteBanner: async () => {
         return await $api.delete<IUserResponse>(USER_ENDPOINTS.BANNER);
     },
+    updateSkills: async (data: UpdateSkillsDto) => {
+        return await $api.patch<IUserResponse>(USER_ENDPOINTS.SKILLS, data);
+    }
 };

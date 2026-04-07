@@ -21,6 +21,7 @@ export class QuestionsService {
         const questions = await this.prismaService.questions.findMany({
             where: { user_id: userId, parent_id: null },
             include: { users: { omit: { password_hash: true } } },
+            orderBy: { created_at: "desc" }
         });
 
         return questions;

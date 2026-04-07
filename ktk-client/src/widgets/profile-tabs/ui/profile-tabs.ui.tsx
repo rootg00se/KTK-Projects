@@ -8,14 +8,14 @@ export const ProfileTabs: React.FC = () => {
     const { id } = useParams();
 
     return (
-        <TabsList className="bg-white rounded-md p-1 flex items-center justify-start mt-3 w-full">
-            <TabsTrigger value="projects" className="flex items-center gap-3 py-1 px-3 rounded-md text-foreground">
-                <span>❓</span>
-                <p className="text-sm opacity-80">{userId === id ? "My projects" : "User's projects"}</p>
-            </TabsTrigger>
-            <TabsTrigger value="questions" className="flex items-center gap-3 py-1 px-3 rounded-md text-foreground">
+        <TabsList className="bg-white rounded-md p-1 py-5 flex items-center justify-start mt-3 w-full">
+            <TabsTrigger value="projects" className="flex h-auto items-center gap-3 px-3 rounded-md text-foreground max-w-40">
                 <span>‼️</span>
-                <p className="text-sm opacity-80">{userId === id ? "My questions" : "User's questions"}</p>
+                <p className="text-sm opacity-80">{userId === id ? "Мои проекты" : "Проекта юзера"}</p>
+            </TabsTrigger>
+            <TabsTrigger value="questions" className="flex h-auto items-center gap-3 px-3 rounded-md text-foreground max-w-40">
+                <span>❓</span>
+                <p className="text-sm opacity-80">{userId === id ? "Мои вопросы" : "Вопросы юзера"}</p>
             </TabsTrigger>
         </TabsList>
     );
