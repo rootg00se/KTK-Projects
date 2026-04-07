@@ -29,7 +29,7 @@ export const UpdateBanner: React.FC<IUpdateBannerProps> = ({ editable, bannerUrl
     return (
         <div>
             <div className="w-full max-h-40 rounded-md overflow-hidden relative flex items-center">
-                <img src={bannerUrl || defaultBanner} className="rounded-md" alt="" />
+                <img src={bannerUrl || defaultBanner} className="rounded-md w-full" alt="" />
                 {editable &&
                     (bannerUrl ? (
                         <div
@@ -53,7 +53,7 @@ export const UpdateBanner: React.FC<IUpdateBannerProps> = ({ editable, bannerUrl
                 onChange={(e) => handleUpdateBanner(e)}
                 className="hidden"
                 name="banner"
-                accept=".png, .jpg, .jpeg, .svg, .webp"
+                accept=".png, .jpg, .jpeg, .svg, .webp, .gif"
             />
         </div>
     );

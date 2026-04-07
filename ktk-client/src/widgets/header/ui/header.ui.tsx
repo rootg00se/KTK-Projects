@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
     const { userData } = useUser();
 
     return (
-        <header className="py-3 bg-white sticky top-0 z-10 border-b">
+        <header className="py-3 bg-white sticky top-0 z-100 border-b">
             <div className="_container flex items-center justify-between">
                 <Link to={"/"} className="max-w-35">
                     <img src={logo} className="w-full" alt="" />

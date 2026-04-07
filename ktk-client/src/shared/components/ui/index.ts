@@ -4,3 +4,4 @@ export { Label } from "./label"
 export { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 export { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
 export { Tabs, TabsContent, TabsTrigger, TabsList } from "./tabs";
+export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
