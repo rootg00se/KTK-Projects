@@ -73,12 +73,12 @@ export class UsersService {
         const user = await this.prismaService.users.findUnique({
             where: { user_id: userId },
             include: { ...USER_INCLUDE },
-            omit: { password_hash: true }
+            omit: { password_hash: true },
         });
 
         return userMapper(user);
     }
- 
+
     async addFriendToUser(friendId: string, userId: string) {
         await this.checkIfUserExists(friendId);
 
@@ -182,13 +182,14 @@ export class UsersService {
     }
 
     async updateUser(updateUserDto: UpdateUserDto, userId: string) {
-        await this.checkIfUserExists(userId);
+        const user = await this.checkIfUserExists(userId);
 
         const existingUser = await this.prismaService.users.findUnique({
             where: { nickname: updateUserDto.nickname },
         });
 
-        if (existingUser) throw new BadRequestException("User with that nickname already exists");
+        if (existingUser && existingUser.nickname !== user.nickname)
+            throw new BadRequestException("User with that nickname already exists");
 
         const updatedUser = await this.prismaService.users.update({
             where: { user_id: userId },

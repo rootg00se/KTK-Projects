@@ -12,7 +12,7 @@ export const useUpdateSkills = () => {
             toast.error(error.response.data.message);
         },
         onSuccess: () => {
-            toast.success("Skills updated");
+            toast.success("Скилы обновлены");
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: [userApi.baseKey] });

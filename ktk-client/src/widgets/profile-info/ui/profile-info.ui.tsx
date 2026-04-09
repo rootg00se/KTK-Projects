@@ -7,6 +7,7 @@ import { UpdateAvatar } from "@/features/update-avatar";
 import { UpdateBanner } from "@/features/update-banner";
 import { MarkdownReader } from "@/features/markdown-reader";
 import { SkillList } from "@/features/skill-list";
+import { UpdateUser } from "@/features/update-user";
 
 export const ProfileInfo: React.FC = () => {
     const [editMode, setEditMode] = useState(false);
@@ -33,13 +34,20 @@ export const ProfileInfo: React.FC = () => {
                         displayName={userProfileData.display_name || userProfileData.nickname}
                     />
                     <div className="flex items-start">
-                        <div className="mb-5">
-                            <p className="text-3xl font-medium mr-2">
-                                {userProfileData.display_name || userProfileData.nickname}
-                            </p>
-                            <p className="text-sm font-medium">#{userProfileData.nickname}</p>
-                            <p className="text-sm opacity-50">{userProfileData.email}</p>
-                        </div>
+                        {editMode ? (
+                            <UpdateUser
+                                nickname={userProfileData.nickname}
+                                displayName={userProfileData.display_name}
+                            />
+                        ) : (
+                            <div className="mb-5">
+                                <p className="text-3xl font-medium mr-2">
+                                    {userProfileData.display_name || userProfileData.nickname}
+                                </p>
+                                <p className="text-sm font-medium">#{userProfileData.nickname}</p>
+                                <p className="text-sm opacity-50">{userProfileData.email}</p>
+                            </div>
+                        )}
                         <div className="">{authUserId && authUserId === id && <LogoutButton />}</div>
                     </div>
                 </div>

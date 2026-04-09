@@ -12,7 +12,7 @@ export const useDeleteBanner = () => {
             toast.error(error.response.data.message);
         },
         onSuccess: () => {
-            toast.success("Banner deleted");
+            toast.success("Банер удален");
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: [userApi.baseKey] });

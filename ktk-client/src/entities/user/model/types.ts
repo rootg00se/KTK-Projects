@@ -18,6 +18,11 @@ export type UpdateSkillsDto = {
     skillsToRemoveIds: string[]
 }
 
+export type UpdateUserDto = {
+    nickname: string;
+    displayName: string;
+}
+
 export interface IUserResponse {
     user_id: string;
     email: string;

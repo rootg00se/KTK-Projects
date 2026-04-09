@@ -12,7 +12,7 @@ export const useUpdateBanner = () => {
             toast.error(error.response.data.message);
         },
         onSuccess: () => {
-            toast.success("Banner updated");
+            toast.success("Банер обновлен");
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: [userApi.baseKey] });

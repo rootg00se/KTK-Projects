@@ -12,7 +12,7 @@ export const useDeleteAvatar = () => {
             toast.error(error.response.data.message);
         },
         onSuccess: () => {
-            toast.success("Avatar deleted");
+            toast.success("Аватарка удалена");
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: [userApi.baseKey] });

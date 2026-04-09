@@ -24,7 +24,7 @@ export const Header: React.FC = () => {
                                 {userData.nickname.slice(0, 2)}
                             </AvatarFallback>
                         </Avatar>
-                        <div className="text-[16px]">{userData.nickname}</div>
+                        <div className="text-[16px]">{userData.display_name || userData.nickname}</div>
                     </Link>
                 ) : (
                     <div className="flex items-center gap-2">

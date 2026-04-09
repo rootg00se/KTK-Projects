@@ -12,7 +12,7 @@ export const useUpdateAvatar = () => {
             toast.error(error.response.data.message);
         },
         onSuccess: () => {
-            toast.success("Avatar updated");
+            toast.success("Аватарка обновлена");
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: [userApi.baseKey] });
