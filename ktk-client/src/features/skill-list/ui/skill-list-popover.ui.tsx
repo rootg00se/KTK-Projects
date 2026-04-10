@@ -40,7 +40,7 @@ export const SkillListPopover: React.FC<{ userSkills: Skill[] }> = ({ userSkills
             </PopoverTrigger>
             <PopoverContent>
                 <PopoverHeader>
-                    <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Добавить теги..." />
+                    <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Добавить скиллы..." />
                 </PopoverHeader>
                 <div className="flex flex-wrap items-center gap-3">
                     {skillsData
@@ -60,7 +60,7 @@ export const SkillListPopover: React.FC<{ userSkills: Skill[] }> = ({ userSkills
                         ))}
                 </div>
                 <div className="mt-3 mb-2">
-                    <p className="mb-2">Убрать теги</p>
+                    <p className="mb-2">Убрать скиллы</p>
                     <div className="flex flex-wrap gap-3">
                         {currentSkills.map((skill) => (
                             <div

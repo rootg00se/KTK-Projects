@@ -8,3 +8,4 @@ export { useDeleteBanner } from "./model/useDeleteBanner";
 export { type Skill } from "./model/types";
 export { useUpdateSkills } from "./model/useUpdateSkills";
 export { useUpdateUser } from "./model/useUpdateUser";
+export { useUpdateProfile } from "./model/useUpdateProfile";

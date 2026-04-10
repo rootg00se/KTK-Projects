@@ -6,5 +6,6 @@ export const USER_ENDPOINTS = {
     GET_INFO: `${USER_ENDPOINT}/me`,
     AVATAR: `${USER_ENDPOINT}/me/avatar`,
     BANNER: `${USER_ENDPOINT}/me/banner`,
-    SKILLS: `${USER_ENDPOINT}/me/skills`
+    SKILLS: `${USER_ENDPOINT}/me/skills`,
+    PROFILE: `${USER_ENDPOINT}/me/profile`,
 };

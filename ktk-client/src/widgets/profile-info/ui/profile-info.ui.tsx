@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/shared/components/ui";
 import { selectUserId, useProfile } from "@/entities/user";
 import { useParams } from "react-router-dom";
@@ -8,14 +8,24 @@ import { UpdateBanner } from "@/features/update-banner";
 import { MarkdownReader } from "@/features/markdown-reader";
 import { SkillList } from "@/features/skill-list";
 import { UpdateUser } from "@/features/update-user";
+import { MarkdownEditor } from "@/features/markdown-editor";
+import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkdown";
 
 export const ProfileInfo: React.FC = () => {
     const [editMode, setEditMode] = useState(false);
+    const [markdown, setMarkdown] = useState("");
 
     const { id } = useParams();
     const { userProfileData } = useProfile(id || "");
 
     const authUserId = selectUserId();
+    const markdownContent = useFetchMarkdown(userProfileData?.profile_data);
+
+    useEffect(() => {
+        if (markdownContent) {
+            setMarkdown(markdownContent);
+        }
+    }, [markdownContent]);
 
     const toggleEditMode = () => {
         setEditMode(() => !editMode);
@@ -65,7 +75,11 @@ export const ProfileInfo: React.FC = () => {
                 </div>
             </div>
             <div className="p-5">
-                {userProfileData.profile_data && <MarkdownReader profileUrl={userProfileData.profile_data} />}
+                {editMode ? (
+                    <MarkdownEditor value={markdown} onChange={setMarkdown} />
+                ) : (
+                    <MarkdownReader content={markdown} />
+                )}
             </div>
         </div>
     );

@@ -27,5 +27,8 @@ export const userApi = {
     },
     updateUser: async (data: UpdateUserDto) => {
         return await $api.patch<IUserResponse>(USER_ENDPOINTS.GET_INFO, data);
+    },
+    updateUserProfile: async (data: { content: string }) => {
+        return await $api.patch<IUserResponse>(USER_ENDPOINTS.PROFILE, data);
     }
 };

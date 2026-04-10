@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 
-export const useFetchMarkdown = (profileUrl: string) => {
+export const useFetchMarkdown = (profileUrl: string | null | undefined) => {
     const [markdownContent, setMarkdownContent] = useState("");
 
     useEffect(() => {
         const fetchMarkdown = async () => {
+            if (!profileUrl) return setMarkdownContent("");
+
             try {
                 const response = await fetch(profileUrl);
 
@@ -17,11 +19,12 @@ export const useFetchMarkdown = (profileUrl: string) => {
                 setMarkdownContent(text);
             } catch (err) {
                 console.log(err);
+                setMarkdownContent("");
             }
         };
 
         fetchMarkdown();
-    }, []);
+    }, [profileUrl]);
 
     if (!markdownContent) return null;
 
