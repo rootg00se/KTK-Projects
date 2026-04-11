@@ -1,0 +1,18 @@
+import { SendQuestion } from '@/features/send-question'
+import { ProjectDetails } from '@/widgets/project-details'
+import { ProjectQuestionsList } from '@/widgets/project-questions-list'
+import React from 'react'
+
+export const ProjectPage: React.FC = () => {
+  return (
+        <section className="w-full max-w-180">
+            <div className="bg-white rounded-md p-5">
+                <ProjectDetails />
+                <SendQuestion />
+                <div className="mt-10">
+                    <ProjectQuestionsList />
+                </div>
+            </div>
+        </section>
+  )
+}

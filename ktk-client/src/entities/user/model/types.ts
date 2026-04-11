@@ -14,14 +14,14 @@ export type Skill = {
 };
 
 export type UpdateSkillsDto = {
-    skillsToAddIds: string[],
-    skillsToRemoveIds: string[]
-}
+    skillsToAddIds: string[];
+    skillsToRemoveIds: string[];
+};
 
 export type UpdateUserDto = {
     nickname: string;
     displayName: string;
-}
+};
 
 export interface IUserResponse {
     user_id: string;
@@ -40,4 +40,6 @@ export interface IUserResponse {
     profile_data_key: string | null;
     accounts: Account[];
     skills: Skill[];
+    projectsCount: number;
+    friendCount: number;
 }

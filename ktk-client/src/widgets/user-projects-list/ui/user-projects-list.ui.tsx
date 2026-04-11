@@ -2,12 +2,21 @@ import { useUserProjects } from "@/entities/project";
 import React from "react";
 import { ProjectItem } from "../../../entities/project/ui/project-item.ui";
 import { useParams } from "react-router-dom";
+import { EmtpyProjects } from "./empty-projects.ui";
+import { selectUserId } from "@/entities/user";
 
 export const UserProjectsList: React.FC = () => {
     const { id } = useParams();
+    const userId = selectUserId();
     const { userProjectsData } = useUserProjects(id || "");
 
-    if (!userProjectsData) return null;
+    if (!userProjectsData?.length) {
+        return userId === id ? (
+            <EmtpyProjects />
+        ) : (
+            <p className="text-center py-8 text-lg font-bold opacity-40">Здесь пока нету проектов</p>
+        );
+    }
 
     return (
         <div className="mt-2">

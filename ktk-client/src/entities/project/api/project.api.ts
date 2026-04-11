@@ -18,4 +18,7 @@ export const projectsApi = {
     getUserProjects: async (userId: string) => {
         return $api.get<IProjectResponse[]>(`${USER_PROJECT_ENDPOINT}/${userId}/projects`);
     },
+    getProjectById: async (projectId: string) => {
+        return $api.get<IProjectResponse>(`${PROJECTS_ENDPOINT}/${projectId}`);
+    }
 };

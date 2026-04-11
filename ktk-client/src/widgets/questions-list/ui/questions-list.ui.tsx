@@ -7,7 +7,8 @@ export const QuestionsList: React.FC = () => {
     const { id } = useParams();
     const { userQuestionsData } = useUserQuestions(id || "");
 
-    if (!userQuestionsData) return null;
+    if (!userQuestionsData?.length)
+        return <p className="text-center py-8 text-lg font-bold opacity-40">Здесь пока нету вопросов</p>;
 
     return (
         <div className="mt-2">

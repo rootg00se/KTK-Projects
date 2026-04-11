@@ -1,5 +1,7 @@
 import { PrismaService } from "@/prisma/prisma.service";
 import { Injectable, NotFoundException } from "@nestjs/common";
+import { QUESTIONS_INCLUDE } from "./utils/questions.constants";
+import { questionMapper } from "@/mappers/question.mapper";
 
 @Injectable()
 export class QuestionsService {
@@ -11,20 +13,21 @@ export class QuestionsService {
 
         const questions = await this.prismaService.questions.findMany({
             where: { project_id: projectId, parent_id: null },
-            include: { users: { omit: { password_hash: true } } },
+            include: { ...QUESTIONS_INCLUDE },
+            orderBy: { created_at: "desc" },
         });
 
-        return questions;
+        return questions.map(question => questionMapper(question));
     }
 
     async getUserQuestions(userId: string) {
         const questions = await this.prismaService.questions.findMany({
             where: { user_id: userId, parent_id: null },
-            include: { users: { omit: { password_hash: true } } },
+            include: { ...QUESTIONS_INCLUDE },
             orderBy: { created_at: "desc" }
         });
 
-        return questions;
+        return questions.map(question => questionMapper(question));;
     }
 
     async createQuestion(projectId: string, userId: string, text: string, parentId?: string) {
@@ -42,10 +45,10 @@ export class QuestionsService {
                     },
                 }),
             },
-            include: { users: { omit: { password_hash: true } } },
+            include: { ...QUESTIONS_INCLUDE },
         });
 
-        return createdQuestion;
+        return questionMapper(createdQuestion);
     }
 
     async getQuestionReplies(questionId: string) {
@@ -56,10 +59,10 @@ export class QuestionsService {
                 parent_id: existingQuestion.question_id,
             },
             orderBy: { created_at: "asc" },
-            include: { users: { omit: { password_hash: true } } },
+            include: { ...QUESTIONS_INCLUDE },
         });
 
-        return replies;
+        return replies.map(reply => questionMapper(reply));
     }
 
     async deleteQuestion(questionId: string) {
@@ -67,10 +70,10 @@ export class QuestionsService {
 
         const deletedQuestion = await this.prismaService.questions.delete({
             where: { question_id: existingQuestion.question_id },
-            include: { users: { omit: { password_hash: true } } },
+            include: { ...QUESTIONS_INCLUDE },
         });
 
-        return deletedQuestion;
+        return questionMapper(deletedQuestion);
     }
 
     async updateQuestion(questionId: string, text: string) {
@@ -79,10 +82,10 @@ export class QuestionsService {
         const updatedQuestion = await this.prismaService.questions.update({
             where: { question_id: existingQuestion.question_id },
             data: { text },
-            include: { users: { omit: { password_hash: true } } },
+            include: { ...QUESTIONS_INCLUDE },
         });
 
-        return updatedQuestion;
+        return questionMapper(updatedQuestion);
     }
 
     private async checkIfProjectExist(projectId: string) {

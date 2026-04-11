@@ -10,6 +10,7 @@ import { SkillList } from "@/features/skill-list";
 import { UpdateUser } from "@/features/update-user";
 import { MarkdownEditor } from "@/features/markdown-editor";
 import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkdown";
+import { UsersRound } from "lucide-react";
 
 export const ProfileInfo: React.FC = () => {
     const [editMode, setEditMode] = useState(false);
@@ -24,6 +25,8 @@ export const ProfileInfo: React.FC = () => {
     useEffect(() => {
         if (markdownContent) {
             setMarkdown(markdownContent);
+        } else {
+            setMarkdown("");
         }
     }, [markdownContent]);
 
@@ -50,7 +53,7 @@ export const ProfileInfo: React.FC = () => {
                                 displayName={userProfileData.display_name}
                             />
                         ) : (
-                            <div className="mb-5">
+                            <div className="">
                                 <p className="text-3xl font-medium mr-2">
                                     {userProfileData.display_name || userProfileData.nickname}
                                 </p>
@@ -62,7 +65,7 @@ export const ProfileInfo: React.FC = () => {
                     </div>
                 </div>
                 <div className="w-full flex flex-col items-end">
-                    {(authUserId && authUserId) === id && (
+                    {authUserId === id ? (
                         <Button
                             onClick={toggleEditMode}
                             className="mb-4 w-full max-w-40"
@@ -70,15 +73,29 @@ export const ProfileInfo: React.FC = () => {
                         >
                             {editMode ? "Отмена" : "Редактировать"}
                         </Button>
+                    ) : (
+                        <Button className="mb-4 w-full max-w-40">Добавить в друзья</Button>
                     )}
                     <SkillList editable={editMode} skills={userProfileData.skills} />
                 </div>
             </div>
+            <div className="px-5 mt-3 flex gap-2 items-center text-sm">
+                <UsersRound size={16} />
+                <p className="cursor-pointer hover:underline">
+                    {userProfileData.projectsCount} <span className="opacity-65">Проектов</span>
+                </p>
+                <span>·</span>
+                <p className="cursor-pointer hover:underline">
+                    {userProfileData.friendCount} <span className="opacity-65">Друзей</span>
+                </p>
+            </div>
             <div className="p-5">
                 {editMode ? (
                     <MarkdownEditor value={markdown} onChange={setMarkdown} />
-                ) : (
+                ) : markdown ? (
                     <MarkdownReader content={markdown} />
+                ) : (
+                    <p className="text-center font-bold text-xl opacity-40 pb-3">Ничего не написано</p>
                 )}
             </div>
         </div>

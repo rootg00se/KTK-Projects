@@ -9,7 +9,7 @@ export type UserMapper = {
     banner_url: string | null;
     profile_data_key: string | null;
     avatar_key: string | null;
-    banner_key: string | null
+    banner_key: string | null;
     password_hash?: string | null;
     display_name: string | null;
     is_verified: boolean;
@@ -31,4 +31,8 @@ export type UserMapper = {
         provider: provider_type;
         provider_account_id: string;
     }[];
+    _count: {
+        projects: number;
+        users_friends_users_friends_friend_idTousers: number;
+    };
 };

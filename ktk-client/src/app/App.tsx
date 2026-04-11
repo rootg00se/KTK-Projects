@@ -1,5 +1,4 @@
 import type React from "react";
-import { Button } from "@/shared/components/ui/button";
 import { Route, Routes } from "react-router-dom";
 import { NotFoundPage } from "@/pages/not-found";
 import { SignUpPage } from "@/pages/sign-up";
@@ -14,6 +13,7 @@ import { HomePage } from "@/pages/home";
 import { AuthProtectedRoutes } from "./routes/auth-protected-routes";
 import { GuestProtectedRoutes } from "./routes/guest-protected-routes";
 import { ProfilePage } from "@/pages/profile";
+import { ProjectPage } from "@/pages/project";
 
 const App: React.FC = () => {
     return (
@@ -26,6 +26,7 @@ const App: React.FC = () => {
                 </Route>
                 <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<HomePage />} />
+                    <Route path="/project/:id" element={<ProjectPage />} />
                     <Route path="/profile/:id" element={<ProfilePage />} />
                 </Route>
                 <Route path="/" element={<AuthLayout />}>
