@@ -22,9 +22,11 @@ export type Member = {
     profile_data_key: string | null;
 };
 
+export type ProjectStatus = "working" | "completed" | "paused" | "abandoned";
+
 export interface IProjectResponse {
     project_id: string;
-    status: string;
+    status: ProjectStatus;
     title: string;
     chat_id: string;
     content_url: string | null;

@@ -1,5 +1,5 @@
 import { $api } from "@/shared/api/api";
-import { PROJECT_QUESTIONS_ENDPOINT, USER_QUESTIONS_ENDPOINT } from "../lib/constants";
+import { PROJECT_QUESTIONS_ENDPOINT, QUESTIONS_ENDPOINT, USER_QUESTIONS_ENDPOINT } from "../lib/constants";
 import type { IQuestionResponse } from "../model/types";
 
 export const questionsApi = {
@@ -13,4 +13,7 @@ export const questionsApi = {
     createQuestion: async ({ projectId, text }: { projectId: string; text: string }) => {
         return $api.post<IQuestionResponse>(`${PROJECT_QUESTIONS_ENDPOINT}/${projectId}/questions`, { text });
     },
+    updateQuestion: async ({ questionId, text }: { questionId: string, text: string }) => {
+        return $api.put<IQuestionResponse>(`${QUESTIONS_ENDPOINT}/${questionId}`, { text });
+    }
 };

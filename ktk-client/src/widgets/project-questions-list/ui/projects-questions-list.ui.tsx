@@ -7,9 +7,6 @@ export const ProjectQuestionsList: React.FC = () => {
     const { id: projectId } = useParams();
     const { projectQuestionsData } = useProjectQuestions(projectId!);
 
-    console.log(projectQuestionsData);
-    
-
     if (!projectQuestionsData) return null;
 
     return projectQuestionsData.map((question, index, arr) => (
@@ -22,6 +19,9 @@ export const ProjectQuestionsList: React.FC = () => {
             nickname={question.users.nickname}
             className={`${index === arr.length - 1 && "border-none"}`}
             repliesCount={question.repliesCount}
+            userId={question.user_id}
+            projectId={question.project_id}
+            questionId={question.question_id}
         />
     ));
 };

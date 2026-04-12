@@ -9,7 +9,7 @@ import type { IPaginationProjectResponse } from "./types";
 export const useToggleLike = (like: boolean) => {
     const toggleLikeMutation = useMutation({
         mutationKey: [projectsApi.baseKey, "toggleLike"],
-        mutationFn: like ? projectsApi.likeProject : projectsApi.likeProject,
+        mutationFn: like ? projectsApi.likeProject : projectsApi.dislikeProject,
         onMutate: async (params) => {
             await queryClient.cancelQueries({ queryKey: [projectsApi.baseKey] });
 

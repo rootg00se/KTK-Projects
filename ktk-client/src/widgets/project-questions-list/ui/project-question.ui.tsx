@@ -1,8 +1,11 @@
 import { cn } from "@/shared/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage, Button } from "@/shared/components/ui";
-import React from "react";
+import { Avatar, AvatarFallback, AvatarImage, Button, Input } from "@/shared/components/ui";
+import React, { useState } from "react";
 import { PlusCircle } from "lucide-react";
 import moment from "moment";
+import { Link } from "react-router-dom";
+import { selectUserId } from "@/entities/user";
+import { useUpdateQuestion } from "@/entities/question";
 
 interface IProjectQuestionProps {
     className?: string;
@@ -12,6 +15,9 @@ interface IProjectQuestionProps {
     createdAt: Date;
     text: string;
     repliesCount: number;
+    userId: string;
+    projectId: string;
+    questionId: string;
 }
 
 export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
@@ -21,8 +27,30 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
     nickname,
     createdAt,
     text,
-    repliesCount
+    repliesCount,
+    userId,
+    projectId,
+    questionId,
 }) => {
+    const [editMode, setEditMode] = useState(false);
+    const [editedText, setEditedText] = useState(text);
+
+    const { updateFunc } = useUpdateQuestion(projectId);
+
+    const authUserId = selectUserId();
+    const canEdit = authUserId === userId;
+
+    const handleUpdateQuestion = () => {
+        if (editMode) {
+            updateFunc({
+                text: editedText,
+                questionId,
+            });
+
+            setEditMode(false);
+        }
+    };
+
     return (
         <div className={cn("border-b py-3", className)}>
             <div className="flex items-center gap-3 mb-3">
@@ -34,19 +62,42 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
                     <div className="flex justify-between gap-5 mb-1">
                         <div className="flex flex-col">
                             <span className="text-md">{displayName || nickname}</span>
-                            <span className="text-[12px] opacity-50">#{nickname}</span>
+                            <Link to={`/profile/${userId}`} className="text-[12px] opacity-50 hover:underline">
+                                #{nickname}
+                            </Link>
                         </div>
                         <span className="text-[12px] opacity-50">{moment(createdAt).fromNow()}</span>
                     </div>
                 </div>
             </div>
-            <p className="mb-1">{text}</p>
+            {editMode ? (
+                <div className="flex">
+                    <Input
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") handleUpdateQuestion();
+                        }}
+                        autoFocus={true}
+                        value={editedText}
+                        onChange={(e) => setEditedText(e.target.value)}
+                    />
+                    <Button onClick={handleUpdateQuestion}>Сохранить</Button>
+                </div>
+            ) : (
+                <p className="mb-1">{text}</p>
+            )}
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-1 opacity-70 cursor-pointer">
                     <PlusCircle size={16} />
                     <span className="text-sm">{repliesCount} Ответов</span>
                 </div>
-                <Button variant={"link"}>Ответить</Button>
+                <div className="">
+                    <Button variant={"link"}>Ответить</Button>
+                    {canEdit && (
+                        <Button onClick={() => setEditMode((editing) => !editing)} variant={"link"}>
+                            {editMode ? "Отмена" : "Изменить"}
+                        </Button>
+                    )}
+                </div>
             </div>
         </div>
     );
