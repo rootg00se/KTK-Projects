@@ -6,35 +6,33 @@ import type { IErrorResponse } from "@/shared/types/error-response.type";
 import { toast } from "react-toastify";
 import type { AxiosResponse } from "axios";
 
-export const useUpdateQuestion = (projectId: string) => {
-    const updateQuestionMutation = useMutation({
-        mutationKey: [questionsApi.baseKey, "update"],
-        mutationFn: questionsApi.updateQuestion,
+export const useDeleteQuestion = (projectId: string) => {
+    const deleteQuestionMutation = useMutation({
+        mutationKey: [questionsApi.baseKey, "delete"],
+        mutationFn: questionsApi.deleteQuestion,
         onMutate: async (dto) => {
             await queryClient.cancelQueries({ queryKey: [questionsApi.baseKey] });
 
-            const previousQuestion = queryClient.getQueryData([questionsApi.baseKey, projectId]);
+            const previousQuestions = queryClient.getQueryData([questionsApi.baseKey, projectId]);
 
             queryClient.setQueryData(
                 [questionsApi.baseKey, projectId],
                 (oldData: AxiosResponse<IQuestionResponse[]>) => ({
                     ...oldData,
-                    data: oldData.data.map((question) =>
-                        question.question_id === dto.questionId ? { ...question, text: dto.text } : question,
-                    ),
+                    data: oldData.data.filter((question) => question.question_id !== dto.questionId),
                 }),
             );
 
-            return { previousQuestion };
+            return { previousQuestions };
         },
         onError: (error: IErrorResponse, _, context) => {
-            queryClient.setQueryData([questionsApi.baseKey, projectId], context?.previousQuestion);
+            queryClient.setQueryData([questionsApi.baseKey, projectId], context?.previousQuestions);
             console.log(error);
 
             toast.error(error.response.data.message[0]);
         },
         onSuccess: () => {
-            toast.success("Вопрос обновлен");
+            toast.success("Вопрос удален");
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: ["questions"] });
@@ -42,8 +40,8 @@ export const useUpdateQuestion = (projectId: string) => {
     });
 
     return {
-        isUpdatePending: updateQuestionMutation.isPending,
-        updateFunc: updateQuestionMutation.mutate,
-        isUpdateSuccess: updateQuestionMutation.isSuccess,
+        isDeletePending: deleteQuestionMutation.isPending,
+        deleteFunc: deleteQuestionMutation.mutate,
+        isDeleteSuccess: deleteQuestionMutation.isSuccess,
     };
 };

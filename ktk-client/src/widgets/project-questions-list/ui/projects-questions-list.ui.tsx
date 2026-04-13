@@ -1,9 +1,11 @@
 import { useProjectQuestions } from "@/entities/question";
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { ProjectQuestion } from "./project-question.ui";
 
 export const ProjectQuestionsList: React.FC = () => {
+    const [activeReplyId, setActiveReplyId] = useState<string | null>(null);
+
     const { id: projectId } = useParams();
     const { projectQuestionsData } = useProjectQuestions(projectId!);
 
@@ -21,6 +23,8 @@ export const ProjectQuestionsList: React.FC = () => {
             repliesCount={question.repliesCount}
             userId={question.user_id}
             projectId={question.project_id}
+            activeReplyId={activeReplyId}
+            setActiveReplyId={setActiveReplyId}
             questionId={question.question_id}
         />
     ));

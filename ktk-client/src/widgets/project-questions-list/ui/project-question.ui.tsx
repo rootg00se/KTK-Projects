@@ -1,11 +1,12 @@
 import { cn } from "@/shared/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage, Button, Input } from "@/shared/components/ui";
+import { Button } from "@/shared/components/ui";
 import React, { useState } from "react";
-import { PlusCircle } from "lucide-react";
-import moment from "moment";
-import { Link } from "react-router-dom";
+import { MinusCircle, PlusCircle, Trash2 } from "lucide-react";
 import { selectUserId } from "@/entities/user";
-import { useUpdateQuestion } from "@/entities/question";
+import { useDeleteQuestion, useReplies } from "@/entities/question";
+import { SendQuestion } from "@/features/send-question";
+import { QuestionUserDetails } from "./question-user-detailts";
+import { UpdateQuestion } from "@/features/update-question";
 
 interface IProjectQuestionProps {
     className?: string;
@@ -18,6 +19,8 @@ interface IProjectQuestionProps {
     userId: string;
     projectId: string;
     questionId: string;
+    activeReplyId?: string | null;
+    setActiveReplyId?: (id: string | null) => void;
 }
 
 export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
@@ -31,74 +34,90 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
     userId,
     projectId,
     questionId,
+    activeReplyId,
+    setActiveReplyId,
 }) => {
     const [editMode, setEditMode] = useState(false);
-    const [editedText, setEditedText] = useState(text);
+    const [showReplies, setShowReplies] = useState(false);
 
-    const { updateFunc } = useUpdateQuestion(projectId);
+    const { repliesData } = useReplies(questionId);
+    const { deleteFunc } = useDeleteQuestion(projectId);
 
     const authUserId = selectUserId();
     const canEdit = authUserId === userId;
 
-    const handleUpdateQuestion = () => {
-        if (editMode) {
-            updateFunc({
-                text: editedText,
-                questionId,
-            });
-
-            setEditMode(false);
-        }
-    };
+    const handleDeleteQuestion = () => deleteFunc({ questionId });
+    const handleReplies = () => setShowReplies((prev) => !prev);
 
     return (
         <div className={cn("border-b py-3", className)}>
-            <div className="flex items-center gap-3 mb-3">
-                <Avatar className="w-11 h-11">
-                    <AvatarImage src={avatarUrl || ""} />
-                    <AvatarFallback className="text-sm bg-[#dadada]">{displayName || nickname}</AvatarFallback>
-                </Avatar>
-                <div className="w-full">
-                    <div className="flex justify-between gap-5 mb-1">
-                        <div className="flex flex-col">
-                            <span className="text-md">{displayName || nickname}</span>
-                            <Link to={`/profile/${userId}`} className="text-[12px] opacity-50 hover:underline">
-                                #{nickname}
-                            </Link>
-                        </div>
-                        <span className="text-[12px] opacity-50">{moment(createdAt).fromNow()}</span>
-                    </div>
-                </div>
-            </div>
+            <QuestionUserDetails
+                userId={userId}
+                avatarUrl={avatarUrl}
+                nickname={nickname}
+                displayName={displayName}
+                createdAt={createdAt}
+            />
             {editMode ? (
-                <div className="flex">
-                    <Input
-                        onKeyDown={(e) => {
-                            if (e.key === "Enter") handleUpdateQuestion();
-                        }}
-                        autoFocus={true}
-                        value={editedText}
-                        onChange={(e) => setEditedText(e.target.value)}
-                    />
-                    <Button onClick={handleUpdateQuestion}>Сохранить</Button>
-                </div>
+                <UpdateQuestion
+                    onSuccess={() => setEditMode(false)}
+                    questionId={questionId}
+                    projectId={projectId}
+                    text={text}
+                />
             ) : (
                 <p className="mb-1">{text}</p>
             )}
-            <div className="flex items-center gap-4">
-                <div className="flex items-center gap-1 opacity-70 cursor-pointer">
-                    <PlusCircle size={16} />
-                    <span className="text-sm">{repliesCount} Ответов</span>
-                </div>
-                <div className="">
-                    <Button variant={"link"}>Ответить</Button>
-                    {canEdit && (
-                        <Button onClick={() => setEditMode((editing) => !editing)} variant={"link"}>
-                            {editMode ? "Отмена" : "Изменить"}
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1 opacity-70 cursor-pointer" onClick={handleReplies}>
+                        {showReplies ? <MinusCircle size={16} /> : <PlusCircle size={16} />}
+                        <span className="text-sm">{repliesCount} Ответов</span>
+                    </div>
+                    <div className="">
+                        <Button
+                            onClick={() => setActiveReplyId?.(activeReplyId === questionId ? null : questionId)}
+                            variant={"link"}
+                        >
+                            Ответить
                         </Button>
-                    )}
+                        {canEdit && (
+                            <Button onClick={() => setEditMode((editing) => !editing)} variant={"link"}>
+                                {editMode ? "Отмена" : "Изменить"}
+                            </Button>
+                        )}
+                    </div>
                 </div>
+                {canEdit && <Trash2 onClick={handleDeleteQuestion} size={21} className="text-primary cursor-pointer" />}
             </div>
+            {showReplies &&
+                repliesData?.map((reply) => (
+                    <ProjectQuestion
+                        key={reply.question_id}
+                        text={reply.text}
+                        createdAt={reply.created_at}
+                        avatarUrl={reply.users.avatar_url}
+                        displayName={reply.users.display_name}
+                        nickname={reply.users.nickname}
+                        repliesCount={reply.repliesCount}
+                        userId={reply.user_id}
+                        projectId={reply.project_id}
+                        className="border-0 pl-15 pt-6"
+                        questionId={reply.question_id}
+                        setActiveReplyId={setActiveReplyId}
+                        activeReplyId={activeReplyId}
+                    />
+                ))}
+            {activeReplyId === questionId && (
+                <SendQuestion
+                    onSuccess={() => {
+                        setShowReplies(true);
+                        setActiveReplyId?.(null);
+                    }}
+                    className="mt-2"
+                    parentId={questionId}
+                />
+            )}
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { Link, useParams } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage, Button } from "@/shared/components/ui";
 import moment from "moment";
 import "highlight.js/styles/github.css";
 import { useProjectById } from "@/entities/project";
@@ -9,6 +9,7 @@ import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkd
 import { MarkdownReader } from "@/features/markdown-reader";
 import { FaGithubSquare } from "react-icons/fa";
 import { parseProjectStatus } from "@/shared/utils/parse-project-status";
+import { selectUserId } from "@/entities/user";
 
 export const ProjectDetails: React.FC = () => {
     const [markdown, setMarkdown] = useState("");
@@ -17,6 +18,7 @@ export const ProjectDetails: React.FC = () => {
     const { projectData } = useProjectById(id || "");
 
     const markdownContent = useFetchMarkdown(projectData?.content_url);
+    const authUserId = selectUserId();
 
     useEffect(() => {
         if (markdownContent) {
@@ -57,11 +59,18 @@ export const ProjectDetails: React.FC = () => {
                                 <p className="text-[14px] capitalize">{projectData.tags[0].name}</p>
                             </div>
                         </div>
-                        {projectData.project_link && (
-                            <a href={projectData.project_link} className="cursor-pointer hover:opacity-80 duration-300">
-                                <FaGithubSquare size={32} />
-                            </a>
-                        )}
+                        <div className="flex gap-2">
+                            {authUserId === projectData.creator_id && (
+                                <Button size={"sm"} className="text-[12px]">
+                                    <Link to={"edit"}>Редактировать</Link>
+                                </Button>
+                            )}
+                            {projectData.project_link && (
+                                <a href={projectData.project_link} className="cursor-pointer hover:opacity-80 duration-300">
+                                    <FaGithubSquare size={32} />
+                                </a>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
