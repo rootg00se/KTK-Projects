@@ -14,6 +14,7 @@ import { AuthProtectedRoutes } from "./routes/auth-protected-routes";
 import { GuestProtectedRoutes } from "./routes/guest-protected-routes";
 import { ProfilePage } from "@/pages/profile";
 import { ProjectPage } from "@/pages/project";
+import { ProjectWorkspace } from "@/pages/project-workspace";
 
 const App: React.FC = () => {
     return (
@@ -24,6 +25,7 @@ const App: React.FC = () => {
                 <Route element={<AuthProtectedRoutes />}>
                     <Route path="/confirm" element={<ConfirmPage />} />
                 </Route>
+                <Route path="/workspace/:id" element={<ProjectWorkspace />} />
                 <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/project/:id" element={<ProjectPage />} />

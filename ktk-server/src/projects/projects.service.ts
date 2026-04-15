@@ -124,7 +124,7 @@ export class ProjectsService {
     async getAllUserProjects(userId: string) {
         const projects = await this.prismaService.projects.findMany({
             where: {
-                project_members: { some: { user_id: userId } },
+                creator_id: userId,
             },
             ...this.projectsInclude(userId),
             orderBy: {
@@ -211,7 +211,7 @@ export class ProjectsService {
     }
 
     async getProjectParticipants(projectId: string) {
-        await this.checkIfProjectExists(projectId);
+        const project = await this.checkIfProjectExists(projectId);
 
         const participants = await this.prismaService.users.findMany({
             where: {
@@ -222,7 +222,17 @@ export class ProjectsService {
             omit: { password_hash: true },
         });
 
-        return participants;
+        const creator = await this.prismaService.users.findUnique({
+            where: {
+                user_id: project.creator_id
+            },
+            omit: { password_hash: true }
+        })
+
+        return [
+            creator,
+            ...participants,
+        ];
     }
 
     async updateProjectContent(projectId: string, content: string) {

@@ -1,6 +1,11 @@
 import { $api } from "@/shared/api/api";
 import { PROJECTS_ENDPOINT, USER_PROJECT_ENDPOINT } from "../lib/constants";
-import type { IPaginationProjectResponse, IProjectResponse, ProjectsFilterDto } from "../model/types";
+import {
+    type Member,
+    type IPaginationProjectResponse,
+    type IProjectResponse,
+    type ProjectsFilterDto,
+} from "../model/types";
 
 export const projectsApi = {
     baseKey: "projects",
@@ -20,5 +25,8 @@ export const projectsApi = {
     },
     getProjectById: async (projectId: string) => {
         return $api.get<IProjectResponse>(`${PROJECTS_ENDPOINT}/${projectId}`);
-    }
+    },
+    getProjectParticipants: async (projectId: string) => {
+        return $api.get<Member[]>(`${PROJECTS_ENDPOINT}/${projectId}/participants`);
+    },
 };

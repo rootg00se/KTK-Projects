@@ -62,7 +62,7 @@ export const ProjectDetails: React.FC = () => {
                         <div className="flex gap-2">
                             {authUserId === projectData.creator_id && (
                                 <Button size={"sm"} className="text-[12px]">
-                                    <Link to={"edit"}>Редактировать</Link>
+                                    <Link to={`/workspace/${id}?tab=settings`}>Редактировать</Link>
                                 </Button>
                             )}
                             {projectData.project_link && (

@@ -52,6 +52,7 @@ export interface IPaginationProjectResponse {
         hasNextPage: boolean;
     };
 }
+
 export type ProjectsFilterDto = {
     page: number;
     query: string;

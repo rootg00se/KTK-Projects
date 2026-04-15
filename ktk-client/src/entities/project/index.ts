@@ -4,3 +4,4 @@ export { useToggleLike } from "./model/useToggleLike";
 export { useUserProjects } from "./model/useUserProjects";
 export { useProjectById } from "./model/useProjectById";
 export { type ProjectStatus } from "./model/types";
+export { useParticipants } from "./model/useParticipants";
