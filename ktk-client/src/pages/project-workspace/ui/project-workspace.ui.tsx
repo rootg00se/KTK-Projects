@@ -8,24 +8,45 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuTrigger,
+    Input,
+    Label,
     TabsContent,
 } from "@/shared/components/ui";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { isActivated, useUser } from "@/entities/user";
-import { Heart, LayoutTemplate, MailQuestion, UsersRound } from "lucide-react";
+import { ArrowUpRightIcon, Heart, LayoutTemplate, MailQuestion, Plus, UsersRound } from "lucide-react";
 import { useTabsUrlQuery } from "@/shared/hooks/useTabsUrlQuery";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui";
-import { useProjectById, useParticipants, useUserProjects } from "@/entities/project";
+import {
+    useProjectById,
+    useParticipants,
+    useUserProjects,
+    useUpdateProject,
+    useUpdateStatus,
+} from "@/entities/project";
 import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkdown";
-import { parseProjectStatus } from "@/shared/utils/parse-project-status";
+import { parseProjectStatus, parseTextToProjectState, projectStatusList } from "@/shared/utils/parse-project-status";
 import { MarkdownReader } from "@/features/markdown-reader";
 import { ProjectDetailsTag } from "@/widgets/project-details/ui/project-details-tag.ui";
 import { FaGithubSquare } from "react-icons/fa";
 import { ProjectQuestionsList } from "@/widgets/project-questions-list";
 import { useProjectQuestions } from "@/entities/question";
+import { MarkdownEditor } from "@/features/markdown-editor";
+import {
+    Button,
+    Empty,
+    EmptyContent,
+    EmptyDescription,
+    EmptyHeader,
+    EmptyMedia,
+    EmptyTitle,
+} from "@/shared/components/ui";
+import { toast } from "react-toastify";
 
 export const ProjectWorkspace: React.FC = () => {
     const [markdown, setMarkdown] = useState("");
+    const [projectName, setProjectName] = useState("");
+    const [link, setLink] = useState("");
 
     const { id: projectId } = useParams();
     const { activateTab, handleTabChange } = useTabsUrlQuery("tab", "projects");
@@ -35,6 +56,9 @@ export const ProjectWorkspace: React.FC = () => {
     const { projectData } = useProjectById(projectId!);
     const { participantsData } = useParticipants(projectId!);
     const { projectQuestionsData } = useProjectQuestions(projectId!);
+
+    const { updateFunc } = useUpdateProject();
+    const { updateStatusFunc } = useUpdateStatus();
 
     const navigate = useNavigate();
     const isUserActivated = isActivated();
@@ -48,6 +72,32 @@ export const ProjectWorkspace: React.FC = () => {
             setMarkdown("");
         }
     }, [markdownContent]);
+
+    useEffect(() => {
+        if (projectData) {
+            setProjectName(projectData.title || "");
+            setLink(projectData.project_link || "");
+        }
+    }, [projectData]);
+
+    const handleUpdateProject = () => {
+        if (!projectId) return toast.error("Что-то пошло не так");
+
+        updateFunc({
+            projectId,
+            title: projectName,
+            projectLink: link,
+        });
+    };
+
+    const handleUpdateStatus = (status: string) => {
+        if (!projectId) return toast.error("Что-то пошло не так");
+
+        updateStatusFunc({
+            projectId,
+            status: parseTextToProjectState(status)!
+        });
+    };
 
     if (!userData) return null;
     if (!projectData) return null;
@@ -228,6 +278,95 @@ export const ProjectWorkspace: React.FC = () => {
                                         <p className="text-xl mb-4">Вопросы к проекту:</p>
                                         <ProjectQuestionsList />
                                     </div>
+                                </div>
+                            </div>
+                        </TabsContent>
+                        <TabsContent value="settings">
+                            <div className="py-10">
+                                <div className="flex justify-between flex-row-reverse max-w-250">
+                                    <div className="w-full max-w-100 mb-10 flex flex-col">
+                                        <div className="mb-7">
+                                            <div className="mb-5">
+                                                <div className="mb-5">
+                                                    <Label className="text-[16px] mb-3 font-normal font-heading">
+                                                        Название проекта:
+                                                    </Label>
+                                                    <Input
+                                                        placeholder="Введите название проекта: "
+                                                        value={projectName}
+                                                        onChange={(e) => setProjectName(e.target.value)}
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <Label className="text-[16px] mb-3 font-normal font-heading">
+                                                        Ссылка проекта:
+                                                    </Label>
+                                                    <Input
+                                                        placeholder="Введите ссылку на репо проекта: "
+                                                        value={link || ""}
+                                                        onChange={(e) => setLink(e.target.value)}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <Button onClick={handleUpdateProject}>Сохранить</Button>
+                                        </div>
+                                        <div className="flex gap-3 items-center mt-auto">
+                                            <p className="text-[16px] font-heading">Статус проекта :</p>
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger className="outline-0!">
+                                                    <div className="cursor-pointer">
+                                                        <p className="font-medium text-[16px] font-heading text-primary">
+                                                            {parseProjectStatus(projectData?.status)}
+                                                        </p>
+                                                    </div>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent className="w-full mt-4">
+                                                    {projectStatusList?.map((status) => (
+                                                        <DropdownMenuItem onClick={() => handleUpdateStatus(status)}>
+                                                            <div className="flex gap-2 items-center rounded-sm p-2 cursor-pointer">
+                                                                <p className="text-sm font-medium">{status}</p>
+                                                            </div>
+                                                        </DropdownMenuItem>
+                                                    ))}
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+                                        </div>
+                                    </div>
+                                    <div className="mb-10 max-w-120">
+                                        <Empty className="border-2">
+                                            <EmptyHeader>
+                                                <EmptyMedia variant="icon">
+                                                    {participantsData?.map((participant) => (
+                                                        <Avatar className="w-11 h-11 relative -ml-3">
+                                                            <AvatarImage src={participant.avatar_url || ""} />
+                                                            <AvatarFallback className="text-lg bg-[#dadada]">
+                                                                {participant.nickname.slice(0, 2)}
+                                                            </AvatarFallback>
+                                                        </Avatar>
+                                                    ))}
+                                                </EmptyMedia>
+                                                <EmptyTitle>Участники проекта</EmptyTitle>
+                                                <EmptyDescription>
+                                                    Добавьте своиих друзей в проект или удалите их если они больше не
+                                                    приносят пользы
+                                                </EmptyDescription>
+                                            </EmptyHeader>
+                                            <EmptyContent className="flex-row justify-center gap-2">
+                                                <Button>
+                                                    <Plus />
+                                                    <Link to="/project/create">Добавить участников</Link>
+                                                </Button>
+                                            </EmptyContent>
+                                            <Button variant="link" asChild className="text-muted-foreground" size="sm">
+                                                <Link to="/">
+                                                    Найти себе друзей <ArrowUpRightIcon />
+                                                </Link>
+                                            </Button>
+                                        </Empty>
+                                    </div>
+                                </div>
+                                <div className="max-w-250">
+                                    <MarkdownEditor value={markdown} onChange={setMarkdown} />
                                 </div>
                             </div>
                         </TabsContent>

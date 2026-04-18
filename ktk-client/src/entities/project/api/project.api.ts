@@ -5,6 +5,8 @@ import {
     type IPaginationProjectResponse,
     type IProjectResponse,
     type ProjectsFilterDto,
+    type UpdateProjectDto,
+    type ProjectStatus,
 } from "../model/types";
 
 export const projectsApi = {
@@ -29,4 +31,22 @@ export const projectsApi = {
     getProjectParticipants: async (projectId: string) => {
         return $api.get<Member[]>(`${PROJECTS_ENDPOINT}/${projectId}/participants`);
     },
+    updateProject: async ({ projectId, title, projectLink }: UpdateProjectDto) => {
+        return $api.patch<IProjectResponse>(`${PROJECTS_ENDPOINT}/${projectId}`, { title, projectLink });
+    },
+    updateProjectContent: async ({ projectId, content }: { projectId: string, content: string }) => {
+        return $api.patch<IProjectResponse>(`${PROJECTS_ENDPOINT}/${projectId}/content`, { content });
+    },
+    updateProjectStatus: async ({ projectId, status }: { projectId: string, status: ProjectStatus}) => {
+        return $api.patch<IProjectResponse>(`${PROJECTS_ENDPOINT}/${projectId}/status`, { status });
+    },
+    addParticipant: async ({ projectId, userId }: { projectId: string, userId: string}) => {
+        return $api.post<Member[]>(`${PROJECTS_ENDPOINT}/${projectId}/participants`, { userId });
+    },
+    removeParticipant: async ({ projectId, userId } : { projectId: string, userId: string }) => {
+        return $api.delete<Member[]>(`${PROJECTS_ENDPOINT}/${projectId}/participants/${userId}`);
+    },
+    deleteProject: async ({ projectId }: { projectId: string }) => {
+        return $api.delete<IProjectResponse>(`${PROJECTS_ENDPOINT}/${projectId}`);
+    }
 };

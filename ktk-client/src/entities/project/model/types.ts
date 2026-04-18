@@ -58,3 +58,9 @@ export type ProjectsFilterDto = {
     query: string;
     tags: string;
 };
+
+export type UpdateProjectDto = {
+    title: string;
+    projectId: string;
+    projectLink: string;
+}
