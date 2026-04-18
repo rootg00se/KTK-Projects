@@ -14,7 +14,7 @@ import {
 } from "@/shared/components/ui";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { isActivated, useUser } from "@/entities/user";
-import { ArrowUpRightIcon, Heart, LayoutTemplate, MailQuestion, Plus, UsersRound } from "lucide-react";
+import { ArrowUpRightIcon, Heart, LayoutTemplate, MailQuestion, Plus, Trash, UsersRound } from "lucide-react";
 import { useTabsUrlQuery } from "@/shared/hooks/useTabsUrlQuery";
 import { Tabs, TabsList, TabsTrigger } from "@/shared/components/ui";
 import {
@@ -23,6 +23,7 @@ import {
     useUserProjects,
     useUpdateProject,
     useUpdateStatus,
+    useDeleteProject,
 } from "@/entities/project";
 import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkdown";
 import { parseProjectStatus, parseTextToProjectState, projectStatusList } from "@/shared/utils/parse-project-status";
@@ -42,6 +43,17 @@ import {
     EmptyTitle,
 } from "@/shared/components/ui";
 import { toast } from "react-toastify";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/shared/components/ui";
 
 export const ProjectWorkspace: React.FC = () => {
     const [markdown, setMarkdown] = useState("");
@@ -59,6 +71,7 @@ export const ProjectWorkspace: React.FC = () => {
 
     const { updateFunc } = useUpdateProject();
     const { updateStatusFunc } = useUpdateStatus();
+    const { deleteProjectFunc } = useDeleteProject();
 
     const navigate = useNavigate();
     const isUserActivated = isActivated();
@@ -95,8 +108,19 @@ export const ProjectWorkspace: React.FC = () => {
 
         updateStatusFunc({
             projectId,
-            status: parseTextToProjectState(status)!
+            status: parseTextToProjectState(status)!,
         });
+    };
+
+    const handleDeleteProject = () => {
+        if (!projectId) return toast.error("Что-то пошло не так");
+        if (!userData) return toast.error("Что-то пошло не так");
+
+        deleteProjectFunc({
+            projectId
+        });
+
+        navigate("/");
     };
 
     if (!userData) return null;
@@ -365,8 +389,34 @@ export const ProjectWorkspace: React.FC = () => {
                                         </Empty>
                                     </div>
                                 </div>
-                                <div className="max-w-250">
+                                <div className="max-w-250 mb-10">
                                     <MarkdownEditor value={markdown} onChange={setMarkdown} />
+                                </div>
+                                <div>
+                                    <p className="font-heading font-medium mb-3">Внимание, снизу опасная кнопка!</p>
+                                    <AlertDialog>
+                                        <AlertDialogTrigger asChild>
+                                            <Button variant="outline" className="border-primary">
+                                                <Trash className="text-primary" />
+                                                <p className="text-primary font-heading">Удалить проект</p>
+                                            </Button>
+                                        </AlertDialogTrigger>
+                                        <AlertDialogContent>
+                                            <AlertDialogHeader>
+                                                <AlertDialogTitle>
+                                                    Вы точно уверены, что хотите удалить проект?
+                                                </AlertDialogTitle>
+                                                <AlertDialogDescription>
+                                                    Это действие не может быть отменена. Нажав кнопку "Удалить" вы
+                                                    безвозвратно удалить этот проект и все связанные с ним данные.
+                                                </AlertDialogDescription>
+                                            </AlertDialogHeader>
+                                            <AlertDialogFooter>
+                                                <AlertDialogCancel>Отмена</AlertDialogCancel>
+                                                <AlertDialogAction onClick={handleDeleteProject}>Удалить</AlertDialogAction>
+                                            </AlertDialogFooter>
+                                        </AlertDialogContent>
+                                    </AlertDialog>
                                 </div>
                             </div>
                         </TabsContent>

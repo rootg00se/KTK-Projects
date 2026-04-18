@@ -6,8 +6,8 @@ import { queryClient } from "@/app/providers/query-client";
 
 export const useDeleteProject = () => {
     const deleteProjectMutation = useMutation({
-        mutationKey: [projectsApi.baseKey, "participants", "add"],
-        mutationFn: projectsApi.addParticipant,
+        mutationKey: [projectsApi.baseKey, "delete"],
+        mutationFn: projectsApi.deleteProject,
         onError: (error: IErrorResponse) => {
             toast.error(error.response.data.message);
         },
