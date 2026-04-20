@@ -1,0 +1,1 @@
+export { WorkspaceTabs } from "./ui/workspace-tabs.ui";

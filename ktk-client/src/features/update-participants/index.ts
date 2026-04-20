@@ -1,0 +1,1 @@
+export { UpdateParticipants } from "./ui/update-participants.ui";

@@ -1,0 +1,1 @@
+export { WorkspaceInfo } from "./ui/workspace-info.ui";
