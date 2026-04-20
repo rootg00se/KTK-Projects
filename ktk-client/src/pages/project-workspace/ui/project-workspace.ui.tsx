@@ -24,6 +24,7 @@ import {
     useUpdateProject,
     useUpdateStatus,
     useDeleteProject,
+    useUpdateContent,
 } from "@/entities/project";
 import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkdown";
 import { parseProjectStatus, parseTextToProjectState, projectStatusList } from "@/shared/utils/parse-project-status";
@@ -68,8 +69,9 @@ export const ProjectWorkspace: React.FC = () => {
     const { projectData } = useProjectById(projectId!);
     const { participantsData } = useParticipants(projectId!);
     const { projectQuestionsData } = useProjectQuestions(projectId!);
-
+    
     const { updateFunc } = useUpdateProject();
+    const { updateContentFunc } = useUpdateContent();
     const { updateStatusFunc } = useUpdateStatus();
     const { deleteProjectFunc } = useDeleteProject();
 
@@ -117,10 +119,19 @@ export const ProjectWorkspace: React.FC = () => {
         if (!userData) return toast.error("Что-то пошло не так");
 
         deleteProjectFunc({
-            projectId
+            projectId,
         });
 
         navigate("/");
+    };
+
+    const handleUpdateContent = (text: string) => {
+        if (!projectId) return toast.error("Что-то пошло не так");
+
+        updateContentFunc({
+            content: text,
+            projectId
+        });
     };
 
     if (!userData) return null;
@@ -390,7 +401,7 @@ export const ProjectWorkspace: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="max-w-250 mb-10">
-                                    <MarkdownEditor value={markdown} onChange={setMarkdown} />
+                                    <MarkdownEditor onSave={handleUpdateContent} value={markdown} onChange={setMarkdown} />
                                 </div>
                                 <div>
                                     <p className="font-heading font-medium mb-3">Внимание, снизу опасная кнопка!</p>
@@ -413,7 +424,9 @@ export const ProjectWorkspace: React.FC = () => {
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
                                                 <AlertDialogCancel>Отмена</AlertDialogCancel>
-                                                <AlertDialogAction onClick={handleDeleteProject}>Удалить</AlertDialogAction>
+                                                <AlertDialogAction onClick={handleDeleteProject}>
+                                                    Удалить
+                                                </AlertDialogAction>
                                             </AlertDialogFooter>
                                         </AlertDialogContent>
                                     </AlertDialog>

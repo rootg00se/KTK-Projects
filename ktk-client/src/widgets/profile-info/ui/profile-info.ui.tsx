@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/shared/components/ui";
-import { selectUserId, useProfile } from "@/entities/user";
+import { selectUserId, useProfile, useUpdateProfile } from "@/entities/user";
 import { useParams } from "react-router-dom";
 import { LogoutButton } from "@/features/logout-button";
 import { UpdateAvatar } from "@/features/update-avatar";
@@ -18,6 +18,7 @@ export const ProfileInfo: React.FC = () => {
 
     const { id } = useParams();
     const { userProfileData } = useProfile(id || "");
+    const { updateProfileFunc } = useUpdateProfile();
 
     const authUserId = selectUserId();
     const markdownContent = useFetchMarkdown(userProfileData?.profile_data);
@@ -32,6 +33,12 @@ export const ProfileInfo: React.FC = () => {
 
     const toggleEditMode = () => {
         setEditMode(() => !editMode);
+    };
+
+    const handleUpadteProfile = (text: string) => {
+        updateProfileFunc({
+            content: text,
+        });
     };
 
     if (!userProfileData) return null;
@@ -91,7 +98,7 @@ export const ProfileInfo: React.FC = () => {
             </div>
             <div className="p-5">
                 {editMode ? (
-                    <MarkdownEditor value={markdown} onChange={setMarkdown} />
+                    <MarkdownEditor onSave={handleUpadteProfile} value={markdown} onChange={setMarkdown} />
                 ) : markdown ? (
                     <MarkdownReader content={markdown} />
                 ) : (

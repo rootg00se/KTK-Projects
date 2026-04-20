@@ -7,28 +7,20 @@ import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import ReactMarkdown from "react-markdown";
 import "highlight.js/styles/github.css";
-import { useUpdateProfile } from "@/entities/user";
 
 export type MarkdownEditorProps = {
     value: string;
     onChange: (value: string) => void;
+    onSave: (text: string) => void;
 };
 
-export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ value, onChange }) => {
+export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ value, onChange, onSave }) => {
     const [text, setText] = useState(value);
     const [tab, setTab] = useState<"write" | "preview">("write");
-
-    const { updateProfileFunc } = useUpdateProfile();
 
     useEffect(() => {
         setText(value);
     }, [value]);
-
-    const handleUpadteProfile = () => {
-        updateProfileFunc({
-            content: text,
-        });
-    };
 
     const textareaApply = (before: string, after = "") => {
         const textarea = document.querySelector("textarea");
@@ -118,7 +110,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ value, onChange 
                     </TabsContent>
                 </Tabs>
             </div>
-            <Button onClick={handleUpadteProfile} className="mt-5 w-full max-w-40">
+            <Button onClick={() => onSave(text)} className="mt-5 w-full max-w-40">
                 Сохранить
             </Button>
         </div>
