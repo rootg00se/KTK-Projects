@@ -130,7 +130,7 @@ export class UsersService {
             omit: { password_hash: true },
         });
 
-        return firends;
+        return firends.map(friend => userMapper(friend));
     }
 
     async createUserWithCredentials(userData: CreateUser) {

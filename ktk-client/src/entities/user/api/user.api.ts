@@ -30,5 +30,8 @@ export const userApi = {
     },
     updateUserProfile: async (data: { content: string }) => {
         return await $api.patch<IUserResponse>(USER_ENDPOINTS.PROFILE, data);
+    },
+    getUserFriends: async (userId: string) => {
+        return await $api.get<IUserResponse[]>(`${USER_ENDPOINT}/${userId}/friends`)
     }
 };
