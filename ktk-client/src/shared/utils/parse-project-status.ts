@@ -1,29 +1,20 @@
 import type { ProjectStatus } from "@/entities/project";
 
-export const parseProjectStatus = (status: ProjectStatus) => {
-    switch (status) {
-        case "working":
-            return "В работе";
-        case "abandoned":
-            return "Заброшен";
-        case "completed":
-            return "Выполнен";
-        case "paused":
-            return "Приостановлен";
-    }
+const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
+    working: "В работе",
+    abandoned: "Заброшен",
+    completed: "Выполнен",
+    paused: "Приостановлен",
 };
 
-export const parseTextToProjectState = (text: string) => {
-    switch (text) {
-        case "В работе":
-            return "working";
-        case "Заброшен":
-            return "abandoned";
-        case "Выполнен":
-            return "completed";
-        case "Приостановлен":
-            return "paused";
-    }
+export const parseProjectStatus = (status: ProjectStatus): string => {
+    return PROJECT_STATUS_LABELS[status] || status;
+};
+
+export const parseTextToProjectState = (text: string): ProjectStatus | undefined => {
+    return (Object.keys(PROJECT_STATUS_LABELS) as ProjectStatus[]).find(
+        (key) => PROJECT_STATUS_LABELS[key] === text
+    );
 };
 
 export const projectStatusList = ["В работе", "Заброшен", "Выполнен", "Приостановлен"];

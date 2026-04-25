@@ -1,37 +1,34 @@
-import { useMutation } from "@tanstack/react-query";
 import { questionsApi } from "../api/question.api";
 import { queryClient } from "@/app/providers/query-client";
 import type { IQuestionResponse } from "./types";
 import type { IErrorResponse } from "@/shared/types/error-response.type";
 import { toast } from "react-toastify";
 import type { AxiosResponse } from "axios";
+import { useOptimisticMutation } from "@/shared/hooks/useOptimisticMutation";
 
 export const useUpdateQuestion = (projectId: string) => {
-    const updateQuestionMutation = useMutation({
+    const updateQuestionMutation = useOptimisticMutation({
         mutationKey: [questionsApi.baseKey, "update"],
         mutationFn: questionsApi.updateQuestion,
-        onMutate: async (dto) => {
-            await queryClient.cancelQueries({ queryKey: [questionsApi.baseKey] });
+        cancelQueryKeys: [[questionsApi.baseKey]],
+        optimisticTargets: [
+            {
+                queryKey: [questionsApi.baseKey, projectId],
+                updater: (oldData: unknown, dto) => {
+                    const questionData = oldData as AxiosResponse<IQuestionResponse[]> | undefined;
+                    if (!questionData) return oldData;
 
-            const previousQuestion = queryClient.getQueryData([questionsApi.baseKey, projectId]);
-
-            queryClient.setQueryData(
-                [questionsApi.baseKey, projectId],
-                (oldData: AxiosResponse<IQuestionResponse[]>) => ({
-                    ...oldData,
-                    data: oldData.data.map((question) =>
-                        question.question_id === dto.questionId ? { ...question, text: dto.text } : question,
-                    ),
-                }),
-            );
-
-            return { previousQuestion };
-        },
-        onError: (error: IErrorResponse, _, context) => {
-            queryClient.setQueryData([questionsApi.baseKey, projectId], context?.previousQuestion);
-            console.log(error);
-
-            toast.error(error.response.data.message[0]);
+                    return {
+                        ...questionData,
+                        data: questionData.data.map((question) =>
+                            question.question_id === dto.questionId ? { ...question, text: dto.text } : question,
+                        ),
+                    };
+                },
+            },
+        ],
+        onError: (error: IErrorResponse) => {
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
         onSuccess: () => {
             toast.success("Вопрос обновлен");

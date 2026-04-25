@@ -1,32 +1,32 @@
-import { useMutation } from "@tanstack/react-query";
 import { projectsApi } from "../api/project.api";
 import { queryClient } from "@/app/providers/query-client";
 import type { IProjectResponse } from "./types";
 import type { IErrorResponse } from "@/shared/types/error-response.type";
 import { toast } from "react-toastify";
+import { useOptimisticMutation } from "@/shared/hooks/useOptimisticMutation";
 
 export const useUpdateProject = () => {
-    const updateProjectMutation = useMutation({
+    const updateProjectMutation = useOptimisticMutation({
         mutationKey: [projectsApi.baseKey, "update"],
         mutationFn: projectsApi.updateProject,
-        onMutate: async (dto) => {
-            await queryClient.cancelQueries({ queryKey: [projectsApi.baseKey] });
+        cancelQueryKeys: [[projectsApi.baseKey]],
+        optimisticTargets: [
+            {
+                queryKey: (dto) => [projectsApi.baseKey, dto.projectId],
+                updater: (oldData: unknown, dto) => {
+                    const projectData = oldData as IProjectResponse | undefined;
+                    if (!projectData) return oldData;
 
-            const previousProject = queryClient.getQueryData([projectsApi.baseKey, dto.projectId]);
-
-            queryClient.setQueryData([projectsApi.baseKey, dto.projectId], (oldData: IProjectResponse) => ({
-                ...oldData,
-                title: dto.title,
-                project_link: dto.projectLink
-            }));
-
-            return { previousProject };
-        },
-        onError: (error: IErrorResponse, dto, context) => {
-            queryClient.setQueryData([projectsApi.baseKey, dto.projectId], context?.previousProject);
-            console.log(error);
-            
-            toast.error(error.response.data.message[0]);
+                    return {
+                        ...projectData,
+                        title: dto.title,
+                        project_link: dto.projectLink,
+                    };
+                },
+            },
+        ],
+        onError: (error: IErrorResponse) => {
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
         onSuccess: () => {
             toast.success("Проект обновлен");

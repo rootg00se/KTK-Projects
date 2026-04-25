@@ -1,32 +1,32 @@
-import { useMutation } from "@tanstack/react-query";
 import { userApi } from "../api/user.api";
 import { toast } from "react-toastify";
 import { queryClient } from "@/app/providers/query-client";
 import type { IUserResponse } from "./types";
 import type { IErrorResponse } from "@/shared/types/error-response.type";
+import { useOptimisticMutation } from "@/shared/hooks/useOptimisticMutation";
 
 export const useUpdateUser = () => {
-    const updateUserMutation = useMutation({
+    const updateUserMutation = useOptimisticMutation({
         mutationKey: [userApi.baseKey, "update"],
         mutationFn: userApi.updateUser,
-        onMutate: async (dto) => {
-            await queryClient.cancelQueries({ queryKey: [userApi.baseKey] });
+        cancelQueryKeys: [[userApi.baseKey]],
+        optimisticTargets: [
+            {
+                queryKey: [userApi.baseKey, "info"],
+                updater: (oldData: unknown, dto) => {
+                    const userData = oldData as IUserResponse | undefined;
+                    if (!userData) return oldData;
 
-            const previousUser = queryClient.getQueryData([userApi.baseKey, "info"]);
-
-            queryClient.setQueryData([userApi.baseKey, "info"], (oldData: IUserResponse) => ({
-                ...oldData,
-                nickname: dto.nickname,
-                display_name: dto.displayName
-            }));
-
-            return { previousUser };
-        },
-        onError: (error: IErrorResponse, _, context) => {
-            queryClient.setQueryData([userApi.baseKey, "info"], context?.previousUser);
-            console.log(error);
-            
-            toast.error(error.response.data.message[0]);
+                    return {
+                        ...userData,
+                        nickname: dto.nickname,
+                        display_name: dto.displayName,
+                    };
+                },
+            },
+        ],
+        onError: (error: IErrorResponse) => {
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
         onSuccess: () => {
             toast.success("Проифль обновлен");
