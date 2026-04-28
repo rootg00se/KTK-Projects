@@ -3,10 +3,10 @@ import { Sidebar } from "@/widgets/sidebar";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-export const AppLayout: React.FC = () => {
+export const AppLayout: React.FC<{ searchInput?: React.ReactNode }> = ({ searchInput }) => {
     return (
         <div>
-            <Header />
+            <Header searchInput={searchInput} />
             <main className="py-5">
                 <div className="_container flex gap-13 relative">
                     <Sidebar />

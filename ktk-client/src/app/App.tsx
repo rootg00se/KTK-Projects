@@ -15,6 +15,9 @@ import { GuestProtectedRoutes } from "./routes/guest-protected-routes";
 import { ProfilePage } from "@/pages/profile";
 import { ProjectPage } from "@/pages/project";
 import { ProjectWorkspace } from "@/pages/project-workspace";
+import { FriendsPage } from "@/pages/friends";
+import { SearchUsersInput } from "@/features/search-users";
+import { CreateProjectPage } from "@/pages/create-project";
 
 const App: React.FC = () => {
     return (
@@ -29,7 +32,11 @@ const App: React.FC = () => {
                 <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/project/:id" element={<ProjectPage />} />
+                    <Route path="/project/create" element={<CreateProjectPage />} />
                     <Route path="/profile/:id" element={<ProfilePage />} />
+                </Route>
+                <Route path="/" element={<AppLayout searchInput={<SearchUsersInput />} />}>
+                    <Route path="/profile/:id/friends" element={<FriendsPage />} />
                 </Route>
                 <Route path="/" element={<AuthLayout />}>
                     <Route element={<GuestProtectedRoutes />}>

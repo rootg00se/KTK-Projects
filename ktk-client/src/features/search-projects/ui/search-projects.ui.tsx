@@ -22,7 +22,6 @@ export const SearchProjectsInput: React.FC = () => {
             <InputGroupAddon>
                 <Search />
             </InputGroupAddon>
-            <InputGroupAddon align="inline-end">12 результатов</InputGroupAddon>
         </InputGroup>
     );
 };

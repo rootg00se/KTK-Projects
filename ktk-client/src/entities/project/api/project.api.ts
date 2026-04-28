@@ -7,6 +7,7 @@ import {
     type ProjectsFilterDto,
     type UpdateProjectDto,
     type ProjectStatus,
+    type CreateProjectDto,
 } from "../model/types";
 
 export const projectsApi = {
@@ -48,5 +49,8 @@ export const projectsApi = {
     },
     deleteProject: async ({ projectId }: { projectId: string }) => {
         return $api.delete<IProjectResponse>(`${PROJECTS_ENDPOINT}/${projectId}`);
+    },
+    createProject: async (data: CreateProjectDto) => {
+        return $api.post<IProjectResponse>(`${PROJECTS_ENDPOINT}`, data);
     }
 };

@@ -9,7 +9,7 @@ export const useDeleteProject = () => {
         mutationKey: [projectsApi.baseKey, "delete"],
         mutationFn: projectsApi.deleteProject,
         onError: (error: IErrorResponse) => {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
         onSuccess: () => {
             toast.success("Проект удален");

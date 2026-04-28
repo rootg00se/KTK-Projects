@@ -1,6 +1,6 @@
 import { $api } from "@/shared/api/api";
 import { USER_ENDPOINT, USER_ENDPOINTS } from "../lib/constants";
-import type { IUserResponse, UpdateSkillsDto, UpdateUserDto } from "../model/types";
+import { type IPaginationUsersResponse, type IUserResponse, type UpdateSkillsDto, type UpdateUserDto } from "../model/types";
 
 export const userApi = {
     baseKey: "users",
@@ -32,6 +32,9 @@ export const userApi = {
         return await $api.patch<IUserResponse>(USER_ENDPOINTS.PROFILE, data);
     },
     getUserFriends: async (userId: string) => {
-        return await $api.get<IUserResponse[]>(`${USER_ENDPOINT}/${userId}/friends`)
-    }
+        return await $api.get<IUserResponse[]>(`${USER_ENDPOINT}/${userId}/friends`);
+    },
+    getUsers: async ({ page, nickname }: { page: number; nickname: string }) => {
+        return await $api.get<IPaginationUsersResponse>(`${USER_ENDPOINT}?limit=20&page=${page}&nickname=${nickname}`);
+    },
 };

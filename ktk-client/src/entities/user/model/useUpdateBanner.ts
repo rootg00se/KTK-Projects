@@ -9,7 +9,7 @@ export const useUpdateBanner = () => {
         mutationKey: [userApi.baseKey, "banner"],
         mutationFn: userApi.updateBanner,
         onError: (error: IErrorResponse) => {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
         onSuccess: () => {
             toast.success("Банер обновлен");

@@ -9,6 +9,6 @@ export const userMapper = (user: UserMapper | null) => {
         ...userData,
         skills: users_skills.map(el => el.skills),
         projectsCount: _count.projects,
-        friendCount: _count.users_friends_users_friends_friend_idTousers,
+        friendCount: _count.users_friends_users_friends_user_idTousers,
     };
 };

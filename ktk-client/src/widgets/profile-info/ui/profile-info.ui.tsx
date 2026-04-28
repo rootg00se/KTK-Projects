@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/shared/components/ui";
 import { selectUserId, useProfile, useUpdateProfile } from "@/entities/user";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { LogoutButton } from "@/features/logout-button";
 import { UpdateAvatar } from "@/features/update-avatar";
 import { UpdateBanner } from "@/features/update-banner";
@@ -38,6 +38,13 @@ export const ProfileInfo: React.FC = () => {
     const handleUpadteProfile = (text: string) => {
         updateProfileFunc({
             content: text,
+        });
+    };
+
+    const scrollToBottom = () => {
+        window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: "smooth",
         });
     };
 
@@ -88,13 +95,13 @@ export const ProfileInfo: React.FC = () => {
             </div>
             <div className="px-5 mt-3 flex gap-2 items-center text-sm">
                 <UsersRound size={16} />
-                <p className="cursor-pointer hover:underline">
+                <Link to="?tab=projects" onClick={scrollToBottom} className="cursor-pointer hover:underline">
                     {userProfileData.projectsCount} <span className="opacity-65">Проектов</span>
-                </p>
+                </Link>
                 <span>·</span>
-                <p className="cursor-pointer hover:underline">
+                <Link to="friends" className="cursor-pointer hover:underline">
                     {userProfileData.friendCount} <span className="opacity-65">Друзей</span>
-                </p>
+                </Link>
             </div>
             <div className="p-5">
                 {editMode ? (

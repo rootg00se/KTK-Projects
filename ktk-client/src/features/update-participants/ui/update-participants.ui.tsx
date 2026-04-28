@@ -15,8 +15,11 @@ import { ArrowUpRightIcon } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { useParticipants } from "@/entities/project";
 import { UpdateParticipantsPopover } from "./update-participants-popover.ui";
+import { selectUserId } from "@/entities/user";
 
 export const UpdateParticipants: React.FC = () => {
+    const userId = selectUserId();
+
     const { id: projectId } = useParams();
     const { participantsData } = useParticipants(projectId);
 
@@ -45,7 +48,7 @@ export const UpdateParticipants: React.FC = () => {
                     <UpdateParticipantsPopover />
                 </EmptyContent>
                 <Button variant="link" asChild className="text-muted-foreground" size="sm">
-                    <Link to="/">
+                    <Link to={`/profile/${userId}/friends`}>
                         Найти себе друзей <ArrowUpRightIcon />
                     </Link>
                 </Button>

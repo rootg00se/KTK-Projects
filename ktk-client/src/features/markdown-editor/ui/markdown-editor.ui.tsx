@@ -11,7 +11,7 @@ import "highlight.js/styles/github.css";
 export type MarkdownEditorProps = {
     value: string;
     onChange: (value: string) => void;
-    onSave: (text: string) => void;
+    onSave?: (text: string) => void;
 };
 
 export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ value, onChange, onSave }) => {
@@ -110,9 +110,11 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ value, onChange,
                     </TabsContent>
                 </Tabs>
             </div>
-            <Button onClick={() => onSave(text)} className="mt-5 w-full max-w-40">
-                Сохранить
-            </Button>
+            {onSave && (
+                <Button onClick={() => onSave(text)} className="mt-5 w-full max-w-40">
+                    Сохранить
+                </Button>
+            )}
         </div>
     );
 };

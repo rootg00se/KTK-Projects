@@ -9,7 +9,7 @@ export const useCreateQuestion = () => {
         mutationKey: [questionsApi.baseKey, "create"],
         mutationFn: questionsApi.createQuestion,
         onError: (error: IErrorResponse) => {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
         onSuccess: () => {
             toast.success("Вопрос отправлен");

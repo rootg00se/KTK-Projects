@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { SearchProjectsInput } from "@/features/search-projects";
 import { isActivated, useUser } from "@/entities/user";
 
-export const Header: React.FC = () => {
+export const Header: React.FC<{ searchInput?: React.ReactNode }> = ({ searchInput }) => {
     const isUserActivated = isActivated();
     const { userData } = useUser();
 
@@ -15,7 +15,7 @@ export const Header: React.FC = () => {
                 <Link to={"/"} className="max-w-35">
                     <img src={logo} className="w-full" alt="" />
                 </Link>
-                <SearchProjectsInput />
+                {searchInput || <SearchProjectsInput />}
                 {isUserActivated && userData ? (
                     <Link to={`/profile/${userData.user_id}`} className="flex items-center gap-4">
                         <Avatar className="w-10 h-10">

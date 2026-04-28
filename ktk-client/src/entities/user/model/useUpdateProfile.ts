@@ -9,7 +9,7 @@ export const useUpdateProfile = () => {
         mutationKey: [userApi.baseKey, "profile"],
         mutationFn: userApi.updateUserProfile,
         onError: (error: IErrorResponse) => {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
         onSuccess: () => {
             toast.success("Профиль обновлен");

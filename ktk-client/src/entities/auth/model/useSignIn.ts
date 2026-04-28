@@ -10,10 +10,7 @@ export const useSignIn = () => {
     const navigate = useNavigate();
 
     const signInMutation = useMutation({
-        mutationFn: ({ data, recaptcha }: { 
-            data: SignInDto; 
-            recaptcha: string 
-        }) => authApi.signIn(data, recaptcha),
+        mutationFn: ({ data, recaptcha }: { data: SignInDto; recaptcha: string }) => authApi.signIn(data, recaptcha),
         onSuccess() {
             queryClient.invalidateQueries({ queryKey: ["users"] });
             queryClient.invalidateQueries({ queryKey: ["posts"] });
@@ -21,7 +18,7 @@ export const useSignIn = () => {
             navigate("/");
         },
         onError: (error: IErrorResponse) => {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
     });
 

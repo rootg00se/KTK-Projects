@@ -63,4 +63,12 @@ export type UpdateProjectDto = {
     title: string;
     projectId: string;
     projectLink: string;
-}
+};
+
+export type CreateProjectDto = {
+    title: string;
+    tags: string[];
+    content: string;
+    members: string[];
+    projectLink?: string;
+};

@@ -9,7 +9,7 @@ export const useDeleteParticipant = () => {
         mutationKey: [projectsApi.baseKey, "participants", "delete"],
         mutationFn: projectsApi.removeParticipant,
         onError: (error: IErrorResponse) => {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
         onSuccess: () => {
             toast.success("Участник удален");

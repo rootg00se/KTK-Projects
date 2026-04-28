@@ -11,3 +11,4 @@ export { useDeleteProject } from "./model/useDeleteProject";
 export { useUpdateContent } from "./model/useUpdateContent";
 export { useUpdateStatus } from "./model/useUpdateStatus";
 export { useUpdateProject } from "./model/useUpdateProject";
+export { useCreateProject } from "./model/useCreateProject";

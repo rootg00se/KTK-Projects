@@ -16,6 +16,9 @@ export const QuestionsList: React.FC = () => {
                 <div className="rounded-md bg-white mb-7">
                     {userQuestionsData!.map((question, questionIndex) => (
                         <QuestionItem
+                            userId={question.user_id}
+                            nickname={question.users.nickname}
+                            projectId={question.project_id}
                             avatar={question.users.avatar_url}
                             displayName={question.users.display_name || question.users.nickname}
                             text={question.text}

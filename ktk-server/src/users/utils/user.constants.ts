@@ -3,7 +3,7 @@ export const USER_INCLUDE = {
     accounts: { omit: { access_token: true, refresh_token: true } },
     _count: {
         select: {
-            users_friends_users_friends_friend_idTousers: true,
+            users_friends_users_friends_user_idTousers: true,
             projects: true,
         },
     },

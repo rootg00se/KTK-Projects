@@ -9,7 +9,7 @@ export const SidebarFooter: React.FC = () => {
                 <a href="https://github.com/rootg00se">
                     <FaGithub size={20} className="opacity-80" />
                 </a>
-                <a href="https://t.me/rootg00se">
+                <a href="https://t.me/deg00se">
                     <FaTelegram size={20} className="opacity-80" />
                 </a>
             </div>

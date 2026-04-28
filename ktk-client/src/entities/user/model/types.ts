@@ -43,3 +43,14 @@ export interface IUserResponse {
     projectsCount: number;
     friendCount: number;
 }
+
+export interface IPaginationUsersResponse {
+    data: IUserResponse[];
+    meta: {
+        total: number;
+        page: number;
+        limit: number;
+        totalPages: number;
+        hasNextPage: boolean;
+    };
+}

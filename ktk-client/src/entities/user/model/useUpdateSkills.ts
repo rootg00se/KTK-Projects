@@ -9,7 +9,7 @@ export const useUpdateSkills = () => {
         mutationKey: [userApi.baseKey, "skills"],
         mutationFn: userApi.updateSkills,
         onError: (error: IErrorResponse) => {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
         onSuccess: () => {
             toast.success("Скилы обновлены");

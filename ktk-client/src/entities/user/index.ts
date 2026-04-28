@@ -10,3 +10,4 @@ export { useUpdateSkills } from "./model/useUpdateSkills";
 export { useUpdateUser } from "./model/useUpdateUser";
 export { useUpdateProfile } from "./model/useUpdateProfile";
 export { useFriends } from "./model/useFriends";
+export { useUsers } from "./model/useUsers";

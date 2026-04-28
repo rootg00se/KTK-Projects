@@ -79,7 +79,7 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
                             onClick={() => setActiveReplyId?.(activeReplyId === questionId ? null : questionId)}
                             variant={"link"}
                         >
-                            Ответить
+                            {(activeReplyId !== null && activeReplyId === questionId) ? "Отмена" : "Ответить"}
                         </Button>
                         {canEdit && (
                             <Button onClick={() => setEditMode((editing) => !editing)} variant={"link"}>

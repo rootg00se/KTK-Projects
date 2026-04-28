@@ -13,7 +13,7 @@ export const useNewPassword = () => {
             navigate("/sign-in");
         },
         onError: (error: IErrorResponse) => {
-            toast.error(error.response.data.message);
+            toast.error(error.response.data.message[0] ?? error.response.data.message);
         },
     });
 

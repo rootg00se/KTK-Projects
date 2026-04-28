@@ -33,6 +33,6 @@ export type UserMapper = {
     }[];
     _count: {
         projects: number;
-        users_friends_users_friends_friend_idTousers: number;
+        users_friends_users_friends_user_idTousers: number;
     };
 };

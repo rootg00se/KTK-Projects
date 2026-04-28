@@ -81,29 +81,30 @@ export const UpdateParticipantsPopover: React.FC = () => {
                         )}
                     </div>
                 </PopoverHeader>
-                <div className="flex flex-wrap items-center gap-3"></div>
-                <div className="mt-3 mb-2">
-                    <p className="mb-3">Убрать участников</p>
-                    <div className="flex flex-wrap gap-3">
-                        {participantsData?.map((participant) => (
-                            <div
-                                key={participant.user_id}
-                                className="max-w-8 relative group cursor-pointer"
-                                onClick={() => handleRemoveParticipant(participant.user_id)}
-                            >
-                                <Avatar className="w-10 h-10">
-                                    <AvatarImage src={participant.avatar_url || ""} />
-                                    <AvatarFallback className="text-lg bg-[#dadada]">
-                                        {participant.nickname.slice(0, 2)}
-                                    </AvatarFallback>
-                                </Avatar>
-                                <div className="absolute hidden w-10 h-10 rounded-full group-hover:flex bg-[#00000093] top-0 left-0 items-center justify-center">
-                                    <X color="white" />
+                {participantsData && (
+                    <div className="mt-3 mb-2">
+                        <p className="mb-3">Убрать участников</p>
+                        <div className="flex flex-wrap gap-3">
+                            {participantsData?.map((participant) => (
+                                <div
+                                    key={participant.user_id}
+                                    className="max-w-8 relative group cursor-pointer"
+                                    onClick={() => handleRemoveParticipant(participant.user_id)}
+                                >
+                                    <Avatar className="w-10 h-10">
+                                        <AvatarImage src={participant.avatar_url || ""} />
+                                        <AvatarFallback className="text-lg bg-[#dadada]">
+                                            {participant.nickname.slice(0, 2)}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div className="absolute hidden w-10 h-10 rounded-full group-hover:flex bg-[#00000093] top-0 left-0 items-center justify-center">
+                                        <X color="white" />
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
                     </div>
-                </div>
+                )}
                 <PopoverClose asChild>
                     <Button variant={"outline"}>Готово</Button>
                 </PopoverClose>
