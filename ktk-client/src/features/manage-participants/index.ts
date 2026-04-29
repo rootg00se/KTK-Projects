@@ -1,0 +1,1 @@
+export { ManageParticipants } from "./ui/manage-participants.ui";

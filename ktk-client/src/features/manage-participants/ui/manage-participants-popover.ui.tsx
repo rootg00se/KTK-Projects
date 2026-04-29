@@ -11,46 +11,21 @@ import {
     PopoverTrigger,
 } from "@/shared/components/ui";
 import { Plus, X } from "lucide-react";
-import { useAddParticipant, useDeleteParticipant, useParticipants } from "@/entities/project";
-import { toast } from "react-toastify";
-import { selectUserId, useFriends } from "@/entities/user";
-import { useParams } from "react-router-dom";
+import type { IUserResponse } from "@/entities/user/model/types";
 
-export const UpdateParticipantsPopover: React.FC = () => {
-    const userId = selectUserId();
-    const { id: projectId } = useParams();
+interface IManageParticipantsPopoverProps {
+    filteredFriends: IUserResponse[];
+    members: IUserResponse[];
+    onAdd: (user: IUserResponse) => void;
+    onRemove: (userId: string) => void;
+}
 
-    const { addParticipantFunc } = useAddParticipant();
-    const { deleteParticipantFunc } = useDeleteParticipant();
-
-    const handleRemoveParticipant = (userId: string) => {
-        if (!projectId) return toast.error("Что-то пошло не так");
-
-        deleteParticipantFunc({
-            projectId,
-            userId,
-        });
-    };
-
-    const handleAddParticipant = (userId: string) => {
-        if (!projectId) return toast.error("Что-то пошло не так");
-
-        addParticipantFunc({
-            projectId,
-            userId,
-        });
-    };
-
-    const { userFriendsData } = useFriends(userId);
-    const { participantsData } = useParticipants(projectId);
-
-    if (!participantsData) return null;
-    if (!userFriendsData) return null;
-
-    const filteredFriends = userFriendsData.filter(
-        (friend) => !participantsData?.find((participant) => participant.user_id === friend.user_id),
-    );
-
+export const ManageParticipantsPopover: React.FC<IManageParticipantsPopoverProps> = ({
+    filteredFriends,
+    onAdd,
+    onRemove,
+    members,
+}) => {
     return (
         <Popover>
             <PopoverTrigger>
@@ -68,7 +43,7 @@ export const UpdateParticipantsPopover: React.FC = () => {
                                 <Avatar
                                     className="w-10 h-10 relative cursor-pointer hover:opacity-90"
                                     key={friend.user_id}
-                                    onClick={() => handleAddParticipant(friend.user_id)}
+                                    onClick={() => onAdd(friend)}
                                 >
                                     <AvatarImage src={friend.avatar_url || ""} />
                                     <AvatarFallback className="text-lg bg-[#dadada]">
@@ -81,15 +56,15 @@ export const UpdateParticipantsPopover: React.FC = () => {
                         )}
                     </div>
                 </PopoverHeader>
-                {participantsData && (
+                {members && (
                     <div className="mt-3 mb-2">
                         <p className="mb-3">Убрать участников</p>
                         <div className="flex flex-wrap gap-3">
-                            {participantsData?.map((participant) => (
+                            {members?.map((participant) => (
                                 <div
                                     key={participant.user_id}
                                     className="max-w-8 relative group cursor-pointer"
-                                    onClick={() => handleRemoveParticipant(participant.user_id)}
+                                    onClick={() => onRemove(participant.user_id)}
                                 >
                                     <Avatar className="w-10 h-10">
                                         <AvatarImage src={participant.avatar_url || ""} />

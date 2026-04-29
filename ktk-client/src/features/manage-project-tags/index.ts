@@ -1,0 +1,1 @@
+export { ManageProjectTags } from "./ui/manage-project-tags.ui";

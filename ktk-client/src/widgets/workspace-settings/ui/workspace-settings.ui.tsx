@@ -1,40 +1,27 @@
-import { useProjectById, useUpdateContent } from "@/entities/project";
+import type { IUserResponse } from "@/entities/user/model/types";
 import { ChangeProjectStatus } from "@/features/change-project-status";
 import { DeleteProject } from "@/features/delete-project";
+import { ManageParticipants } from "@/features/manage-participants";
 import { MarkdownEditor } from "@/features/markdown-editor";
-import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkdown";
-import { UpdateParticipants } from "@/features/update-participants";
 import { UpdateProject } from "@/features/update-project";
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import React from "react";
+import { useWorkspaceSettings } from "../model/useWorkspaceSettings";
 
 export const WorkspaceSettings: React.FC = () => {
-    const [markdown, setMarkdown] = useState("");
+    const {
+        userData,
+        userFriendsData,
+        participantsData,
+        markdown,
+        setMarkdown,
+        handleSaveContent,
+        handleAddMember,
+        handleRemoveMember
+    } = useWorkspaceSettings();
 
-    const { id: projectId } = useParams();
-
-    const { updateContentFunc } = useUpdateContent();
-    const { projectData } = useProjectById(projectId);
-
-    const markdownContent = useFetchMarkdown(projectData?.content_url);
-
-    const handleUpdateContent = (text: string) => {
-        if (!projectId) return toast.error("Что-то пошло не так");
-
-        updateContentFunc({
-            content: text,
-            projectId,
-        });
-    };
-
-    useEffect(() => {
-        if (markdownContent) {
-            setMarkdown(markdownContent);
-        } else {
-            setMarkdown("");
-        }
-    }, [markdownContent]);
+    if (!userData) return null;
+    if (!userFriendsData) return null;
+    if (!participantsData) return null;
 
     return (
         <div className="py-10">
@@ -46,10 +33,16 @@ export const WorkspaceSettings: React.FC = () => {
                         <ChangeProjectStatus />
                     </div>
                 </div>
-                <UpdateParticipants />
+                <ManageParticipants
+                    members={participantsData as IUserResponse[]}
+                    currentUserId={userData.user_id}
+                    friends={userFriendsData}
+                    onAdd={handleAddMember}
+                    onRemove={handleRemoveMember}
+                />
             </div>
             <div className="max-w-250 mb-10">
-                <MarkdownEditor onSave={handleUpdateContent} value={markdown} onChange={setMarkdown} />
+                <MarkdownEditor onSave={handleSaveContent} value={markdown} onChange={setMarkdown} />
             </div>
             <div>
                 <p className="font-heading font-medium mb-3">Внимание, снизу опасная кнопка!</p>
