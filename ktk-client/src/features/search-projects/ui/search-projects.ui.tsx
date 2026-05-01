@@ -1,15 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/shared/components/ui";
 import { Search } from "lucide-react";
 import { useDebounce } from "react-use"
 import { useProjectsFilterStore } from "@/features/projects-filter";
 
 export const SearchProjectsInput: React.FC = () => {
-    const [value, setValue] = useState("");
+    const query = useProjectsFilterStore(store => store.query);
+    const [value, setValue] = useState(query);
+
     const setQuery = useProjectsFilterStore(store => store.setQuery);
 
+    useEffect(() => {
+        setValue(query);
+    }, [query]);
+        
     useDebounce(() => {
-        setQuery(value);
+        if (value.trim() !== query) {
+            setQuery(value.trim());
+        }
     }, 250, [value])
 
     return (

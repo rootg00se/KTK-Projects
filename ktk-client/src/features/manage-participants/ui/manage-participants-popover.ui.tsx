@@ -11,7 +11,7 @@ import {
     PopoverTrigger,
 } from "@/shared/components/ui";
 import { Plus, X } from "lucide-react";
-import type { IUserResponse } from "@/entities/user/model/types";
+import type { IUserResponse } from "@/entities/user";
 
 interface IManageParticipantsPopoverProps {
     filteredFriends: IUserResponse[];

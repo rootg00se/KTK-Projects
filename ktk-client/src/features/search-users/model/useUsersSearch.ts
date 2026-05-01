@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import * as qs from "qs";
 import { useSearchParams } from "react-router-dom";
 import { useUsersSearchStore } from "./users-search-store";
 
@@ -10,12 +9,23 @@ export const useUsersSearch = () => {
     const nicknameQuery = useUsersSearchStore((store) => store.nicknameQuery);
 
     useEffect(() => {
-        setSearchParams(qs.stringify({ query: nicknameQuery}), { replace: true });
-    }, [nicknameQuery]);
+        const queryFromUrl = searchParams.get("query");
+
+        if (queryFromUrl) {
+            setNicknameQuery(queryFromUrl);
+        }
+    }, []);
 
     useEffect(() => {
-        setNicknameQuery(searchParams.get("query") || "");
-    }, []);
+        if (nicknameQuery) {
+            setSearchParams({ query: nicknameQuery });
+        } else {
+            const newParams = new URLSearchParams(searchParams);
+
+            newParams.delete("query");
+            setSearchParams(newParams);
+        }
+    }, [nicknameQuery]);
 
     return {
         queryFilter: nicknameQuery,

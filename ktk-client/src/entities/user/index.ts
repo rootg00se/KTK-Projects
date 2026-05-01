@@ -5,7 +5,7 @@ export { useUpdateAvatar } from "./model/useUpdateAvatar";
 export { useDeleteAvatar } from "./model/useDeleteAvatar";
 export { useUpdateBanner } from "./model/useUpdateBanner";
 export { useDeleteBanner } from "./model/useDeleteBanner";
-export { type Skill } from "./model/types";
+export { type Skill, type IUserResponse } from "./model/types";
 export { useUpdateSkills } from "./model/useUpdateSkills";
 export { useUpdateUser } from "./model/useUpdateUser";
 export { useUpdateProfile } from "./model/useUpdateProfile";

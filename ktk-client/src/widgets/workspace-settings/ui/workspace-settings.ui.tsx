@@ -1,4 +1,3 @@
-import type { IUserResponse } from "@/entities/user/model/types";
 import { ChangeProjectStatus } from "@/features/change-project-status";
 import { DeleteProject } from "@/features/delete-project";
 import { ManageParticipants } from "@/features/manage-participants";
@@ -6,6 +5,7 @@ import { MarkdownEditor } from "@/features/markdown-editor";
 import { UpdateProject } from "@/features/update-project";
 import React from "react";
 import { useWorkspaceSettings } from "../model/useWorkspaceSettings";
+import type { IUserResponse } from "@/entities/user";
 
 export const WorkspaceSettings: React.FC = () => {
     const {

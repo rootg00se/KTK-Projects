@@ -14,7 +14,7 @@ import {
 import { ArrowUpRightIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ManageParticipantsPopover } from "./manage-participants-popover.ui";
-import type { IUserResponse } from "@/entities/user/model/types";
+import type { IUserResponse } from "@/entities/user";
 
 interface IManageParticipantsProps {
     members: IUserResponse[];

@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import * as qs from "qs";
+import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useProjectsFilterStore } from "./projects-filter.store";
 
@@ -12,19 +11,39 @@ export const useProjectsFilter = () => {
     const tags = useProjectsFilterStore((store) => store.tags);
     const query = useProjectsFilterStore((store) => store.query);
 
-    const queryFilterObject = {
-        tags,
-        query: query || undefined,
-    };
+    const isFirstLoad = useRef(true);
 
     useEffect(() => {
-        setSearchParams(qs.stringify(queryFilterObject, { arrayFormat: "comma" }), { replace: true });
-    }, [tags, query]);
+        const tagsFromUrl = searchParams.get("tags");
+        const queryFromUrl = searchParams.get("query");
 
-    useEffect(() => {
-        setTags(searchParams.get("tags")?.split(",") || []);
-        setQuery(searchParams.get("query") || "");
+        if (tagsFromUrl) {
+            const tagsArray = tagsFromUrl.split(",").filter(Boolean);
+            setTags(tagsArray);
+        }
+
+        if (queryFromUrl) {
+            setQuery(queryFromUrl);
+        }
+
+        isFirstLoad.current = false;
     }, []);
+
+    useEffect(() => {
+        if (isFirstLoad.current) return;
+
+        const params: Record<string, string> = {};
+
+        if (tags && tags.length > 0) {
+            params.tags = tags.join(",");
+        }
+
+        if (query && query.trim() !== "") {
+            params.query = query;
+        }
+
+        setSearchParams(params, { replace: true });
+    }, [tags, query, setSearchParams]);
 
     return {
         tagsFilter: tags.join(","),

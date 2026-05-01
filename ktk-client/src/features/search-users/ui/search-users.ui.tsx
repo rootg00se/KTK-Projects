@@ -1,15 +1,23 @@
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/shared/components/ui";
 import { Search } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebounce } from "react-use";
 import { useUsersSearchStore } from "../model/users-search-store";
 
 export const SearchUsersInput: React.FC = () => {
-    const [value, setValue] = useState("");
+    const nicknameQuery = useUsersSearchStore(store => store.nicknameQuery);
+    const [value, setValue] = useState(nicknameQuery);
+
     const setQuery = useUsersSearchStore(store => store.setNicknameQuery);
+
+    useEffect(() => {
+        setValue(nicknameQuery);
+    }, [nicknameQuery]);
     
     useDebounce(() => {
-        setQuery(value);
+        if (value.trim() !== nicknameQuery) {
+            setQuery(value.trim());
+        }
     }, 250, [value])
         
     return (

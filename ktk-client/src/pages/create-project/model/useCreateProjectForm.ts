@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useCreateProject } from "@/entities/project";
-import type { IUserResponse } from "@/entities/user/model/types";
+import type { IUserResponse } from "@/entities/user";
 
 export const useCreateProjectForm = () => {
     const [markdown, setMarkdown] = useState("### Начните расписывать ваш проект");
