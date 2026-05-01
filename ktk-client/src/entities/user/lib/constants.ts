@@ -8,4 +8,5 @@ export const USER_ENDPOINTS = {
     BANNER: `${USER_ENDPOINT}/me/banner`,
     SKILLS: `${USER_ENDPOINT}/me/skills`,
     PROFILE: `${USER_ENDPOINT}/me/profile`,
+    FRIENDS: `${USER_ENDPOINT}/me/friends`,
 };

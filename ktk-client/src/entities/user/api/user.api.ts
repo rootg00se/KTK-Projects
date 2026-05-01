@@ -37,4 +37,10 @@ export const userApi = {
     getUsers: async ({ page, nickname }: { page: number; nickname: string }) => {
         return await $api.get<IPaginationUsersResponse>(`${USER_ENDPOINT}?limit=20&page=${page}&nickname=${nickname}`);
     },
+    addFriend: async ({ userId }: { userId: string }) => {
+        return await $api.post<IUserResponse>(`${USER_ENDPOINTS.FRIENDS}/${userId}`);
+    },
+    removeFriend: async ({ userId }: { userId: string }) => {
+        return await $api.delete<IUserResponse>(`${USER_ENDPOINTS.FRIENDS}/${userId}`);
+    }
 };

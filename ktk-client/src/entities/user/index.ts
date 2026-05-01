@@ -11,3 +11,5 @@ export { useUpdateUser } from "./model/useUpdateUser";
 export { useUpdateProfile } from "./model/useUpdateProfile";
 export { useFriends } from "./model/useFriends";
 export { useUsers } from "./model/useUsers";
+export { useAddFriend } from "./model/useAddFriend";
+export { useRemoveFriend } from "./model/useRemoveFriend";

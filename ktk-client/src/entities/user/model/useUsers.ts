@@ -10,6 +10,7 @@ export const useUsers = (nickname: string) => {
         getNextPageParam: (lastPage) => {
             return lastPage.data.meta.hasNextPage ? lastPage.data.meta.page + 1 : undefined;
         },
+        enabled: nickname !== ""
     });
 
     const usersData = useMemo(() => data?.pages.flatMap((page) => page.data.data) ?? [], [data]);
