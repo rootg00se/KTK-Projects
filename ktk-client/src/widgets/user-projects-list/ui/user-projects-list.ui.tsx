@@ -1,9 +1,11 @@
 import { useUserProjects } from "@/entities/project";
 import React from "react";
 import { ProjectItem } from "../../../entities/project/ui/project-item.ui";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { EmtpyProjects } from "./empty-projects.ui";
 import { selectUserId } from "@/entities/user";
+import { CreateProject } from "./create-project.ui";
+import { Button } from "@/shared/components/ui";
 
 export const UserProjectsList: React.FC = () => {
     const { id } = useParams();
@@ -21,6 +23,7 @@ export const UserProjectsList: React.FC = () => {
     return (
         <div className="mt-2">
             <div className="di">
+                {id === userId && <CreateProject />}
                 <div className="rounded-md px-5 bg-white mb-7">
                     {userProjectsData!.map((project, projectIndex) => (
                         <ProjectItem
@@ -35,6 +38,13 @@ export const UserProjectsList: React.FC = () => {
                             displayName={project.creator.display_name || project.creator.nickname}
                             className={projectIndex === userProjectsData!.length - 1 ? "border-none" : ""}
                             likes={project.likes}
+                            renderAction={
+                                <Link to={`/workspace/${project.project_id}?tab=general`}>
+                                    <Button variant="outline" size="sm" className="text-[12px] h-8">
+                                        Перейти в рабочее пространство
+                                    </Button>
+                                </Link>
+                            }
                         />
                     ))}
                 </div>

@@ -15,7 +15,7 @@ export const ProjectQuestionsList: React.FC = () => {
         <ProjectQuestion
             key={question.question_id}
             avatarUrl={question.is_deleted ? null : question.users?.avatar_url || null}
-            displayName={question.is_deleted ? "Удаленный пользователь" : question.users?.display_name || null}
+            displayName={question.is_deleted ? "Удаленное сообщение" : question.users?.display_name || null}
             nickname={question.is_deleted ? "deleted" : question.users?.nickname || ""}
             text={question.is_deleted ? "Сообщение удалено" : question.text}
             isDeleted={question.is_deleted}

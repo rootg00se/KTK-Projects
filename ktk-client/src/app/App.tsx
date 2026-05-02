@@ -28,15 +28,21 @@ const App: React.FC = () => {
                 <Route element={<AuthProtectedRoutes />}>
                     <Route path="/confirm" element={<ConfirmPage />} />
                 </Route>
-                <Route path="/workspace/:id" element={<ProjectWorkspace />} />
+                <Route element={<AuthProtectedRoutes />}>
+                    <Route path="/workspace/:id" element={<ProjectWorkspace />} />
+                </Route>
                 <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<HomePage />} />
+                    <Route element={<AuthProtectedRoutes />}>
+                        <Route path="/project/create" element={<CreateProjectPage />} />
+                    </Route>
                     <Route path="/project/:id" element={<ProjectPage />} />
-                    <Route path="/project/create" element={<CreateProjectPage />} />
                     <Route path="/profile/:id" element={<ProfilePage />} />
                 </Route>
                 <Route path="/" element={<AppLayout searchInput={<SearchUsersInput />} />}>
-                    <Route path="/profile/:id/friends" element={<FriendsPage />} />
+                    <Route element={<AuthProtectedRoutes />}>
+                        <Route path="/profile/:id/friends" element={<FriendsPage />} />
+                    </Route>
                 </Route>
                 <Route path="/" element={<AuthLayout />}>
                     <Route element={<GuestProtectedRoutes />}>
