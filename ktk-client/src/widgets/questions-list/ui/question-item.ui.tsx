@@ -1,5 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
 import { cn } from "@/shared/lib/utils";
+import { UserRound } from "lucide-react";
 import moment from "moment";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -13,6 +14,7 @@ interface IQuestionProps {
     projectId: string;
     userId: string;
     nickname: string;
+    isDeleted?: boolean;
 }
 
 export const QuestionItem: React.FC<IQuestionProps> = ({
@@ -23,14 +25,17 @@ export const QuestionItem: React.FC<IQuestionProps> = ({
     displayName,
     projectId,
     userId,
-    nickname
+    nickname,
+    isDeleted,
 }) => {
     return (
-        <div className={cn("border-b p-5", className)}>
+        <div className={cn("border-b p-5", isDeleted && "bg-gray-50/50", className)}>
             <div className="flex items-center gap-3 mb-5">
                 <Avatar className="w-11 h-11">
                     <AvatarImage src={avatar || ""} />
-                    <AvatarFallback className="text-sm bg-[#dadada]">{displayName.slice(0, 2)}</AvatarFallback>
+                    <AvatarFallback className="text-sm bg-[#dadada]">
+                        {isDeleted ? <UserRound /> : displayName.slice(0, 2)}
+                    </AvatarFallback>
                 </Avatar>
                 <div className="w-full">
                     <div className="flex justify-between gap-5 mb-1">
@@ -44,7 +49,13 @@ export const QuestionItem: React.FC<IQuestionProps> = ({
                     </div>
                 </div>
             </div>
-            <Link to={`/project/${projectId}`} className="mb-1 text-[16px] hover:underline inline-block max-w-140">
+            <Link
+                to={`/project/${projectId}`}
+                className={cn(
+                    "mb-1 text-[16px] inline-block max-w-140 transition-all",
+                    isDeleted ? "text-muted-foreground italic" : "hover:underline",
+                )}
+            >
                 {text}
             </Link>
         </div>

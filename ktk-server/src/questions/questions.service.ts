@@ -68,8 +68,9 @@ export class QuestionsService {
     async deleteQuestion(questionId: string) {
         const existingQuestion = await this.checkIfQuestionExists(questionId);
 
-        const deletedQuestion = await this.prismaService.questions.delete({
+        const deletedQuestion = await this.prismaService.questions.update({
             where: { question_id: existingQuestion.question_id },
+            data: { deleted_at: new Date() },
             include: { ...QUESTIONS_INCLUDE },
         });
 
@@ -89,7 +90,7 @@ export class QuestionsService {
     }
 
     private async checkIfProjectExist(projectId: string) {
-        const existingProject = await this.prismaService.projects.findUnique({
+        const existingProject = await this.prismaService.projects.findFirst({
             where: { project_id: projectId },
         });
 
@@ -99,7 +100,7 @@ export class QuestionsService {
     }
 
     private async checkIfQuestionExists(questionId: string) {
-        const existingQuestions = await this.prismaService.questions.findUnique({
+        const existingQuestions = await this.prismaService.questions.findFirst({
             where: { question_id: questionId },
         });
 

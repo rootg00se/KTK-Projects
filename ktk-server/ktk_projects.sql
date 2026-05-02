@@ -181,6 +181,7 @@ CREATE TABLE questions (
     text TEXT NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    deleted_at: TIMESTAMP,
 
     CONSTRAINT fk_questions_parent_parent_id FOREIGN KEY (parent_id) REFERENCES questions(question_id) ON DELETE SET NULL,
     CONSTRAINT fk_questions_users_user_id FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE,

@@ -20,7 +20,18 @@ export const useDeleteQuestion = (projectId: string) => {
 
                     return {
                         ...questionData,
-                        data: questionData.data.filter((question) => question.question_id !== dto.questionId),
+                        data: questionData.data.map((question) => {
+                            if (question.question_id === dto.questionId) {
+                                return {
+                                    ...question,
+                                    is_deleted: true,
+                                    deleted_at: new Date(),
+                                    text: "Сообщение удалено",
+                                    users: null,
+                                };
+                            }
+                            return question;
+                        }),
                     };
                 },
             },

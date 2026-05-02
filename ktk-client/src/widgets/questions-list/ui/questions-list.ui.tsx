@@ -16,15 +16,20 @@ export const QuestionsList: React.FC = () => {
                 <div className="rounded-md bg-white mb-7">
                     {userQuestionsData!.map((question, questionIndex) => (
                         <QuestionItem
-                            userId={question.user_id}
-                            nickname={question.users.nickname}
-                            projectId={question.project_id}
-                            avatar={question.users.avatar_url}
-                            displayName={question.users.display_name || question.users.nickname}
-                            text={question.text}
-                            createdAt={question.created_at}
                             key={question.question_id}
-                            className={questionIndex === userQuestionsData!.length - 1 ? "border-none" : ""}
+                            userId={question.user_id || ""}
+                            nickname={question.users?.nickname || "deleted"}
+                            projectId={question.project_id}
+                            avatar={question.is_deleted ? null : question.users?.avatar_url || null}
+                            displayName={
+                                question.is_deleted
+                                    ? "Вопрос удален"
+                                    : question.users?.display_name || question.users?.nickname || ""
+                            }
+                            text={question.is_deleted ? "Этот вопрос был удален" : question.text}
+                            isDeleted={question.is_deleted}
+                            createdAt={question.created_at}
+                            className={questionIndex === userQuestionsData.length - 1 ? "border-none" : ""}
                         />
                     ))}
                 </div>

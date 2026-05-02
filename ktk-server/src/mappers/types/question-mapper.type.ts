@@ -8,6 +8,7 @@ export type QuestionMapper = {
     parent_id: string | null;
     user_id: string;
     text: string;
+    deleted_at: Date | null;
     users: {
         created_at: Date;
         updated_at: Date;

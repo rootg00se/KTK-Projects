@@ -21,6 +21,7 @@ interface IProjectQuestionProps {
     questionId: string;
     activeReplyId?: string | null;
     setActiveReplyId?: (id: string | null) => void;
+    isDeleted: boolean;
 }
 
 export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
@@ -36,6 +37,7 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
     questionId,
     activeReplyId,
     setActiveReplyId,
+    isDeleted,
 }) => {
     const [editMode, setEditMode] = useState(false);
     const [showReplies, setShowReplies] = useState(false);
@@ -44,7 +46,7 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
     const { deleteFunc } = useDeleteQuestion(projectId);
 
     const authUserId = selectUserId();
-    const canEdit = authUserId === userId;
+    const canEdit = !isDeleted && authUserId === userId;
 
     const handleDeleteQuestion = () => deleteFunc({ questionId });
     const handleReplies = () => setShowReplies((prev) => !prev);
@@ -56,6 +58,7 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
                 avatarUrl={avatarUrl}
                 nickname={nickname}
                 displayName={displayName}
+                isDeleted={isDeleted}
                 createdAt={createdAt}
             />
             {editMode ? (
@@ -66,7 +69,7 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
                     text={text}
                 />
             ) : (
-                <p className="mb-1">{text}</p>
+                <p className={cn("mb-1", isDeleted && "italic text-muted-foreground")}>{text}</p>
             )}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
@@ -79,7 +82,7 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
                             onClick={() => setActiveReplyId?.(activeReplyId === questionId ? null : questionId)}
                             variant={"link"}
                         >
-                            {(activeReplyId !== null && activeReplyId === questionId) ? "Отмена" : "Ответить"}
+                            {activeReplyId !== null && activeReplyId === questionId ? "Отмена" : "Ответить"}
                         </Button>
                         {canEdit && (
                             <Button onClick={() => setEditMode((editing) => !editing)} variant={"link"}>
@@ -88,19 +91,26 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
                         )}
                     </div>
                 </div>
-                {canEdit && <Trash2 onClick={handleDeleteQuestion} size={21} className="text-primary cursor-pointer" />}
+                {canEdit && !isDeleted && (
+                    <Trash2
+                        onClick={handleDeleteQuestion}
+                        size={21}
+                        className="text-primary cursor-pointer hover:text-destructive transition-colors"
+                    />
+                )}
             </div>
             {showReplies &&
                 repliesData?.map((reply) => (
                     <ProjectQuestion
                         key={reply.question_id}
-                        text={reply.text}
+                        text={reply.is_deleted ? "Сообщение удалено" : reply.text}
+                        isDeleted={reply.is_deleted}
                         createdAt={reply.created_at}
-                        avatarUrl={reply.users.avatar_url}
-                        displayName={reply.users.display_name}
-                        nickname={reply.users.nickname}
+                        avatarUrl={reply.is_deleted ? null : reply.users?.avatar_url || null}
+                        displayName={reply.is_deleted ? "Удаленный пользователь" : reply.users?.display_name || null}
+                        nickname={reply.is_deleted ? "deleted" : reply.users?.nickname || ""}
                         repliesCount={reply.repliesCount}
-                        userId={reply.user_id}
+                        userId={reply.user_id || ""}
                         projectId={reply.project_id}
                         className="border-0 pl-15 pt-6"
                         questionId={reply.question_id}

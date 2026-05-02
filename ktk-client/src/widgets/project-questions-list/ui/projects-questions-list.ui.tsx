@@ -14,14 +14,15 @@ export const ProjectQuestionsList: React.FC = () => {
     return projectQuestionsData.map((question, index, arr) => (
         <ProjectQuestion
             key={question.question_id}
-            text={question.text}
+            avatarUrl={question.is_deleted ? null : question.users?.avatar_url || null}
+            displayName={question.is_deleted ? "Удаленный пользователь" : question.users?.display_name || null}
+            nickname={question.is_deleted ? "deleted" : question.users?.nickname || ""}
+            text={question.is_deleted ? "Сообщение удалено" : question.text}
+            isDeleted={question.is_deleted}
             createdAt={question.created_at}
-            avatarUrl={question.users.avatar_url}
-            displayName={question.users.display_name}
-            nickname={question.users.nickname}
             className={`${index === arr.length - 1 && "border-none"}`}
             repliesCount={question.repliesCount}
-            userId={question.user_id}
+            userId={question.user_id || ""}
             projectId={question.project_id}
             activeReplyId={activeReplyId}
             setActiveReplyId={setActiveReplyId}

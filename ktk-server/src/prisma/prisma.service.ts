@@ -23,4 +23,21 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
     async onModuleDestroy() {
         await this.$disconnect();
     }
+
+    readonly extended = this.$extends({
+        query: {
+            questions: {
+                async findMany({ args, query }) {
+                    args.where = { ...args.where, deleted_at: null }
+
+                    return query(args);
+                },
+                async findFirst({ args, query }) {
+                    args.where = { ...args.where, deleted_at: null }
+                    
+                    return query(args);
+                }
+            }
+        }
+    });
 }

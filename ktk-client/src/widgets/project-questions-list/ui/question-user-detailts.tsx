@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { UserRound } from "lucide-react";
 import moment from "moment";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -9,6 +10,7 @@ interface IQuestionUserDetailsProps {
     nickname: string;
     createdAt: Date;
     userId: string;
+    isDeleted: boolean;
 }
 
 export const QuestionUserDetails: React.FC<IQuestionUserDetailsProps> = ({
@@ -17,13 +19,14 @@ export const QuestionUserDetails: React.FC<IQuestionUserDetailsProps> = ({
     nickname,
     userId,
     createdAt,
+    isDeleted
 }) => {
     return (
         <div className="flex items-center gap-3 mb-3">
             <Avatar className="w-11 h-11">
                 <AvatarImage src={avatarUrl || ""} />
                 <AvatarFallback className="text-sm bg-[#dadada]">
-                    {(displayName || nickname).slice(0, 2)}
+                    {isDeleted ? <UserRound /> : displayName?.slice(0, 2)}
                 </AvatarFallback>
             </Avatar>
             <div className="w-full">

@@ -10,6 +10,7 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "allowSyntheticDefaultImports": true,
+        "strictPropertyInitialization": false,
         "target": "ES2023",
         "sourceMap": true,
         "outDir": "./dist",
@@ -26,6 +27,7 @@
             "@/*": ["src/*"],
             "@prisma/generated": ["generated/prisma"],
             "@prisma/generated/*": ["generated/prisma/*"]
-        }
+        },
+        "types": ["node", "multer"],
     }
 }
