@@ -1,4 +1,4 @@
-import { useUpdateUser } from "@/entities/user";
+import { useUpdateUser } from "../model/useUpdateUser";
 import { Button, Input } from "@/shared/components/ui";
 import React, { useState } from "react";
 

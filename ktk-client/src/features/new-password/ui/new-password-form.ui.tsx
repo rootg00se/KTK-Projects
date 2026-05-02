@@ -1,4 +1,4 @@
-import { useNewPassword } from "@/entities/auth";
+import { useNewPassword } from "../model/useNewPassword";
 import { Button, Label } from "@/shared/components/ui";
 import { Input } from "@/shared/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";

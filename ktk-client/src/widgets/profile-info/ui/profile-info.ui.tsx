@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/shared/components/ui";
-import { selectUserId, useProfile, useUpdateProfile } from "@/entities/user";
+import { selectUserId, useProfile } from "@/entities/user";
+import { useUpdateProfile } from "@/features/update-profile";
 import { Link, useParams } from "react-router-dom";
 import { LogoutButton } from "@/features/logout-button";
 import { UpdateAvatar } from "@/features/update-avatar";

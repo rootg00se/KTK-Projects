@@ -1,10 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { 
-    useUpdateContent, useProjectById, useParticipants, 
-    useAddParticipant, useDeleteParticipant 
-} from "@/entities/project";
+import { useProjectById, useParticipants } from "@/entities/project";
+import { useAddParticipant, useDeleteParticipant, useUpdateContent } from "@/features/manage-participants";
 import { useUser, useFriends } from "@/entities/user";
 import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkdown";
 

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "react-toastify";
-import { useSignIn } from "@/entities/auth";
+import { useSignIn } from "../model/useSignIn";
 import ReCAPTCHA from "react-google-recaptcha";
 import { GOOGLE_RECAPTCHA_SITE_KEY } from "@/shared/config/constants";
 import { signInFormSchema, type SignInFields } from "../model/validation-schemas";

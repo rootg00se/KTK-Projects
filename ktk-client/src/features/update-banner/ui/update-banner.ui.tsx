@@ -1,4 +1,5 @@
-import { useDeleteBanner, useUpdateBanner } from "@/entities/user";
+import { useDeleteBanner } from "../model/useDeleteBanner";
+import { useUpdateBanner } from "../model/useUpdateBanner";
 import { File, Trash } from "lucide-react";
 import React, { useRef, type ChangeEvent } from "react";
 import defaultBanner from "/auth-background.jpg";

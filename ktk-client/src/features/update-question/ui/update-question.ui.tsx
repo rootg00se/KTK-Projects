@@ -1,4 +1,4 @@
-import { useUpdateQuestion } from "@/entities/question";
+import { useUpdateQuestion } from "../model/useUpdateQuestion";
 import { Button, Input } from "@/shared/components/ui";
 import React, { useState } from "react";
 

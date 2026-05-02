@@ -1,4 +1,6 @@
-import { selectUserId, useAddFriend, useRemoveFriend } from "@/entities/user";
+import { selectUserId } from "@/entities/user";
+import { useAddFriend } from "../model/useAddFriend";
+import { useRemoveFriend } from "../model/useRemoveFriend";
 import { Button } from "@/shared/components/ui";
 import React from "react";
 

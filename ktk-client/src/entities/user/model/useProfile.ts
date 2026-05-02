@@ -1,4 +1,4 @@
-import { userApi } from "@/entities/user/api/user.api";
+import { userApi } from "@/entities/user";
 import { useQuery } from "@tanstack/react-query"
 
 export const useProfile = (userId: string) => {

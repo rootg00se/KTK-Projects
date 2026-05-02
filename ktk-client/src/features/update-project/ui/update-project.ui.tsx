@@ -1,4 +1,5 @@
-import { useProjectById, useUpdateProject } from "@/entities/project";
+import { useProjectById } from "@/entities/project";
+import { useUpdateProject } from "../model/useUpdateProject";
 import { Button, Input, Label } from "@/shared/components/ui";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

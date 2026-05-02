@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Button, Input, Popover, PopoverContent, PopoverHeader, PopoverTrigger } from "@/shared/components/ui";
 import { PlusCircleIcon, X } from "lucide-react";
 import { useSkills } from "@/entities/skill";
-import { useUpdateSkills, type Skill } from "@/entities/user";
+import { type Skill } from "@/entities/user";
+import { useUpdateSkills } from "../model/useUpdateSkills";
 
 export const SkillListPopover: React.FC<{ userSkills: Skill[] }> = ({ userSkills }) => {
     const [query, setQuery] = useState("");

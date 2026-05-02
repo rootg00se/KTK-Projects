@@ -1,4 +1,4 @@
-import { useCreateQuestion } from "@/entities/question";
+import { useCreateQuestion } from "../model/useCreateQuestion";
 import { Button } from "@/shared/components/ui";
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";

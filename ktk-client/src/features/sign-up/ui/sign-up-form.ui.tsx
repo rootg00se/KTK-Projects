@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { useSignUp } from "@/entities/auth";
+import { useSignUp } from "../model/useSignUp";
 import ReCAPTCHA from "react-google-recaptcha";
 import { GOOGLE_RECAPTCHA_SITE_KEY } from "@/shared/config/constants";
 import { Button } from "@/shared/components/ui/button";

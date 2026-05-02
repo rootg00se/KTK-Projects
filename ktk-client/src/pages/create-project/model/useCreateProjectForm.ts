@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useCreateProject } from "@/entities/project";
+import { useCreateProject } from "@/features/create-project";
 import type { IUserResponse } from "@/entities/user";
 
 export const useCreateProjectForm = () => {

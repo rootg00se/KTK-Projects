@@ -1,4 +1,4 @@
-import { useLogout } from "@/entities/auth";
+import { useLogout } from "../model/useLogout";
 import { LogOut } from "lucide-react";
 import React from "react";
 

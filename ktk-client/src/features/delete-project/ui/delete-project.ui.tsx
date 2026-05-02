@@ -12,7 +12,7 @@ import {
     Button,
 } from "@/shared/components/ui";
 import { Trash } from "lucide-react";
-import { useDeleteProject } from "@/entities/project";
+import { useDeleteProject } from "../model/useDeleteProject";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 

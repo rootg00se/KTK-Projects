@@ -1,14 +1,7 @@
-export { useProjects } from "./model/useProjects"; 
+export { projectsApi } from "./api/project.api";
+export { useProjects } from "./model/useProjects";
 export { ProjectItem } from "./ui/project-item.ui";
-export { useToggleLike } from "./model/useToggleLike";
 export { useUserProjects } from "./model/useUserProjects";
 export { useProjectById } from "./model/useProjectById";
-export { type ProjectStatus } from "./model/types";
 export { useParticipants } from "./model/useParticipants";
-export { useAddParticipant } from "./model/useAddParticipant";
-export { useDeleteParticipant } from "./model/useDeleteParticipant";
-export { useDeleteProject } from "./model/useDeleteProject";
-export { useUpdateContent } from "./model/useUpdateContent";
-export { useUpdateStatus } from "./model/useUpdateStatus";
-export { useUpdateProject } from "./model/useUpdateProject";
-export { useCreateProject } from "./model/useCreateProject";
+export type { ProjectStatus, IProjectResponse } from "./model/types";

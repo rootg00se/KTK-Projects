@@ -1,4 +1,4 @@
-import { useToggleLike } from "@/entities/project";
+import { useToggleLike } from "../model/useToggleLike";
 import { Heart } from "lucide-react";
 import React from "react";
 
