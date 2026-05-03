@@ -16,7 +16,7 @@ export const WorkspaceSettings: React.FC = () => {
         setMarkdown,
         handleSaveContent,
         handleAddMember,
-        handleRemoveMember
+        handleRemoveMember,
     } = useWorkspaceSettings();
 
     if (!userData) return null;
@@ -24,29 +24,31 @@ export const WorkspaceSettings: React.FC = () => {
     if (!participantsData) return null;
 
     return (
-        <div className="py-10">
-            <div className="flex justify-between flex-row-reverse max-w-250">
-                <div className="w-full max-w-100 mb-10 flex flex-col">
-                    <UpdateProject />
-                    <div className="flex gap-3 items-center mt-auto">
-                        <p className="text-[16px] font-heading">Статус проекта :</p>
-                        <ChangeProjectStatus />
+        <div className="_container">
+            <div className="py-10">
+                <div className="flex justify-between flex-row-reverse max-w-250">
+                    <div className="w-full max-w-100 mb-10 flex flex-col">
+                        <UpdateProject />
+                        <div className="flex gap-3 items-center mt-auto">
+                            <p className="text-[16px] font-heading">Статус проекта :</p>
+                            <ChangeProjectStatus />
+                        </div>
                     </div>
+                    <ManageParticipants
+                        members={participantsData as IUserResponse[]}
+                        currentUserId={userData.user_id}
+                        friends={userFriendsData}
+                        onAdd={handleAddMember}
+                        onRemove={handleRemoveMember}
+                    />
                 </div>
-                <ManageParticipants
-                    members={participantsData as IUserResponse[]}
-                    currentUserId={userData.user_id}
-                    friends={userFriendsData}
-                    onAdd={handleAddMember}
-                    onRemove={handleRemoveMember}
-                />
-            </div>
-            <div className="max-w-250 mb-10">
-                <MarkdownEditor onSave={handleSaveContent} value={markdown} onChange={setMarkdown} />
-            </div>
-            <div>
-                <p className="font-heading font-medium mb-3">Внимание, снизу опасная кнопка!</p>
-                <DeleteProject />
+                <div className="max-w-250 mb-10">
+                    <MarkdownEditor onSave={handleSaveContent} value={markdown} onChange={setMarkdown} />
+                </div>
+                <div>
+                    <p className="font-heading font-medium mb-3">Внимание, снизу опасная кнопка!</p>
+                    <DeleteProject />
+                </div>
             </div>
         </div>
     );

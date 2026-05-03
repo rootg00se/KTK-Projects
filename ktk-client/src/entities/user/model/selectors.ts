@@ -1,17 +1,21 @@
 import { useUser } from "./useUser";
 
-export const isAuthenticated = (): boolean => {
+export const isAuthenticated = () => {
     const { userData, userIsPending } = useUser();
-    if (userIsPending) return false;
 
-    return !!userData;
+    return {
+        isUserAuthenticated: !!userData,
+        userIsPending
+    };
 };
 
-export const isActivated = (): boolean => {
+export const isActivated = () => {
     const { userData, userIsPending } = useUser();
-    if (userIsPending) return false;
 
-    return !!userData?.is_verified;
+    return {
+        isUserActivated: !!userData?.is_verified,
+        userIsPending
+    };
 };
 
 export const selectUserId = () => {

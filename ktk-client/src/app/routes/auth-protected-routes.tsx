@@ -5,11 +5,13 @@ export const AuthProtectedRoutes: React.FC = () => {
     const isUserActivated = isActivated();
     const isAuth = isAuthenticated();
 
-    if (!isAuth) {
+    if (isUserActivated.userIsPending || isAuth.userIsPending) return null;
+
+    if (!isAuth.isUserAuthenticated) {
         return <Navigate to="/sign-up" replace />;
     }
 
-    if (!isUserActivated) {
+    if (!isUserActivated.isUserActivated) {
         return <Navigate to="/verify" replace />;
     }
 

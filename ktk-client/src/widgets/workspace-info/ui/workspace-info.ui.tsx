@@ -35,62 +35,64 @@ export const WorkspaceInfo: React.FC = () => {
     if (!projectQuestionsData) return null;
 
     return (
-        <div className="mb-5 py-10 flex justify-between">
-            <div className="max-w-180">
-                <div className="flex justify-between">
-                    <div className="mb-2 flex gap-2">
-                        <h2 className="text-4xl font-semibold">{projectData.title}</h2>
-                        <p className="opacity-60 text-sm">{parseProjectStatus(projectData.status)}</p>
+        <div className="_container">
+            <div className="mb-5 py-10 flex justify-between">
+                <div className="max-w-180">
+                    <div className="flex justify-between">
+                        <div className="mb-2 flex gap-2">
+                            <h2 className="text-4xl font-semibold">{projectData.title}</h2>
+                            <p className="opacity-60 text-sm">{parseProjectStatus(projectData.status)}</p>
+                        </div>
+                        {projectData.project_link && (
+                            <a href={projectData.project_link} className="cursor-pointer hover:opacity-80 duration-300">
+                                <FaGithubSquare size={32} />
+                            </a>
+                        )}
                     </div>
-                    {projectData.project_link && (
-                        <a href={projectData.project_link} className="cursor-pointer hover:opacity-80 duration-300">
-                            <FaGithubSquare size={32} />
-                        </a>
-                    )}
-                </div>
-                <div className="flex items-center gap-2 ml-2 mb-5 ">
-                    <div className="flex">
+                    <div className="flex items-center gap-2 ml-2 mb-5 ">
+                        <div className="flex">
+                            {projectData.tags.map((tag) => (
+                                <div className="max-w-7 -ml-2" key={tag.name}>
+                                    <img src={tag.badge_url} className="w-full" alt="" />
+                                </div>
+                            ))}
+                        </div>
+                        <p className="text-[17px] capitalize">{projectData.tags[0].name}</p>
+                    </div>
+                    <MarkdownReader content={markdown} />
+                    <div className="flex items-center gap-4 mb-3">
                         {projectData.tags.map((tag) => (
-                            <div className="max-w-7 -ml-2" key={tag.name}>
-                                <img src={tag.badge_url} className="w-full" alt="" />
-                            </div>
-                        ))}
-                    </div>
-                    <p className="text-[17px] capitalize">{projectData.tags[0].name}</p>
-                </div>
-                <MarkdownReader content={markdown} />
-                <div className="flex items-center gap-4 mb-3">
-                    {projectData.tags.map((tag) => (
-                        <ProjectDetailsTag key={tag.tag_id} tag={tag.name} />
-                    ))}
-                </div>
-            </div>
-            <div className="w-full max-w-100">
-                <div className="mb-10">
-                    <p className="text-xl mb-4">Участники проекта:</p>
-                    <div className="flex-col gap-2">
-                        {participantsData.map((participant) => (
-                            <ProjectParticipant
-                                key={participant.user_id}
-                                avatar_url={participant.avatar_url}
-                                nickname={participant.nickname}
-                                displayName={participant.display_name}
-                                userId={participant.user_id}
-                            />
+                            <ProjectDetailsTag key={tag.tag_id} tag={tag.name} />
                         ))}
                     </div>
                 </div>
-                <div className="mb-10">
-                    <p className="text-xl mb-4">Сводная информация:</p>
-                    <ProjectSummary
-                        participantsCount={participantsData.length}
-                        likes={projectData.likes}
-                        questionsCount={projectQuestionsData?.length}
-                    />
-                </div>
-                <div>
-                    <p className="text-xl mb-4">Вопросы к проекту:</p>
-                    <ProjectQuestionsList />
+                <div className="w-full max-w-100">
+                    <div className="mb-10">
+                        <p className="text-xl mb-4">Участники проекта:</p>
+                        <div className="flex-col gap-2">
+                            {participantsData.map((participant) => (
+                                <ProjectParticipant
+                                    key={participant.user_id}
+                                    avatar_url={participant.avatar_url}
+                                    nickname={participant.nickname}
+                                    displayName={participant.display_name}
+                                    userId={participant.user_id}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <div className="mb-10">
+                        <p className="text-xl mb-4">Сводная информация:</p>
+                        <ProjectSummary
+                            participantsCount={participantsData.length}
+                            likes={projectData.likes}
+                            questionsCount={projectQuestionsData?.length}
+                        />
+                    </div>
+                    <div>
+                        <p className="text-xl mb-4">Вопросы к проекту:</p>
+                        <ProjectQuestionsList />
+                    </div>
                 </div>
             </div>
         </div>
