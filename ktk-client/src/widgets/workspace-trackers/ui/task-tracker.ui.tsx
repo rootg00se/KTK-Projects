@@ -1,14 +1,21 @@
 import { Task } from "@/entities/task";
-import { IconDots } from "@tabler/icons-react";
+import { DeleteTracker } from "@/features/delete-tracker/ui/delete-tracker.ui";
+import { UpdateTracker } from "@/features/update-tracker";
 import { Plus } from "lucide-react";
 import React from "react";
 
-export const TaskTracker: React.FC = () => {
+interface ITaskTrackerProps {
+    name: string;
+    projectId: string;
+    trackerId: string;
+}
+
+export const TaskTracker: React.FC<ITaskTrackerProps> = ({ name, projectId, trackerId }) => {
     return (
-        <div className="min-w-85 border bg-[#fafafa] rounded-lg p-3.5 max-w-95">
-            <div className="flex items-center justify-between gap-3 mb-5">
-                <p className="font-heading text-[15px]">Тестовая группа задач</p>
-                <IconDots size={18} />
+        <div className="min-w-85 border bg-[#fafafa] rounded-lg p-3.5 max-w-85">
+            <div className="flex items-center justify-between gap-3 mb-3">
+                <UpdateTracker projectId={projectId} trackerId={trackerId} name={name} />
+                <DeleteTracker projectId={projectId} trackerId={trackerId} />
             </div>
             <div className="flex flex-col gap-2 mb-5">
                 <Task />

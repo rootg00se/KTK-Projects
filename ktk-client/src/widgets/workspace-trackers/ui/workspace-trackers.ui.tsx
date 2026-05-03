@@ -1,15 +1,23 @@
-import { Plus } from "lucide-react";
 import React from "react";
 import { TaskTracker } from "./task-tracker.ui";
+import { CreateTaskTracker } from "@/features/create-task-tracker";
+import { useParams } from "react-router-dom";
+import { useTrackers } from "@/entities/task-tracker";
 
 export const WorkspaceTrackers: React.FC = () => {
+    const { id: projectId } = useParams();
+    const { trackersData } = useTrackers(projectId);
+
     return (
         <div className="flex-1 px-20 py-5 flex gap-5 overflow-x-auto items-start">
-            <TaskTracker />
-            <button className="flex items-center justify-center w-80 shrink-0 border-2 border-dashed rounded-md min-h-37.5 hover:border-primary transition-all hover:text-primary text-[#0000007e] gap-2 font-medium shadow-sm">
-                <Plus size={20} />
-                <span>Новая колонка</span>
-            </button>
+            {trackersData?.map((tracker) => (
+                <TaskTracker 
+                    projectId={tracker.project_id} 
+                    trackerId={tracker.task_tracker_id} 
+                    name={tracker.name} 
+                />
+            ))}
+            <CreateTaskTracker />
         </div>
     );
 };

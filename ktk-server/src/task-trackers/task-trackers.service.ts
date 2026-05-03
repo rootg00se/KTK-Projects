@@ -22,7 +22,8 @@ export class TaskTrackersService {
         await this.checkIfProjectExists(projectId);
 
         const taskTrackers = await this.prismaService.task_trackers.findMany({
-            where: { project_id: projectId }
+            where: { project_id: projectId },
+            orderBy: { created_at: "asc" }
         });
 
         return taskTrackers;
