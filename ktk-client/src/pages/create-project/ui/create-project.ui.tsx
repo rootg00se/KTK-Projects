@@ -1,11 +1,11 @@
 import { useTags } from "@/entities/tags";
 import { useFriends, useUser } from "@/entities/user";
-import { ManageProjectTags } from "@/features/manage-project-tags";
-import { MarkdownEditor } from "@/features/markdown-editor";
+import { ManageProjectTags } from "@/features/project/manage-project-tags";
+import { MarkdownEditor } from "@/features/editor/markdown-editor";
 import { Button } from "@/shared/components/ui";
 import React from "react";
 import { ProjectInfoField } from "./project-info-field.ui";
-import { ManageParticipants } from "@/features/manage-participants";
+import { ManageParticipants } from "@/features/project/manage-participants";
 import { useCreateProjectForm } from "../model/useCreateProjectForm";
 
 export const CreateProjectPage: React.FC = () => {

@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import type { TagData } from "../model/types";
-import { LikeProject } from "@/features/like-project";
+import { LikeProject } from "@/features/project/like-project";
 
 interface IProjectItemProps {
     projectId: string;

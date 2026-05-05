@@ -1,4 +1,4 @@
-import { useProjectsFilterStore } from "@/features/projects-filter";
+import { useProjectsFilterStore } from "@/features/project/projects-filter";
 import { cn } from "@/shared/lib/utils";
 import React from "react";
 

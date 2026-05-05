@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MarkdownReader } from "@/features/markdown-reader";
+import { MarkdownReader } from "@/features/editor/markdown-reader";
 import { ProjectDetailsTag } from "@/widgets/project-details/ui/project-details-tag.ui";
 import { FaGithubSquare } from "react-icons/fa";
 import { ProjectQuestionsList } from "@/widgets/project-questions-list";
@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useProjectQuestions } from "@/entities/question";
 import { useParticipants, useProjectById } from "@/entities/project";
 import { parseProjectStatus } from "@/shared/utils/parse-project-status";
-import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkdown";
+import { useFetchMarkdown } from "@/features/editor/markdown-reader/model/useFetchMarkdown";
 import { ProjectSummary } from "./project-summary.ui";
 import { ProjectParticipant } from "./project-participant.ui";
 

@@ -1,4 +1,4 @@
-import { SendQuestion } from '@/features/send-question'
+import { SendQuestion } from '@/features/question/send-question'
 import { ProjectDetails } from '@/widgets/project-details'
 import { ProjectQuestionsList } from '@/widgets/project-questions-list'
 import React from 'react'

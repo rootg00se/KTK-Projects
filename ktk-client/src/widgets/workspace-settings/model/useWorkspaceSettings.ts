@@ -2,9 +2,9 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useProjectById, useParticipants } from "@/entities/project";
-import { useAddParticipant, useDeleteParticipant, useUpdateContent } from "@/features/manage-participants";
+import { useAddParticipant, useDeleteParticipant, useUpdateContent } from "@/features/project/manage-participants";
 import { useUser, useFriends } from "@/entities/user";
-import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkdown";
+import { useFetchMarkdown } from "@/features/editor/markdown-reader/model/useFetchMarkdown";
 
 export const useWorkspaceSettings = () => {
     const { id: projectId } = useParams<{ id: string }>();

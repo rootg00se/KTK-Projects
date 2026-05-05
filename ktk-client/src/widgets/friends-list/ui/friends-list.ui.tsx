@@ -1,5 +1,5 @@
 import type { IUserResponse } from "@/entities/user";
-import { ToggleFriendship } from "@/features/toggle-friendship";
+import { ToggleFriendship } from "@/features/user/toggle-friendship";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
 import React from "react";
 import { Link } from "react-router-dom";

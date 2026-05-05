@@ -1,9 +1,9 @@
 import { Task, useTasks } from "@/entities/task";
-import { ChangeTaskStatus } from "@/features/change-task-status";
-import { CreateTask } from "@/features/create-task";
-import { DeleteTracker } from "@/features/delete-tracker/ui/delete-tracker.ui";
-import { UpdateTask } from "@/features/update-task";
-import { UpdateTracker } from "@/features/update-tracker";
+import { ChangeTaskStatus } from "@/features/task/change-task-status";
+import { CreateTask } from "@/features/task/create-task";
+import { DeleteTracker } from "@/features/task-tracker/delete-tracker/ui/delete-tracker.ui";
+import { UpdateTask } from "@/features/task/update-task";
+import { UpdateTracker } from "@/features/task-tracker/update-tracker";
 import React from "react";
 
 interface ITaskTrackerProps {

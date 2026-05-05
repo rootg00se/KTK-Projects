@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import { MinusCircle, PlusCircle, Trash2 } from "lucide-react";
 import { selectUserId } from "@/entities/user";
 import { useReplies } from "@/entities/question";
-import { useDeleteQuestion } from "@/features/delete-question";
-import { SendQuestion } from "@/features/send-question";
+import { useDeleteQuestion } from "@/features/question/delete-question";
+import { SendQuestion } from "@/features/question/send-question";
 import { QuestionUserDetails } from "./question-user-detailts";
-import { UpdateQuestion } from "@/features/update-question";
+import { UpdateQuestion } from "@/features/question/update-question";
 
 interface IProjectQuestionProps {
     className?: string;

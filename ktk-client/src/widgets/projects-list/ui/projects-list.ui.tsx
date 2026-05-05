@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { ProjectItem, useProjects } from "@/entities/project";
 import { useInView } from "react-intersection-observer";
-import { useProjectsFilter } from "../../../features/projects-filter/model/useProjectsFilter";
+import { useProjectsFilter } from "../../../features/project/projects-filter/model/useProjectsFilter";
 import { chunkProjects } from "../lib/chunk-projects";
 
 export const ProjectsList: React.FC = () => {

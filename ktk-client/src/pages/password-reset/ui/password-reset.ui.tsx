@@ -1,4 +1,4 @@
-import { PasswordResetForm } from "@/features/password-reset";
+import { PasswordResetForm } from "@/features/auth/password-reset";
 import { AuthCard } from "@/widgets/auth-card";
 import React from "react";
 

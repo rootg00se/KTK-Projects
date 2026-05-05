@@ -16,7 +16,7 @@ import { ProfilePage } from "@/pages/profile";
 import { ProjectPage } from "@/pages/project";
 import { ProjectWorkspace } from "@/pages/project-workspace";
 import { FriendsPage } from "@/pages/friends";
-import { SearchUsersInput } from "@/features/search-users";
+import { SearchUsersInput } from "@/features/user/search-users";
 import { CreateProjectPage } from "@/pages/create-project";
 
 const App: React.FC = () => {

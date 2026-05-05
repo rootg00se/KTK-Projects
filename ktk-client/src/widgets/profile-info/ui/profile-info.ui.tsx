@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/shared/components/ui";
 import { selectUserId, useProfile } from "@/entities/user";
-import { useUpdateProfile } from "@/features/update-profile";
+import { useUpdateProfile } from "@/features/user/update-profile";
 import { Link, useParams } from "react-router-dom";
-import { LogoutButton } from "@/features/logout-button";
-import { UpdateAvatar } from "@/features/update-avatar";
-import { UpdateBanner } from "@/features/update-banner";
-import { MarkdownReader } from "@/features/markdown-reader";
-import { SkillList } from "@/features/skill-list";
-import { UpdateUser } from "@/features/update-user";
-import { MarkdownEditor } from "@/features/markdown-editor";
-import { useFetchMarkdown } from "@/features/markdown-reader/model/useFetchMarkdown";
+import { LogoutButton } from "@/features/auth/logout-button";
+import { UpdateAvatar } from "@/features/user/update-avatar";
+import { UpdateBanner } from "@/features/user/update-banner";
+import { MarkdownReader } from "@/features/editor/markdown-reader";
+import { SkillList } from "@/features/user/skill-list";
+import { UpdateUser } from "@/features/user/update-user";
+import { MarkdownEditor } from "@/features/editor/markdown-editor";
+import { useFetchMarkdown } from "@/features/editor/markdown-reader/model/useFetchMarkdown";
 import { UsersRound } from "lucide-react";
 
 export const ProfileInfo: React.FC = () => {

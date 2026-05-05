@@ -7,7 +7,7 @@ import {
     AvatarImage
 } from "@/shared/components/ui";
 import { isActivated, useUser } from "@/entities/user";
-import { ChangeWorkspace } from "@/features/change-workspace";
+import { ChangeWorkspace } from "@/features/project/change-workspace";
 
 export const WorkspaceHeader: React.FC = () => {
     const { userData } = useUser();

@@ -1,6 +1,6 @@
 import React from "react";
 import { TaskTracker } from "./task-tracker.ui";
-import { CreateTaskTracker } from "@/features/create-task-tracker";
+import { CreateTaskTracker } from "@/features/task-tracker/create-task-tracker";
 import { useParams } from "react-router-dom";
 import { useTrackers } from "@/entities/task-tracker";
 

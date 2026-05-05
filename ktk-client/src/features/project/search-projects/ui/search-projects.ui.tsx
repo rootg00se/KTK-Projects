@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/shared/components/ui";
 import { Search } from "lucide-react";
 import { useDebounce } from "react-use"
-import { useProjectsFilterStore } from "@/features/projects-filter";
+import { useProjectsFilterStore } from "@/features/project/projects-filter";
 
 export const SearchProjectsInput: React.FC = () => {
     const query = useProjectsFilterStore(store => store.query);

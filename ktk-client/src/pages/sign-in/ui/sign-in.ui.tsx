@@ -1,5 +1,5 @@
-import { OAuthButtons } from "@/features/oauth";
-import { SignInForm } from "@/features/sign-in";
+import { OAuthButtons } from "@/features/auth/oauth";
+import { SignInForm } from "@/features/auth/sign-in";
 import { AuthCard } from "@/widgets/auth-card";
 import React from "react";
 import { Link } from "react-router-dom";

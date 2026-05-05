@@ -1,5 +1,5 @@
 import { useTags } from "@/entities/tags";
-import { TagFilter } from "@/features/tag-filter";
+import { TagFilter } from "@/features/project/tag-filter";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import React, { useState } from "react";
 

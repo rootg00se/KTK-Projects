@@ -1,5 +1,5 @@
 import { useFriends, useUsers } from "@/entities/user";
-import { useUsersSearch } from "@/features/search-users/model/useUsersSearch";
+import { useUsersSearch } from "@/features/user/search-users/model/useUsersSearch";
 import { FriendsList } from "@/widgets/friends-list";
 import React, { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
