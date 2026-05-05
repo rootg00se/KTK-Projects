@@ -5,6 +5,7 @@ import { DeleteTracker } from "@/features/task-tracker/delete-tracker/ui/delete-
 import { UpdateTask } from "@/features/task/update-task";
 import { UpdateTracker } from "@/features/task-tracker/update-tracker";
 import React from "react";
+import { TaskActions } from "@/features/task/task-actions";
 
 interface ITaskTrackerProps {
     name: string;
@@ -26,20 +27,10 @@ export const TaskTracker: React.FC<ITaskTrackerProps> = ({ name, projectId, trac
                     <Task
                         key={task.task_id}
                         statusSlot={
-                            <ChangeTaskStatus 
-                                status={task.status} 
-                                taskId={task.task_id} 
-                                trackerId={trackerId} 
-                            />
+                            <ChangeTaskStatus status={task.status} taskId={task.task_id} trackerId={trackerId} />
                         }
-                        contentSlot={
-                            <UpdateTask 
-                                taskId={task.task_id} 
-                                trackerId={trackerId} 
-                                initialText={task.text} 
-                            />
-                        }
-                        menuSlot={<div></div>}
+                        contentSlot={<UpdateTask taskId={task.task_id} trackerId={trackerId} initialText={task.text} />}
+                        menuSlot={<TaskActions trackerId={trackerId} taskId={task.task_id} />}
                     />
                 ))}
             </div>

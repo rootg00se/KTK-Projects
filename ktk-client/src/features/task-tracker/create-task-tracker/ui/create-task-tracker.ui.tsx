@@ -41,6 +41,11 @@ export const CreateTaskTracker: React.FC = () => {
         scrollToMe();
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter") handleCreateTracker();
+        if (e.key === "Escape") setCreateMode(false);
+    }
+
     useEffect(() => {
         if (createMode) {
             scrollToMe();
@@ -58,7 +63,7 @@ export const CreateTaskTracker: React.FC = () => {
                         autoFocus={true}
                         className="mb-3"
                         placeholder="Введите имя трекера"
-                        onKeyDown={(e) => e.key === "Enter" && handleCreateTracker()}
+                        onKeyDown={handleKeyDown}
                     />
                     <div className="flex items-center gap-3">
                         <Button onClick={handleCreateTracker}>Создать</Button>
