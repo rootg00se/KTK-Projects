@@ -24,6 +24,7 @@ export class TasksService {
 
         const tasks = await this.prismaService.tasks.findMany({
             where: { task_tracker_id: taskTrackerId },
+            orderBy: { created_at: "asc" }
         });
 
         return tasks;

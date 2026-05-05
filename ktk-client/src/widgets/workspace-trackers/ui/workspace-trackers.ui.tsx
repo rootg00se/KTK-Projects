@@ -12,6 +12,7 @@ export const WorkspaceTrackers: React.FC = () => {
         <div className="flex-1 px-20 py-5 flex gap-5 overflow-x-auto items-start">
             {trackersData?.map((tracker) => (
                 <TaskTracker 
+                    key={tracker.task_tracker_id}
                     projectId={tracker.project_id} 
                     trackerId={tracker.task_tracker_id} 
                     name={tracker.name} 

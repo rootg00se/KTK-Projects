@@ -238,9 +238,9 @@ enum provider_type {
 }
 
 enum task_status {
-  marked
-  completed
+  postponed
   in_progress
+  completed
 }
 
 enum token_type {

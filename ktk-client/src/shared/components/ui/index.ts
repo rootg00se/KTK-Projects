@@ -5,9 +5,27 @@ export { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 export { InputGroup, InputGroupAddon, InputGroupInput } from "./input-group";
 export { Tabs, TabsContent, TabsTrigger, TabsList } from "./tabs";
 export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
-export { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger, PopoverClose } from "./popover";
+export {
+    Popover,
+    PopoverContent,
+    PopoverDescription,
+    PopoverHeader,
+    PopoverTitle,
+    PopoverTrigger,
+    PopoverClose,
+} from "./popover";
 export { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "./empty";
-export { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./dropdown-menu";
+export {
+    DropdownMenu,
+    DropdownMenuPortal,
+    DropdownMenuSeparator,
+    DropdownMenuSub,
+    DropdownMenuSubContent,
+    DropdownMenuSubTrigger,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "./dropdown-menu";
 export {
     AlertDialog,
     AlertDialogAction,
