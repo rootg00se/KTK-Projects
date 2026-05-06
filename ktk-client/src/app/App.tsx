@@ -18,6 +18,7 @@ import { ProjectWorkspace } from "@/pages/project-workspace";
 import { FriendsPage } from "@/pages/friends";
 import { SearchUsersInput } from "@/features/user/search-users";
 import { CreateProjectPage } from "@/pages/create-project";
+import { ChatsPage } from "@/pages/chats";
 
 const App: React.FC = () => {
     return (
@@ -30,6 +31,7 @@ const App: React.FC = () => {
                 </Route>
                 <Route element={<AuthProtectedRoutes />}>
                     <Route path="/workspace/:id" element={<ProjectWorkspace />} />
+                    <Route path="/chats" element={<ChatsPage />} />
                 </Route>
                 <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<HomePage />} />
