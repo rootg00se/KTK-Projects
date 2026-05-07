@@ -19,7 +19,8 @@ interface AuthSocket extends Socket {
 
 @WebSocketGateway({
     cors: {
-        origin: process.env.CLIENT_ORIGIN,
+        origin: "*",
+        path: "/socket.io",
         credentials: true,
     },
 })
