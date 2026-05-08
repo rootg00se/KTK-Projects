@@ -5,28 +5,25 @@ import testImage from "/default-banner.jpg";
 import { IconDots } from "@tabler/icons-react";
 import { Forward } from "lucide-react";
 import { useMessages } from "@/entities/message";
-import { useChatSocket } from "@/features/chat";
-import { selectUserId } from "@/entities/user";
+import { selectUserId, useUser } from "@/entities/user";
 import moment from "moment";
+import { SidebarNav } from "@/widgets/sidebar/ui/sidebar-nav.ui";
+import { Link } from "react-router-dom";
+import { LogoutButton } from "@/features/auth/logout-button";
+import { Chat, useChats } from "@/entities/chat";
+import { useChatSocket } from "@/features/chat/connect-to-chat";
 
-const Chat: React.FC<{ active?: boolean }> = ({ active = false }) => {
-    return (
-        <div className={cn("flex items-center gap-3 min-h-18.5 p-3 border-b", active && "bg-primary text-white!")}>
-            <Avatar className="w-12 h-12">
-                <AvatarImage src={testImage} />
-                <AvatarFallback className="text-sm bg-[#dadada]">DE</AvatarFallback>
-            </Avatar>
-            <div>
-                <div className="flex justify-between items-start mb-1">
-                    <p className="font-medium text-[14px]">DeG00se</p>
-                    <span className="text-[12px] font-heading opacity-50">4:35</span>
-                </div>
-                <p className="whitespace-nowrap max-w-75 truncate text-[14px] opacity-50">
-                    Я у дерева огромные яйца вижу это считается?
-                </p>
-            </div>
-        </div>
-    );
+const formatChatDate = (date: Date) => {
+    const messageDate = moment(date);
+    const now = moment();
+
+    if (messageDate.isSame(now, "day")) {
+        return "Сегодня";
+    } else if (messageDate.isSame(now.subtract(1, "day"), "day")) {
+        return "Вчера";
+    } else {
+        return messageDate.format("D MMMM YYYY");
+    }
 };
 
 const Message: React.FC<{ isMe?: boolean; text?: string; createdAt: Date }> = ({
@@ -60,6 +57,8 @@ export const ChatsPage: React.FC = () => {
 
     const { messagesData } = useMessages("a53fc0f9-91ec-41aa-a43a-6e02350fe325");
     const { sendMessage } = useChatSocket(userId!, "a53fc0f9-91ec-41aa-a43a-6e02350fe325");
+    const { userData } = useUser();
+    const { chatsData } = useChats();
 
     const onMessageSend = () => {
         if (!text.trim()) return;
@@ -68,16 +67,14 @@ export const ChatsPage: React.FC = () => {
         setText("");
     };
 
+    if (!userData) return null;
+
     return (
         <div className="flex h-screen overflow-hidden">
-            <div className="border-r">
-                <Chat active />
-                <Chat />
-                <Chat />
-                <Chat />
-                <Chat />
-                <Chat />
-                <Chat />
+            <div className="border-r overflow-y-auto">
+                {chatsData?.filter(chat => chat.type !== "group").map((chat) => (
+                    <Chat key={chat.chat_id} />
+                ))}
             </div>
             <div className="flex flex-col flex-1 max-w-280 border-r h-full">
                 <div className="p-3 min-h-18.5 flex items-center justify-between border-b">
@@ -89,36 +86,41 @@ export const ChatsPage: React.FC = () => {
                         <IconDots size={20} />
                     </div>
                 </div>
-                <div className="flex flex-1 flex-col gap-1 mt-3 px-3">
-                    {messagesData?.map((message) => (
-                        <Message
-                            key={message.message_id}
-                            createdAt={message.created_at}
-                            isMe={message.sender_id === userId}
-                            text={message.content}
-                        />
-                    ))}
-                    {/* <div className="text-center text-[13px] opacity-50 mb-4">
-                        <span className="px-2 py-1 bg-[#ebe8e8] rounded-xl inline-block">Май 5 - 2025</span>
-                    </div>
-                    <Message />
-                    <Message left text="lorem ipsum dolar lorem ipsum dolar nice pets nice" />
-                    <Message text="Okat" />
-                    <div className="text-center text-[13px] opacity-50 mb-4">
-                        <span className="px-2 py-1 bg-[#ebe8e8] rounded-xl inline-block">Вчера</span>
-                    </div>
-                    <Message
-                        text="lorem ipsum dolar lorem ipsum dolar nice pets nice lorem ipsum dolar lorem ipsum dolar nice pets nice lorem ipsum"
-                        left
-                    />
-                    <Message text="lorem ipsum dolar lorem ipsum dolar nice pets nice" left />
-                    <Message /> */}
+                <div className="flex flex-1 flex-col gap-1 mt-3 px-3 overflow-y-auto pb-5">
+                    {(() => {
+                        let lastDate = "";
+
+                        return messagesData?.map((message) => {
+                            const currentDate = moment(message.created_at).format("YYYY-MM-DD");
+                            const isNewDay = currentDate !== lastDate;
+
+                            lastDate = currentDate;
+
+                            return (
+                                <React.Fragment key={message.message_id}>
+                                    {isNewDay && (
+                                        <div className="text-center text-[13px] opacity-50 my-4 sticky top-0 z-10">
+                                            <span className="px-3 py-1 bg-[#ebe8e8] dark:bg-zinc-800 rounded-xl inline-block shadow-sm">
+                                                {formatChatDate(message.created_at)}
+                                            </span>
+                                        </div>
+                                    )}
+
+                                    <Message
+                                        createdAt={message.created_at}
+                                        isMe={message.sender_id === userId}
+                                        text={message.content}
+                                    />
+                                </React.Fragment>
+                            );
+                        });
+                    })()}
                 </div>
                 <div className="flex bg-white items-center justify-center border-t gap-2">
                     <Input
-                        value={text} // Привязываем стейт
-                        onChange={(e) => setText(e.target.value)} // Обновляем стейт
-                        onKeyDown={(e) => e.key === "Enter" && onMessageSend()} // Отправка по Enter
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                        onKeyDown={(e) => e.key === "Enter" && onMessageSend()}
                         autoFocus
                         className="py-6 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                         placeholder="Введите свое сообщение и нажмите enter"
@@ -131,7 +133,25 @@ export const ChatsPage: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div>Extra</div>
+            <div className="w-full max-w-100">
+                <div className="flex items-center gap-7 min-h-18.5 border-b justify-between w-full px-5">
+                    <Link to={`/profile/${userData.user_id}`} className="flex items-center gap-4">
+                        <Avatar className="w-10 h-10">
+                            <AvatarImage src={userData.avatar_url || ""} />
+                            <AvatarFallback className="text-sm bg-[#dadada]">
+                                {userData.nickname.slice(0, 2)}
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="text-[16px]">{userData.display_name || userData.nickname}</div>
+                    </Link>
+                    <Link to={`/chats`}>
+                        <LogoutButton />
+                    </Link>
+                </div>
+                <div className="p-5 pb-0 w-full border-b">
+                    <SidebarNav />
+                </div>
+            </div>
         </div>
     );
 };

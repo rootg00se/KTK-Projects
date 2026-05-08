@@ -13,8 +13,6 @@ export const useChatSocket = (userId: string, chatId?: string) => {
         setSocket(s);
 
         s.on("newMessage", (message: IMessageResponse) => {
-            console.log("Полученое");
-
             queryClient.setQueryData([messagesApi.baseKey, chatId], (oldData: unknown) => {
                 const messagesData = oldData as AxiosResponse<IMessageResponse[]> | undefined;
                 if (!messagesData) return oldData;
