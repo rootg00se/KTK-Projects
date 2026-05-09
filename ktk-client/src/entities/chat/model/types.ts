@@ -22,3 +22,13 @@ export interface IChatResponse {
     created_at: Date;
     update_at: Date;
 }
+
+export type ChatMessages = {
+    message_id: string;
+    sender_id: string;
+    chat_id: string;
+    content: string;
+    created_at: Date;
+    deleted_at?: Date;
+    updated_at: Date;
+};

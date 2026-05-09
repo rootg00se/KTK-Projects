@@ -31,7 +31,7 @@ const App: React.FC = () => {
                 </Route>
                 <Route element={<AuthProtectedRoutes />}>
                     <Route path="/workspace/:id" element={<ProjectWorkspace />} />
-                    <Route path="/chats" element={<ChatsPage />} />
+                    <Route path="/chats/:id?" element={<ChatsPage />} />
                 </Route>
                 <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<HomePage />} />

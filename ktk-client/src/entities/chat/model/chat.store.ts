@@ -1,0 +1,60 @@
+import { createSocket } from "@/shared/api/socket";
+import { Socket } from "socket.io-client";
+import { create } from "zustand";
+import { registerChatHandlers } from "./chat-handlerts";
+
+interface IChatStore {
+    socket: Socket | null;
+    isConnected: boolean;
+    initSocket: (userId: string) => void;
+    disconnect: () => void;
+    sendMessage: (chatId: string, content: string) => void;
+    joinChat: (chatId: string) => void;
+    leaveChat: (chatId: string) => void;
+}
+
+export const useChatStore = create<IChatStore>((set, get) => ({
+    socket: null,
+    isConnected: false,
+    initSocket: (userId) => {
+        if (get().socket?.connected) return;
+
+        const socket = createSocket(userId);
+
+        socket.on("connect", () => set({ isConnected: true }));
+        socket.on("disconnect", () => set({ isConnected: false }));
+
+        registerChatHandlers(socket);
+
+        set({ socket });
+    },
+    disconnect: () => {
+        const { socket } = get();
+
+        if (socket) {
+            socket.disconnect();
+            set({ socket: null, isConnected: false });
+        }
+    },
+    sendMessage: (chatId, content) => {
+        const { socket } = get();
+
+        if (socket && socket.connected) {
+            socket.emit("sendMessage", { chatId, content });
+        }
+    },
+    joinChat: (chatId) => {
+        const { socket } = get();
+
+        if (socket && socket.connected) {
+            socket.emit("joinChat", { chatId });
+        }
+    },
+    leaveChat: (chatId) => {
+        const { socket } = get();
+
+        if (socket && socket.connected) {
+            socket.emit("leaveChat", { chatId });
+        }
+    },
+}));
