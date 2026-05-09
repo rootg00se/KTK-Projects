@@ -12,7 +12,7 @@ export const ChatsPage: React.FC = () => {
     const userId = selectUserId();
 
     const { id: chatId } = useParams();
-    const { initSocket, disconnect, joinChat, leaveChat, isConnected } = useChatStore();
+    const { initSocket, disconnect, setActiveChat, joinChat, leaveChat, isConnected } = useChatStore();
 
     useEffect(() => {
         if (userId) {
@@ -25,6 +25,7 @@ export const ChatsPage: React.FC = () => {
     useEffect(() => {
         if (isConnected && chatId) {
             joinChat(chatId);
+            setActiveChat(chatId);
 
             return () => {
                 leaveChat(chatId);

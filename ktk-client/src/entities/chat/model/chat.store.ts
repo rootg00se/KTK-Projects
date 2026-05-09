@@ -5,17 +5,21 @@ import { registerChatHandlers } from "./chat-handlerts";
 
 interface IChatStore {
     socket: Socket | null;
+    activeChatId: string | null;
     isConnected: boolean;
     initSocket: (userId: string) => void;
     disconnect: () => void;
     sendMessage: (chatId: string, content: string) => void;
     joinChat: (chatId: string) => void;
     leaveChat: (chatId: string) => void;
+    setActiveChat: (chatId: string) => void;
 }
 
 export const useChatStore = create<IChatStore>((set, get) => ({
     socket: null,
+    activeChatId: null,
     isConnected: false,
+    setActiveChat: (chatId) => set({ activeChatId: chatId }),
     initSocket: (userId) => {
         if (get().socket?.connected) return;
 

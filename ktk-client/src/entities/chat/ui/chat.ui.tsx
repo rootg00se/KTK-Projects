@@ -2,10 +2,29 @@ import React from "react";
 import testImage from "/default-banner.jpg";
 import { cn } from "@/shared/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { useChatStore } from "../model/chat.store";
+import { useNavigate } from "react-router-dom";
 
-export const Chat: React.FC<{ active?: boolean }> = ({ active = false }) => {
+export const Chat: React.FC<{ chatId: string }> = ({ chatId }) => {
+    const navigate = useNavigate();
+
+    const setActiveChat = useChatStore((store) => store.setActiveChat);
+    const activeChatId = useChatStore((store) => store.activeChatId);
+
+    const handleChangeChat = () => {
+        setActiveChat(chatId);
+
+        navigate(`/chats/${chatId}`);
+    };
+
     return (
-        <div className={cn("flex items-center gap-3 min-h-18.5 p-3 border-b", active && "bg-primary text-white!")}>
+        <div
+            onClick={handleChangeChat}
+            className={cn(
+                "flex items-center gap-3 min-h-18.5 p-3 border-b cursor-pointer",
+                activeChatId === chatId && "bg-primary text-white!",
+            )}
+        >
             <Avatar className="w-12 h-12">
                 <AvatarImage src={testImage} />
                 <AvatarFallback className="text-sm bg-[#dadada]">DE</AvatarFallback>

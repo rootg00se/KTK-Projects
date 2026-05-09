@@ -12,7 +12,7 @@ export const UserChats: React.FC = () => {
             {chatsData
                 ?.filter((chat) => chat.type !== "group")
                 .map((chat) => (
-                    <Chat key={chat.chat_id} />
+                    <Chat key={chat.chat_id} chatId={chat.chat_id} />
                 ))}
         </div>
     );
