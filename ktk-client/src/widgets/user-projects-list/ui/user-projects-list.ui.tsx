@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import { EmtpyProjects } from "./empty-projects.ui";
 import { selectUserId } from "@/entities/user";
 import { CreateProject } from "./create-project.ui";
-import { Button } from "@/shared/components/ui";
+import { Button } from "@/shared/components";
 
 export const UserProjectsList: React.FC = () => {
     const { id } = useParams();

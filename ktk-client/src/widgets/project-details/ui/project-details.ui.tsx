@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Avatar, AvatarFallback, AvatarImage, Button } from "@/shared/components/ui";
+import { Avatar, AvatarFallback, AvatarImage, Button } from "@/shared/components";
 import moment from "moment";
 import "highlight.js/styles/github.css";
 import { useProjectById } from "@/entities/project";

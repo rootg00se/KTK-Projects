@@ -1,5 +1,6 @@
 import { PrismaService } from "@/prisma/prisma.service";
 import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
+import { MESSAGES_INCLIDE } from "./utils/messages.constants";
 
 @Injectable()
 export class MessagesService {
@@ -12,6 +13,7 @@ export class MessagesService {
                 chat_id: chatId,
                 content,
             },
+            include: { ...MESSAGES_INCLIDE },
         });
 
         return messages;
@@ -30,6 +32,7 @@ export class MessagesService {
                 content,
                 updated_at: new Date(),
             },
+            include: { ...MESSAGES_INCLIDE },
         });
 
         return updatedMessage;
@@ -42,11 +45,9 @@ export class MessagesService {
             throw new ForbiddenException("Not your message");
         }
 
-        const deletedMessage = await this.prismaService.messages.update({
+        const deletedMessage = await this.prismaService.messages.delete({
             where: { message_id: messageId },
-            data: {
-                deleted_at: new Date(),
-            },
+            include: { ...MESSAGES_INCLIDE },
         });
 
         return deletedMessage;

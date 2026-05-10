@@ -23,4 +23,11 @@ export type ChatMapper = {
             profile_data_key: string | null;
         };
     }[];
+    messages: {
+        content: string;
+        created_at: Date;
+        users: {
+            nickname: string;
+        };
+    }[];
 };

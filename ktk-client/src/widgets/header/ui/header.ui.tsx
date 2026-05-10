@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "/ktk-logo.png";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import { Link } from "react-router-dom";
 import { SearchProjectsInput } from "@/features/project/search-projects";
 import { isActivated, useUser } from "@/entities/user";

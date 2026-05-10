@@ -1,4 +1,4 @@
-import { Button, Input } from "@/shared/components/ui";
+import { Button, Input } from "@/shared/components";
 import { Plus, X } from "lucide-react";
 import { useRef, useState } from "react";
 import { useCreateTask } from "../model/useCreateTask";

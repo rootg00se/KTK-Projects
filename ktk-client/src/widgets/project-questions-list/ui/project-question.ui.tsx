@@ -1,5 +1,5 @@
 import { cn } from "@/shared/lib/utils";
-import { Button } from "@/shared/components/ui";
+import { Button } from "@/shared/components";
 import React, { useState } from "react";
 import { MinusCircle, PlusCircle, Trash2 } from "lucide-react";
 import { selectUserId } from "@/entities/user";

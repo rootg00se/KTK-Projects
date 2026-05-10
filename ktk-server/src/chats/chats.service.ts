@@ -1,7 +1,8 @@
 import { chatMapper } from "@/mappers/chat.mapper";
 import { PrismaService } from "@/prisma/prisma.service";
-import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { chat_type } from "@prisma/generated/enums";
+import { CHATS_INCLUDE } from "./utils/chats.constants";
 
 @Injectable()
 export class ChatsService {
@@ -10,10 +11,11 @@ export class ChatsService {
     async getUserChats(userId: string) {
         const chats = await this.prismaService.chats.findMany({
             where: { chat_members: { some: { user_id: userId } } },
-            include: { chat_members: { select: { users: { omit: { password_hash: true } } } } },
+            include: { ...CHATS_INCLUDE },
+            orderBy: { updated_at: "desc" },
         });
 
-        return chats.map(chat => chatMapper(chat));
+        return chats.map(chat => chatMapper(chat, userId));
     }
 
     async createPrivateChat(userId: string, targetUserId: string) {
@@ -24,10 +26,10 @@ export class ChatsService {
                     create: [{ user_id: userId }, { user_id: targetUserId }],
                 },
             },
-            include: { chat_members: { select: { users: { omit: { password_hash: true } } } } },
+            include: { ...CHATS_INCLUDE },
         });
 
-        return chatMapper(createdChat);
+        return chatMapper(createdChat, targetUserId);
     }
 
     async createProjectChat(members) {
@@ -45,7 +47,7 @@ export class ChatsService {
             include: { chat_members: { select: { users: { omit: { password_hash: true } } } } },
         });
 
-        return chatMapper(chat);
+        return chat;
     }
 
     async getChatMessages(chatId: string) {
@@ -54,6 +56,16 @@ export class ChatsService {
         const messages = await this.prismaService.messages.findMany({
             where: { chat_id: chatId },
             orderBy: { created_at: "asc" },
+            include: {
+                users: {
+                    select: {
+                        user_id: true,
+                        nickname: true,
+                        display_name: true,
+                        avatar_url: true,
+                    },
+                },
+            },
         });
 
         return messages;
@@ -82,7 +94,7 @@ export class ChatsService {
 
         if (!chat) throw new NotFoundException("Project chat was not found");
 
-        return chatMapper(chat);
+        return chat;
     }
 
     private async checkIfProjectExists(projectId: string) {

@@ -1,15 +1,17 @@
 import { selectUserId } from "@/entities/user";
 import { useAddFriend } from "../model/useAddFriend";
 import { useRemoveFriend } from "../model/useRemoveFriend";
-import { Button } from "@/shared/components/ui";
+import { Button } from "@/shared/components";
 import React from "react";
+import { cn } from "@/shared/lib/utils";
 
 interface IToggleFriendshipProps {
     targetUserId: string;
     isFriend: boolean;
+    className?: string;
 }
 
-export const ToggleFriendship: React.FC<IToggleFriendshipProps> = ({ targetUserId, isFriend }) => {
+export const ToggleFriendship: React.FC<IToggleFriendshipProps> = ({ targetUserId, isFriend, className }) => {
     const userId = selectUserId();
 
     const { addFriendFunc, isAddFriendPending: isAdding } = useAddFriend(userId);
@@ -26,10 +28,10 @@ export const ToggleFriendship: React.FC<IToggleFriendshipProps> = ({ targetUserI
     return (
         <Button
             variant={isFriend ? "outline" : "default"}
-            size="sm"
+            // size={size}
             onClick={handleAction}
             disabled={isAdding || isRemoving}
-            className="text-[12px]"
+            className={cn("text-[12px]", className)}
         >
             {isFriend ? "Убрать из друзей" : "Добавить в друзья"}
         </Button>

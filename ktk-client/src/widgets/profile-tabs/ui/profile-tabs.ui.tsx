@@ -1,5 +1,5 @@
 import { selectUserId } from "@/entities/user";
-import { TabsList, TabsTrigger } from "@/shared/components/ui";
+import { TabsList, TabsTrigger } from "@/shared/components";
 import React from "react";
 import { useParams } from "react-router-dom";
 

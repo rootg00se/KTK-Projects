@@ -1,5 +1,5 @@
 import { useNewPassword } from "../model/useNewPassword";
-import { Button, Label } from "@/shared/components/ui";
+import { Button, Label } from "@/shared/components";
 import { Input } from "@/shared/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";

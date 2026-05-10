@@ -4,7 +4,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { resetPasswordFormSchema, type ResetPasswordFields } from "../model/validation-schemas";
-import { Button, Input, Label } from "@/shared/components/ui";
+import { Button, Input, Label } from "@/shared/components";
 
 export const PasswordResetForm: React.FC = () => {
     const { resetPasswordFunc, isResetPasswordPenging } = useResetPassword();

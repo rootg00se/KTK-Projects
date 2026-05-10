@@ -7,7 +7,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { IconFolderCode } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 

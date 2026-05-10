@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useCreateTracker } from "../model/useCreateTracker";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Button, Input } from "@/shared/components/ui";
+import { Button, Input } from "@/shared/components";
 
 export const CreateTaskTracker: React.FC = () => {
     const { id: projectId } = useParams();

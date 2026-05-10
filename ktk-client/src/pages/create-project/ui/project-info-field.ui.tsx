@@ -1,4 +1,4 @@
-import { Input, Label } from "@/shared/components/ui";
+import { Input, Label } from "@/shared/components";
 import React from "react";
 
 interface IProjectInfoFieldProps {

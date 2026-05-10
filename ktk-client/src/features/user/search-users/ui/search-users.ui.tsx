@@ -1,4 +1,4 @@
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/shared/components/ui";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/shared/components";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDebounce } from "react-use";

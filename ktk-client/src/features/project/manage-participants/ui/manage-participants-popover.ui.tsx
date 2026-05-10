@@ -9,7 +9,7 @@ import {
     PopoverContent,
     PopoverHeader,
     PopoverTrigger,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { Plus, X } from "lucide-react";
 import type { IUserResponse } from "@/entities/user";
 

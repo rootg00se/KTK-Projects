@@ -1,5 +1,5 @@
 import React from "react";
-import { Tabs, TabsContent } from "@/shared/components/ui";
+import { Tabs, TabsContent } from "@/shared/components";
 import { ProfileTabs } from "@/widgets/profile-tabs";
 import { useTabsUrlQuery } from "@/shared/hooks/useTabsUrlQuery";
 import { UserProjectsList } from "@/widgets/user-projects-list";

@@ -1,6 +1,6 @@
 import { useDeleteAvatar } from "../model/useDeleteAvatar";
 import { useUpdateAvatar } from "../model/useUpdateAvatar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import { File, Trash } from "lucide-react";
 import React, { useRef, type ChangeEvent } from "react";
 

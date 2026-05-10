@@ -1,5 +1,5 @@
 import { useCreateQuestion } from "../model/useCreateQuestion";
-import { Button } from "@/shared/components/ui";
+import { Button } from "@/shared/components";
 import { Input } from "@/shared/components/ui/input";
 import { cn } from "@/shared/lib/utils";
 import { useState } from "react";

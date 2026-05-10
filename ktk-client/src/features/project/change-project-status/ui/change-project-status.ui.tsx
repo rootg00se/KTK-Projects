@@ -1,5 +1,5 @@
 import React from "react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/ui";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components";
 import { parseProjectStatus, parseTextToProjectState, projectStatusList } from "@/shared/utils/parse-project-status";
 import { useProjectById } from "@/entities/project";
 import { useUpdateStatus } from "../model/useUpdateStatus";

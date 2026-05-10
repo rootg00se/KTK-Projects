@@ -8,7 +8,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
     AlertDialogTrigger,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { Trash } from "lucide-react";
 import React from "react";
 import { useDeleteTracker } from "../model/useDeleteTracker";

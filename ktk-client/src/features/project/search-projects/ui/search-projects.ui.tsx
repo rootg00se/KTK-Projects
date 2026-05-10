@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/shared/components/ui";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/shared/components";
 import { Search } from "lucide-react";
 import { useDebounce } from "react-use"
 import { useProjectsFilterStore } from "@/features/project/projects-filter";

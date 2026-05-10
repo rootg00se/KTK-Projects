@@ -1,4 +1,4 @@
-import { Input } from "@/shared/components/ui";
+import { Input } from "@/shared/components";
 import React, { useState } from "react";
 import { useUpdateTracker } from "../model/useUpdateTracker";
 

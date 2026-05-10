@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Input, Popover, PopoverContent, PopoverHeader, PopoverTrigger } from "@/shared/components/ui";
+import { Button, Input, Popover, PopoverContent, PopoverHeader, PopoverTrigger } from "@/shared/components";
 import { PlusCircleIcon, X } from "lucide-react";
 import { useSkills } from "@/entities/skill";
 import { type Skill } from "@/entities/user";

@@ -1,14 +1,22 @@
+import { useChatStore } from "@/entities/chat";
 import { Message, useMessages } from "@/entities/message";
 import moment from "moment";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { formatChatDate } from "../lib/format-chat-date";
 import { selectUserId } from "@/entities/user";
+import { MessageActions } from "@/features/chat/message-actions";
 
 export const ChatMessages: React.FC<{ chatId: string }> = ({ chatId }) => {
     const userId = selectUserId();
+    const editMessage = useChatStore((s) => s.editMessage);
+    const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
     const { messagesData } = useMessages(chatId);
 
     const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        setEditingMessageId(null);
+    }, [chatId]);
 
     useEffect(() => {
         if (!containerRef.current) return;
@@ -41,8 +49,23 @@ export const ChatMessages: React.FC<{ chatId: string }> = ({ chatId }) => {
                             )}
 
                             <Message
+                                messageActions={
+                                    <MessageActions
+                                        messageId={message.message_id}
+                                        onEdit={() => setEditingMessageId(message.message_id)}
+                                    />
+                                }
                                 createdAt={message.created_at}
+                                isEditing={editingMessageId === message.message_id}
+                                onCancelEdit={() => setEditingMessageId(null)}
+                                onSubmitEdit={(content) => {
+                                    editMessage(message.message_id, content);
+                                    setEditingMessageId(null);
+                                }}
                                 isMe={message.sender_id === userId}
+                                avatarUrl={message.users.avatar_url}
+                                displayName={message.users.display_name}
+                                nickname={message.users.nickname}
                                 text={message.content}
                             />
                         </React.Fragment>

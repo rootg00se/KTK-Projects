@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@/shared/components/ui";
-import { selectUserId, useProfile } from "@/entities/user";
+import { Button } from "@/shared/components";
+import { selectUserId, useFriends, useProfile } from "@/entities/user";
 import { useUpdateProfile } from "@/features/user/update-profile";
 import { Link, useParams } from "react-router-dom";
 import { LogoutButton } from "@/features/auth/logout-button";
@@ -12,14 +12,19 @@ import { UpdateUser } from "@/features/user/update-user";
 import { MarkdownEditor } from "@/features/editor/markdown-editor";
 import { useFetchMarkdown } from "@/features/editor/markdown-reader/model/useFetchMarkdown";
 import { UsersRound } from "lucide-react";
+import { ToggleFriendship } from "@/features/user/toggle-friendship";
+import { CreatePrivateChat } from "@/features/chat/create-private-chat";
 
 export const ProfileInfo: React.FC = () => {
     const [editMode, setEditMode] = useState(false);
     const [markdown, setMarkdown] = useState("");
 
+    const userId = selectUserId();
+
     const { id } = useParams();
     const { userProfileData } = useProfile(id || "");
     const { updateProfileFunc } = useUpdateProfile();
+    const { userFriendsData } = useFriends(userId);
 
     const authUserId = selectUserId();
     const markdownContent = useFetchMarkdown(userProfileData?.profile_data);
@@ -48,6 +53,8 @@ export const ProfileInfo: React.FC = () => {
             behavior: "smooth",
         });
     };
+
+    const isFriend = !!userFriendsData?.some((friend) => friend.user_id === id);
 
     if (!userProfileData) return null;
 
@@ -89,7 +96,10 @@ export const ProfileInfo: React.FC = () => {
                             {editMode ? "Отмена" : "Редактировать"}
                         </Button>
                     ) : (
-                        <Button className="mb-4 w-full max-w-40">Добавить в друзья</Button>
+                        <>
+                            <ToggleFriendship className="mb-2 text-[13px] w-full max-w-40" targetUserId={id!} isFriend={isFriend} />
+                            <CreatePrivateChat userId={id!} />
+                        </>
                     )}
                     <SkillList editable={editMode} skills={userProfileData.skills} />
                 </div>

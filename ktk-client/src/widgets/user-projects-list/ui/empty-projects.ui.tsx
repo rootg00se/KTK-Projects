@@ -9,7 +9,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { Link } from "react-router-dom";
 
 export const EmtpyProjects: React.FC = () => {

@@ -5,7 +5,7 @@ import {
     Avatar,
     AvatarFallback,
     AvatarImage
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { isActivated, useUser } from "@/entities/user";
 import { ChangeWorkspace } from "@/features/project/change-workspace";
 

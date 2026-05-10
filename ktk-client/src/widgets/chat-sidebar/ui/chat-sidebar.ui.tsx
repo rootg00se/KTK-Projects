@@ -2,7 +2,7 @@ import React from "react";
 import { SidebarNav } from "@/widgets/sidebar/ui/sidebar-nav.ui";
 import { Link } from "react-router-dom";
 import { LogoutButton } from "@/features/auth/logout-button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import { useUser } from "@/entities/user";
 
 export const ChatSidebar: React.FC = () => {

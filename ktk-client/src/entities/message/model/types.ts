@@ -6,4 +6,9 @@ export interface IMessageResponse {
     created_at: Date;
     deleted_at?: Date;
     updated_at: Date;
+    users: {
+        nickname: string;
+        display_name: string;
+        avatar_url: string;
+    };
 }

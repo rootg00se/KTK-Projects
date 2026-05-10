@@ -1,5 +1,5 @@
 import React from "react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/ui";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components";
 import { parseTaskStatus, parseTextToTaskStatus, taskStatusList } from "@/shared/utils/parse-task-status";
 import type { TaskStatus } from "@/entities/task";
 import { useUpdateStatus } from "../model/useUpdateStatus";

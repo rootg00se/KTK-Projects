@@ -10,7 +10,7 @@ import {
     EmptyHeader,
     EmptyMedia,
     EmptyTitle,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { ArrowUpRightIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ManageParticipantsPopover } from "./manage-participants-popover.ui";

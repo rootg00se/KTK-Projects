@@ -1,5 +1,5 @@
 import { useTags } from "@/entities/tags";
-import { Input, Popover, PopoverContent, PopoverTrigger } from "@/shared/components/ui";
+import { Input, Popover, PopoverContent, PopoverTrigger } from "@/shared/components";
 import React, { useState } from "react";
 
 interface IManageProjectTagsProps {

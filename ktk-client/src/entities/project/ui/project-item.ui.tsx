@@ -1,7 +1,7 @@
 import React from "react";
 import { MessageCircle } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import type { TagData } from "../model/types";

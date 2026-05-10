@@ -1,4 +1,4 @@
-import { TabsList, TabsTrigger } from "@/shared/components/ui";
+import { TabsList, TabsTrigger } from "@/shared/components";
 import React from "react";
 
 export const WorkspaceTabs: React.FC = () => {

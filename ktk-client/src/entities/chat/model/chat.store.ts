@@ -6,6 +6,7 @@ import { registerChatHandlers } from "./chat-handlerts";
 interface IChatStore {
     socket: Socket | null;
     activeChatId: string | null;
+    activeChatPartherName: string | null;
     isConnected: boolean;
     initSocket: (userId: string) => void;
     disconnect: () => void;
@@ -13,12 +14,17 @@ interface IChatStore {
     joinChat: (chatId: string) => void;
     leaveChat: (chatId: string) => void;
     setActiveChat: (chatId: string) => void;
+    setActiveChatPartherName: (name: string) => void;
+    deleteMessage: (messageId: string) => void;
+    editMessage: (messageId: string, content: string) => void;
 }
 
 export const useChatStore = create<IChatStore>((set, get) => ({
     socket: null,
     activeChatId: null,
     isConnected: false,
+    activeChatPartherName: null,
+    setActiveChatPartherName: (name) => set({ activeChatPartherName: name }),
     setActiveChat: (chatId) => set({ activeChatId: chatId }),
     initSocket: (userId) => {
         if (get().socket?.connected) return;
@@ -59,6 +65,20 @@ export const useChatStore = create<IChatStore>((set, get) => ({
 
         if (socket && socket.connected) {
             socket.emit("leaveChat", { chatId });
+        }
+    },
+    deleteMessage: (messageId) => {
+        const { socket } = get();
+
+        if (socket && socket.connected) {
+            socket.emit("deleteMessage", { messageId });
+        }
+    },
+    editMessage: (messageId, content) => {
+        const { socket } = get();
+
+        if (socket && socket.connected) {
+            socket.emit("editMessage", { messageId, content });
         }
     },
 }));

@@ -1,5 +1,5 @@
 import { useUpdateQuestion } from "../model/useUpdateQuestion";
-import { Button, Input } from "@/shared/components/ui";
+import { Button, Input } from "@/shared/components";
 import React, { useState } from "react";
 
 interface IUpdateQuestionProps {

@@ -2,7 +2,7 @@ import { useTags } from "@/entities/tags";
 import { useFriends, useUser } from "@/entities/user";
 import { ManageProjectTags } from "@/features/project/manage-project-tags";
 import { MarkdownEditor } from "@/features/editor/markdown-editor";
-import { Button } from "@/shared/components/ui";
+import { Button } from "@/shared/components";
 import React from "react";
 import { ProjectInfoField } from "./project-info-field.ui";
 import { ManageParticipants } from "@/features/project/manage-participants";

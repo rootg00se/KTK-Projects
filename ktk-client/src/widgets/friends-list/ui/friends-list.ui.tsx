@@ -1,6 +1,6 @@
 import type { IUserResponse } from "@/entities/user";
 import { ToggleFriendship } from "@/features/user/toggle-friendship";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import React from "react";
 import { Link } from "react-router-dom";
 

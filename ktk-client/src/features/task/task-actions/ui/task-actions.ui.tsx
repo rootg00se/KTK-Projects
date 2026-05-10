@@ -7,7 +7,7 @@ import {
     DropdownMenuSubContent,
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { IconDots } from "@tabler/icons-react";
 import { Trash } from "lucide-react";
 import React from "react";

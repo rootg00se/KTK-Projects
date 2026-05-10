@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/shared/components/ui/tabs";
-import { Button } from "@/shared/components/ui";
+import { Button } from "@/shared/components";
 import { Pencil, Eye, Bold, Italic, List, Code, Heading3, Quote } from "lucide-react";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";

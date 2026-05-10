@@ -1,7 +1,7 @@
 import React from "react";
-import { TabsContent } from "@/shared/components/ui";
+import { TabsContent } from "@/shared/components";
 import { useTabsUrlQuery } from "@/shared/hooks/useTabsUrlQuery";
-import { Tabs } from "@/shared/components/ui";
+import { Tabs } from "@/shared/components";
 import { WorkspaceHeader } from "@/widgets/workspace-header";
 import { WorkspaceTabs } from "@/widgets/workspace-tabs";
 import { WorkspaceInfo } from "@/widgets/workspace-info";

@@ -21,6 +21,12 @@ export interface IChatResponse {
     chat_members: { users: ChatMember }[];
     created_at: Date;
     update_at: Date;
+    partner: ChatMember | null;
+    lastMessage: {
+        content: string;
+        created_at: Date;
+        users: { nickname: string };
+    } | null;
 }
 
 export type ChatMessages = {
@@ -31,4 +37,9 @@ export type ChatMessages = {
     created_at: Date;
     deleted_at?: Date;
     updated_at: Date;
+    users: {
+        nickname: string;
+        display_name: string;
+        avatar_url: string;
+    };
 };

@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import React from "react";
 import { Link } from "react-router-dom";
 

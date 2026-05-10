@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components/ui";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import { cn } from "@/shared/lib/utils";
 import { UserRound } from "lucide-react";
 import moment from "moment";

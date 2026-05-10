@@ -10,7 +10,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
     Button,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import { Trash } from "lucide-react";
 import { useDeleteProject } from "../model/useDeleteProject";
 import { useNavigate, useParams } from "react-router-dom";

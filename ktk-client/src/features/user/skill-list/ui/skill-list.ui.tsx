@@ -3,7 +3,7 @@ import {
     Tooltip,
     TooltipContent,
     TooltipTrigger,
-} from "@/shared/components/ui";
+} from "@/shared/components";
 import type { Skill } from "@/entities/user";
 import { SkillListPopover } from "./skill-list-popover.ui";
 

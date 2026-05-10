@@ -1,7 +1,7 @@
 import React from "react";
 import { LayoutTemplate } from "lucide-react";
 import { useProjectById, useUserProjects } from "@/entities/project";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components/ui";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/shared/components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useUser } from "@/entities/user";
 

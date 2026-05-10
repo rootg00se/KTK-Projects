@@ -28,9 +28,7 @@ export class ChatGateway implements OnGatewayConnection {
     @WebSocketServer()
     server: Server;
 
-    constructor(
-        private readonly messageService: MessagesService,
-    ) {}
+    constructor(private readonly messageService: MessagesService) {}
 
     async handleConnection(client: AuthSocket) {
         const userId = client.handshake.query?.userId as string;
@@ -41,14 +39,20 @@ export class ChatGateway implements OnGatewayConnection {
     }
 
     @SubscribeMessage("joinChat")
-    async handleJoinChat(@ConnectedSocket() client: AuthSocket, @MessageBody() chatDto: JoinChatDto) {
+    async handleJoinChat(
+        @ConnectedSocket() client: AuthSocket,
+        @MessageBody() chatDto: JoinChatDto,
+    ) {
         client.join(`chat:${chatDto.chatId}`);
 
         return { joined: chatDto.chatId };
     }
 
     @SubscribeMessage("leaveChat")
-    async handleLeaveChat(@ConnectedSocket() client: AuthSocket, @MessageBody() chatDto: JoinChatDto) {
+    async handleLeaveChat(
+        @ConnectedSocket() client: AuthSocket,
+        @MessageBody() chatDto: JoinChatDto,
+    ) {
         client.leave(`chat:${chatDto.chatId}`);
 
         return { left: chatDto.chatId };
@@ -95,9 +99,7 @@ export class ChatGateway implements OnGatewayConnection {
     ) {
         const message = await this.messageService.deleteMessage(client.userId, payload.messageId);
 
-        this.server.to(`chat:${message.chat_id}`).emit("messageDeleted", {
-            messageId: message.message_id,
-        });
+        this.server.to(`chat:${message.chat_id}`).emit("messageDeleted", message);
 
         return { success: true };
     }

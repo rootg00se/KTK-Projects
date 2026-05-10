@@ -1,5 +1,5 @@
 import { useChatStore } from "@/entities/chat";
-import { Input } from "@/shared/components/ui";
+import { Input } from "@/shared/components";
 import { Forward } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
