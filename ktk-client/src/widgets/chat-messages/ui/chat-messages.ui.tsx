@@ -19,16 +19,21 @@ export const ChatMessages: React.FC<{ chatId: string }> = ({ chatId }) => {
     }, [chatId]);
 
     useEffect(() => {
-        if (!containerRef.current) return;
-        
-        containerRef.current.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: "instant",
+        const el = containerRef.current;
+        if (!el) return;
+
+        el.scrollTo({
+            top: el.scrollHeight - el.clientHeight,
+            behavior: "auto",
         });
     }, [chatId, messagesData?.length]);
 
     return (
-        <div ref={containerRef} className="flex flex-1 flex-col gap-1 mt-3 px-3 overflow-y-auto pb-5">
+        <div
+            ref={containerRef}
+            data-slot="chat-messages-scroll"
+            className="flex flex-1 flex-col gap-1 mt-3 px-3 overflow-y-auto overflow-x-hidden pb-5 [overflow-anchor:none]"
+        >
             {(() => {
                 let lastDate = "";
 
@@ -41,7 +46,7 @@ export const ChatMessages: React.FC<{ chatId: string }> = ({ chatId }) => {
                     return (
                         <React.Fragment key={message.message_id}>
                             {isNewDay && (
-                                <div className="text-center text-[13px] opacity-50 my-4 sticky top-0 z-10">
+                                <div className="text-center text-[13px] opacity-50 my-4">
                                     <span className="px-3 py-1 bg-[#ebe8e8] dark:bg-zinc-800 rounded-xl inline-block shadow-sm">
                                         {formatChatDate(message.created_at)}
                                     </span>

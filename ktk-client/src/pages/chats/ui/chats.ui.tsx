@@ -6,13 +6,23 @@ import { ChatMessages } from "@/widgets/chat-messages";
 import { SendMessage } from "@/features/chat/send-message";
 import { useParams } from "react-router-dom";
 import { selectUserId } from "@/entities/user";
-import { useChatStore } from "@/entities/chat";
+import { useChatStore, useChats } from "@/entities/chat";
 
 export const ChatsPage: React.FC = () => {
     const userId = selectUserId();
 
     const { id: chatId } = useParams();
-    const { initSocket, disconnect, setActiveChat, joinChat, leaveChat, isConnected } = useChatStore();
+    const { chatsData } = useChats();
+
+    const {
+        initSocket,
+        disconnect,
+        setActiveChat,
+        setActiveChatPartherName,
+        joinChat,
+        leaveChat,
+        isConnected,
+    } = useChatStore();
 
     useEffect(() => {
         if (userId) {
@@ -23,15 +33,27 @@ export const ChatsPage: React.FC = () => {
     }, [userId, initSocket, disconnect]);
 
     useEffect(() => {
-        if (isConnected && chatId) {
-            joinChat(chatId);
-            setActiveChat(chatId);
+        if (!chatId) return setActiveChat(null);
+        if (!isConnected) return;
 
-            return () => {
-                leaveChat(chatId);
-            };
-        }
-    }, [chatId, isConnected, joinChat, leaveChat]);
+        setActiveChat(chatId);
+        joinChat(chatId);
+
+        return () => {
+            leaveChat(chatId);
+        };
+    }, [chatId, isConnected, joinChat, leaveChat, setActiveChat]);
+
+    useEffect(() => {
+        if (!chatId || !chatsData?.length) return;
+
+        const entry = chatsData.find((chat) => chat.chat_id === chatId);
+        const partnerLabel = entry?.partner
+            ? entry.partner.display_name || entry.partner.nickname || null
+            : null;
+
+        if (partnerLabel) setActiveChatPartherName(partnerLabel);
+    }, [chatId, chatsData, setActiveChatPartherName]);
 
     return (
         <div className="flex h-screen overflow-hidden">

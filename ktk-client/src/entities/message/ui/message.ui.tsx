@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage, ContextMenu, ContextMenuTrigger } 
 import { cn } from "@/shared/lib/utils";
 import moment from "moment";
 import type React from "react";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 interface IMessageProps {
     isMe?: boolean;
@@ -32,23 +32,12 @@ export const Message: React.FC<IMessageProps> = ({
     const [draft, setDraft] = useState(text);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (isEditing) setDraft(text);
-    }, [isEditing, text]);
 
-    useLayoutEffect(() => {
-        if (!isEditing || !textareaRef.current) return;
-
-        const ta = textareaRef.current;
-        const focusTextarea = () => {
-            ta.focus({ preventScroll: true });
-            const len = ta.value.length;
-            ta.setSelectionRange(len, len);
-        };
-
-        requestAnimationFrame(() => {
-            requestAnimationFrame(focusTextarea);
-        });
+        setTimeout(() => {
+            if (textareaRef.current) textareaRef.current.focus();
+        }, 300);
     }, [isEditing]);
 
     useLayoutEffect(() => {
@@ -60,10 +49,20 @@ export const Message: React.FC<IMessageProps> = ({
         ta.style.height = `${ta.scrollHeight}px`;
     }, [draft, isEditing, text]);
 
-    const submitEdit = () => {
-        const next = draft.trim();
-        if (!next) return;
-        onSubmitEdit?.(next);
+    const submitEdit = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+
+            const trimmed = draft.trim();
+
+            if (trimmed && trimmed !== text) onSubmitEdit?.(trimmed);
+            else onCancelEdit?.();
+        }
+
+        if (e.key === "Escape") {
+            e.preventDefault();
+            onCancelEdit?.();
+        }
     };
 
     return (
@@ -89,16 +88,7 @@ export const Message: React.FC<IMessageProps> = ({
                                 aria-label="Редактирование сообщения"
                                 rows={1}
                                 onChange={(e) => setDraft(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter" && !e.shiftKey) {
-                                        e.preventDefault();
-                                        submitEdit();
-                                    }
-                                    if (e.key === "Escape") {
-                                        e.preventDefault();
-                                        onCancelEdit?.();
-                                    }
-                                }}
+                                onKeyDown={submitEdit}
                                 className={cn(
                                     "box-border resize-none overflow-hidden border-0 bg-transparent p-0 font-inherit leading-snug shadow-none outline-none",
                                     "text-white placeholder:text-white/55",
@@ -106,7 +96,7 @@ export const Message: React.FC<IMessageProps> = ({
                                 )}
                             />
                         ) : (
-                            <p className="mb-1 min-w-0 flex-1 whitespace-pre-wrap wr text-left">{text}</p>
+                            <p className="mb-1 min-w-0 flex-1 whitespace-pre-wrap text-left">{text}</p>
                         )}
                         <span className="text-[11px] text-right whitespace-nowrap">
                             {moment(createdAt).format("HH:mm")}

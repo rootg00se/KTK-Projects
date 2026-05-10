@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { LogoutButton } from "@/features/auth/logout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import { useUser } from "@/entities/user";
+import { SidebarFooter } from "@/widgets/sidebar/ui/sidebar-footer.ui";
 
 export const ChatSidebar: React.FC = () => {
     const { userData } = useUser();
@@ -26,8 +27,11 @@ export const ChatSidebar: React.FC = () => {
                     <LogoutButton />
                 </Link>
             </div>
-            <div className="p-5 pb-0 w-full border-b">
+            <div className="p-5 flex-1 pb-0 w-full border-b">
                 <SidebarNav />
+            </div>
+            <div className="px-5 w-full">
+                <SidebarFooter />
             </div>
         </div>
     );

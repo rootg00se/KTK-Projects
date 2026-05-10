@@ -13,7 +13,7 @@ interface IChatStore {
     sendMessage: (chatId: string, content: string) => void;
     joinChat: (chatId: string) => void;
     leaveChat: (chatId: string) => void;
-    setActiveChat: (chatId: string) => void;
+    setActiveChat: (chatId: string | null) => void;
     setActiveChatPartherName: (name: string) => void;
     deleteMessage: (messageId: string) => void;
     editMessage: (messageId: string, content: string) => void;
@@ -25,7 +25,13 @@ export const useChatStore = create<IChatStore>((set, get) => ({
     isConnected: false,
     activeChatPartherName: null,
     setActiveChatPartherName: (name) => set({ activeChatPartherName: name }),
-    setActiveChat: (chatId) => set({ activeChatId: chatId }),
+    setActiveChat: (chatId) => {
+        const resolved = chatId ?? null;
+        set({
+            activeChatId: resolved,
+            ...(resolved === null ? { activeChatPartherName: null } : {}),
+        });
+    },
     initSocket: (userId) => {
         if (get().socket?.connected) return;
 

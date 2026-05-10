@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/shared/components";
 import { selectUserId, useFriends, useProfile } from "@/entities/user";
 import { useUpdateProfile } from "@/features/user/update-profile";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { LogoutButton } from "@/features/auth/logout-button";
 import { UpdateAvatar } from "@/features/user/update-avatar";
 import { UpdateBanner } from "@/features/user/update-banner";
@@ -11,9 +11,10 @@ import { SkillList } from "@/features/user/skill-list";
 import { UpdateUser } from "@/features/user/update-user";
 import { MarkdownEditor } from "@/features/editor/markdown-editor";
 import { useFetchMarkdown } from "@/features/editor/markdown-reader/model/useFetchMarkdown";
-import { UsersRound } from "lucide-react";
 import { ToggleFriendship } from "@/features/user/toggle-friendship";
 import { CreatePrivateChat } from "@/features/chat/create-private-chat";
+import { UserBadge } from "./user-badge.ui";
+import { ProfileLinks } from "./profile-links.ui";
 
 export const ProfileInfo: React.FC = () => {
     const [editMode, setEditMode] = useState(false);
@@ -47,13 +48,6 @@ export const ProfileInfo: React.FC = () => {
         });
     };
 
-    const scrollToBottom = () => {
-        window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: "smooth",
-        });
-    };
-
     const isFriend = !!userFriendsData?.some((friend) => friend.user_id === id);
 
     if (!userProfileData) return null;
@@ -75,13 +69,11 @@ export const ProfileInfo: React.FC = () => {
                                 displayName={userProfileData.display_name}
                             />
                         ) : (
-                            <div className="">
-                                <p className="text-3xl font-medium mr-2">
-                                    {userProfileData.display_name || userProfileData.nickname}
-                                </p>
-                                <p className="text-sm font-medium">#{userProfileData.nickname}</p>
-                                <p className="text-sm opacity-50">{userProfileData.email}</p>
-                            </div>
+                            <UserBadge
+                                displayName={userProfileData.display_name}
+                                nickname={userProfileData.nickname}
+                                email={userProfileData.email}
+                            />
                         )}
                         <div className="">{authUserId && authUserId === id && <LogoutButton />}</div>
                     </div>
@@ -97,23 +89,18 @@ export const ProfileInfo: React.FC = () => {
                         </Button>
                     ) : (
                         <>
-                            <ToggleFriendship className="mb-2 text-[13px] w-full max-w-40" targetUserId={id!} isFriend={isFriend} />
+                            <ToggleFriendship
+                                className="mb-2 text-[13px] w-full max-w-40"
+                                targetUserId={id!}
+                                isFriend={isFriend}
+                            />
                             <CreatePrivateChat userId={id!} />
                         </>
                     )}
                     <SkillList editable={editMode} skills={userProfileData.skills} />
                 </div>
             </div>
-            <div className="px-5 mt-3 flex gap-2 items-center text-sm">
-                <UsersRound size={16} />
-                <Link to="?tab=projects" onClick={scrollToBottom} className="cursor-pointer hover:underline">
-                    {userProfileData.projectsCount} <span className="opacity-65">Проектов</span>
-                </Link>
-                <span>·</span>
-                <Link to="friends" className="cursor-pointer hover:underline">
-                    {userProfileData.friendCount} <span className="opacity-65">Друзей</span>
-                </Link>
-            </div>
+            <ProfileLinks projectsCount={userProfileData.projectsCount} friendsCount={userProfileData.friendCount} />
             <div className="p-5">
                 {editMode ? (
                     <MarkdownEditor onSave={handleUpadteProfile} value={markdown} onChange={setMarkdown} />
