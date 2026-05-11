@@ -28,10 +28,9 @@ export const ToggleFriendship: React.FC<IToggleFriendshipProps> = ({ targetUserI
     return (
         <Button
             variant={isFriend ? "outline" : "default"}
-            // size={size}
             onClick={handleAction}
             disabled={isAdding || isRemoving}
-            className={cn("text-[12px]", className)}
+            className={cn("text-[12px] max-xs:text-[11px] max-xs:max-h-8", className)}
         >
             {isFriend ? "Убрать из друзей" : "Добавить в друзья"}
         </Button>

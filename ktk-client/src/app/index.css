@@ -77,6 +77,7 @@
 }
 
 @theme inline {
+    --breakpoint-xs: 440px;
     --font-sans: 'Public Sans Variable', sans-serif;
     --font-heading: 'Roboto Variable', sans-serif;
     --color-sidebar-ring: var(--sidebar-ring);

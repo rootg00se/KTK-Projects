@@ -4,19 +4,26 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import { Link } from "react-router-dom";
 import { SearchProjectsInput } from "@/features/project/search-projects";
 import { isActivated, useUser } from "@/entities/user";
-import { MessageSquareText } from "lucide-react";
+import { Menu, MessageSquareText } from "lucide-react";
+import { useUiStore } from "@/shared/model/ui-store";
 
 export const Header: React.FC<{ searchInput?: React.ReactNode }> = ({ searchInput }) => {
+    const toggleSidebar = useUiStore((store) => store.toggleSidebar);
     const isUserActivated = isActivated();
     const { userData } = useUser();
 
     return (
         <header className="py-3 bg-white sticky top-0 z-100 border-b">
             <div className="_container flex items-center justify-between">
-                <Link to={"/"} className="max-w-35">
-                    <img src={logo} className="w-full" alt="" />
-                </Link>
-                {searchInput || <SearchProjectsInput />}
+                <div className="flex items-center gap-3">
+                    <button onClick={toggleSidebar} className="lg:hidden p-1 hover:bg-gray-100 rounded-md">
+                        <Menu size={24} />
+                    </button>
+                    <Link to={"/"} className="w-35 max-xs:hidden">
+                        <img src={logo} className="w-full" alt="" />
+                    </Link>
+                </div>
+                <div className="max-md:hidden w-full flex justify-center">{searchInput || <SearchProjectsInput />}</div>
                 {isUserActivated && userData ? (
                     <div className="flex items-center gap-7">
                         <Link to={`/profile/${userData.user_id}`} className="flex items-center gap-4">
@@ -44,6 +51,7 @@ export const Header: React.FC<{ searchInput?: React.ReactNode }> = ({ searchInpu
                     </div>
                 )}
             </div>
+            <div className="md:hidden flex justify-center w-full mt-5">{searchInput || <SearchProjectsInput />}</div>
         </header>
     );
 };

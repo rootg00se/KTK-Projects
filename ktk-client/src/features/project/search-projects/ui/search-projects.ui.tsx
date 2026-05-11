@@ -21,10 +21,11 @@ export const SearchProjectsInput: React.FC = () => {
     }, 250, [value])
 
     return (
-        <InputGroup className="max-w-150">
+        <InputGroup className="max-w-150 max-lg:max-w-80 max-md:max-w-none mx-5">
             <InputGroupInput 
                 value={value} 
                 onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setValue(e.target.value)} 
+                className="max-xs:text-sm"
                 placeholder="Поиск..." 
             />
             <InputGroupAddon>

@@ -18,7 +18,7 @@ interface IProjectItemProps {
     likes: number;
     userId: string;
     isLiked: boolean;
-    renderAction?: React.ReactNode; 
+    renderAction?: React.ReactNode;
 }
 
 export const ProjectItem: React.FC<IProjectItemProps> = ({
@@ -32,43 +32,46 @@ export const ProjectItem: React.FC<IProjectItemProps> = ({
     likes,
     isLiked,
     userId,
-    renderAction 
-
+    renderAction,
 }) => {
     return (
         <div className={cn("py-4 border-b flex justify-between items-end gap-4", className)}>
             <div className="flex-1">
                 <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-4 mb-3">
-                        <Avatar className="w-12 h-12">
+                    <div className="flex w-full items-center gap-4 mb-3">
+                        <Avatar className="w-12 h-12 max-sm:w-9 max-sm:h-9">
                             <AvatarImage src={avatar || ""} />
-                            <AvatarFallback className="text-sm bg-[#dadada]">
-                                {displayName.slice(0, 2)}
-                            </AvatarFallback>
+                            <AvatarFallback className="text-sm bg-[#dadada]">{displayName.slice(0, 2)}</AvatarFallback>
                         </Avatar>
-                        <div>
-                            <div className="flex items-center gap-2 mb-1">
-                                <Link to={`/profile/${userId}`} className="hover:underline font-medium text-sm">
+                        <div className="w-full">
+                            <div className="flex items-center justify-between w-full gap-2 mb-1">
+                                <Link to={`/profile/${userId}`} className="hover:underline font-medium text-sm max-xs:text-[12px]">
                                     {displayName}
                                 </Link>
-                                <span className="text-sm opacity-50">{moment(createdAt).fromNow()}</span>
+                                <span className="text-sm opacity-50 max-xs:text-[11px]">{moment(createdAt).fromNow()}</span>
                             </div>
                             <div className="flex items-center gap-2 ml-2">
-                                <div className="flex">
+                                <div className="sm:hidden max-w-4 -ml-2">
+                                    <img src={tags[0].badge_url} className="w-full" alt={tags[0].name} />
+                                </div>
+                                <div className="flex max-sm:hidden">
                                     {tags.map((el) => (
                                         <div className="max-w-5 -ml-2" key={el.name}>
                                             <img src={el.badge_url} className="w-full" alt={el.name} />
                                         </div>
                                     ))}
                                 </div>
-                                <p className="text-[14px] capitalize text-muted-foreground">
+                                <p className="text-[14px] capitalize text-muted-foreground max-sm:text-[12px]">
                                     {tags[0]?.name || "Empty tag"}
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <Link to={`/project/${projectId}`} className="text-lg font-medium font-heading mb-3 hover:underline block">
+                <Link
+                    to={`/project/${projectId}`}
+                    className="text-lg font-medium font-heading mb-3 hover:underline block"
+                >
                     {title}
                 </Link>
                 <div className="flex items-center gap-4 mt-3">
@@ -79,11 +82,7 @@ export const ProjectItem: React.FC<IProjectItemProps> = ({
                     </div>
                 </div>
             </div>
-            {renderAction && (
-                <div className="shrink-0 mb-1">
-                    {renderAction}
-                </div>
-            )}
+            {renderAction && <div className="shrink-0 mb-1">{renderAction}</div>}
         </div>
     );
 };

@@ -21,8 +21,9 @@ export const SearchUsersInput: React.FC = () => {
     }, 250, [value])
         
     return (
-        <InputGroup className="max-w-150">
+        <InputGroup className="max-w-150 max-lg:max-w-80 max-md:max-w-none mx-5">
             <InputGroupInput 
+                className="max-xs:text-sm"
                 value={value} 
                 onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setValue(e.target.value)} 
                 placeholder="Искать пользователей..." 

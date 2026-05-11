@@ -11,7 +11,7 @@ import {
     PopoverTrigger,
 } from "@/shared/components";
 import { Plus, X } from "lucide-react";
-import type { IUserResponse } from "@/entities/user";
+import { selectUserId, type IUserResponse } from "@/entities/user";
 
 interface IManageParticipantsPopoverProps {
     filteredFriends: IUserResponse[];
@@ -26,6 +26,8 @@ export const ManageParticipantsPopover: React.FC<IManageParticipantsPopoverProps
     onRemove,
     members,
 }) => {
+    const userId = selectUserId();
+
     return (
         <Popover>
             <PopoverTrigger>
@@ -60,7 +62,7 @@ export const ManageParticipantsPopover: React.FC<IManageParticipantsPopoverProps
                     <div className="mt-3 mb-2">
                         <p className="mb-3">Убрать участников</p>
                         <div className="flex flex-wrap gap-3">
-                            {members?.map((participant) => (
+                            {members?.filter(user => user.user_id !== userId).map((participant) => (
                                 <div
                                     key={participant.user_id}
                                     className="max-w-8 relative group cursor-pointer"

@@ -57,7 +57,7 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ value, onChange,
                         </TabsList>
 
                         {tab === "write" && (
-                            <div className="flex items-center gap-1">
+                            <div className="flex items-center gap-1 max-md:flex-wrap max-md:max-w-40">
                                 <Button size="icon" variant="ghost" onClick={() => textareaApply("### ")}>
                                     <Heading3 size={16} />
                                 </Button>

@@ -85,7 +85,7 @@ export const ProjectDetails: React.FC = () => {
                 </div>
                 <MarkdownReader content={markdown} />
             </div>
-            <div className="flex items-center gap-4 mb-3">
+            <div className="flex items-center gap-4 flex-wrap mb-3">
                 {projectData.tags.map((tag) => (
                     <ProjectDetailsTag key={tag.tag_id} tag={tag.name} />
                 ))}

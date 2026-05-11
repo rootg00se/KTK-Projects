@@ -20,7 +20,7 @@ export const ProjectsList: React.FC = () => {
     const projectGroups = chunkProjects(projectsData || [], 4);
 
     return (
-        <div className="mt-2">
+        <div className="mt-2 w-full">
             <div className="di">
                 {projectGroups.map((group, groupIndex) => (
                     <div key={`group-${groupIndex}`} className="rounded-md px-5 bg-white mb-7">
