@@ -124,7 +124,10 @@ export class ProjectsService {
     async getAllUserProjects(userId: string) {
         const projects = await this.prismaService.projects.findMany({
             where: {
-                creator_id: userId,
+                OR: [
+                    { creator_id: userId },
+                    { project_members: { some: { user_id: userId } } }
+                ]
             },
             ...this.projectsInclude(userId),
             orderBy: {

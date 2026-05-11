@@ -17,7 +17,7 @@ export const ProfileLinks: React.FC<{ projectsCount: number; friendsCount: numbe
         <div className="px-5 mt-3 flex gap-2 items-center text-sm">
             <UsersRound size={16} />
             <Link to="?tab=projects" onClick={scrollToBottom} className="cursor-pointer hover:underline">
-                {projectsCount} <span className="opacity-65">Проектов</span>
+                {projectsCount} <span className="opacity-65">Личных Проектов</span>
             </Link>
             <span>·</span>
             <Link to="friends" className="cursor-pointer hover:underline">

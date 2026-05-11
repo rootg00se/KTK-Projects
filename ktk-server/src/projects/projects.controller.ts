@@ -23,6 +23,7 @@ import { CreateQuestionDto } from "../questions/dto/create-question.dto";
 import { TaskTrackersService } from "@/task-trackers/task-trackers.service";
 import { CreateTaskTrackerDto } from "@/task-trackers/dto/create-task-tracker.dto";
 import { ChatsService } from "@/chats/chats.service";
+import { ProjectMemberGuard } from "./guards/project-member.guard";
 
 @Controller("projects")
 export class ProjectsController {
@@ -34,6 +35,7 @@ export class ProjectsController {
     ) {}
 
     @Post()
+    @UseGuards(AuthenticatedGuard)
     async createProject(
         @Authorized("user_id") userId: string,
         @Body() createProjectDto: CreateProjectDto,
@@ -42,6 +44,7 @@ export class ProjectsController {
     }
 
     @Post(":id/participants")
+    @UseGuards(AuthenticatedGuard, ProjectMemberGuard)
     async addUserToTheProject(
         @Param("id") projectId: string,
         @Body() addParticipantDto: AddParticipantDto,
@@ -59,7 +62,7 @@ export class ProjectsController {
     }
 
     @Post(":id/task-trackers")
-    @UseGuards(AuthenticatedGuard)
+    @UseGuards(AuthenticatedGuard, ProjectMemberGuard)
     async createTaskTracker(
         @Param("id") projectId: string,
         @Body() createTaskTrackerDto: CreateTaskTrackerDto,
@@ -94,7 +97,7 @@ export class ProjectsController {
     }
 
     @Get(":id/chats")
-    @UseGuards(AuthenticatedGuard)
+    @UseGuards(AuthenticatedGuard, ProjectMemberGuard)
     getProjectChat(@Param("id") projectId: string) {
         return this.chatsService.getProjectChat(projectId);
     }
@@ -115,12 +118,13 @@ export class ProjectsController {
     }
 
     @Get(":id/task-trackers")
+    @UseGuards(ProjectMemberGuard)
     async getProjectTaskTrackers(@Param("id") projectId: string) {
         return await this.taskTrackersService.getProjectTaskTrackers(projectId);
     }
 
     @Patch(":id")
-    @UseGuards(AuthenticatedGuard)
+    @UseGuards(AuthenticatedGuard, ProjectMemberGuard)
     async updateProject(
         @Param("id") projectId: string,
         @Body() updateProjectDto: UpdateProjectDto,
@@ -129,6 +133,7 @@ export class ProjectsController {
     }
 
     @Patch(":id/content")
+    @UseGuards(AuthenticatedGuard, ProjectMemberGuard)
     async updateProjectContent(
         @Param("id") projectId: string,
         @Body() updateProjectContentDto: UpdateProjectContentDto,
@@ -140,7 +145,7 @@ export class ProjectsController {
     }
 
     @Patch(":id/status")
-    @UseGuards(AuthenticatedGuard)
+    @UseGuards(AuthenticatedGuard, ProjectMemberGuard)
     async updateProjectStatus(
         @Param("id") projectId: string,
         @Body() updateProjectStatusDto: updateProjectStatusDto,
@@ -152,7 +157,7 @@ export class ProjectsController {
     }
 
     @Delete(":id")
-    @UseGuards(AuthenticatedGuard)
+    @UseGuards(AuthenticatedGuard, ProjectMemberGuard)
     async deleteProject(@Param("id") projectId: string) {
         return await this.projectsService.deleteProject(projectId);
     }

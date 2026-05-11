@@ -60,13 +60,17 @@ export const ProjectDetails: React.FC = () => {
                             </div>
                         </div>
                         <div className="flex gap-2">
-                            {authUserId === projectData.creator_id && (
+                            {(authUserId === projectData.creator_id ||
+                                projectData.project_members.some((user) => user.user_id === authUserId)) && (
                                 <Button size={"sm"} className="text-[12px]">
                                     <Link to={`/workspace/${id}?tab=settings`}>Редактировать</Link>
                                 </Button>
                             )}
                             {projectData.project_link && (
-                                <a href={projectData.project_link} className="cursor-pointer hover:opacity-80 duration-300">
+                                <a
+                                    href={projectData.project_link}
+                                    className="cursor-pointer hover:opacity-80 duration-300"
+                                >
                                     <FaGithubSquare size={32} />
                                 </a>
                             )}

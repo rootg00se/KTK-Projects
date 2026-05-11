@@ -19,6 +19,7 @@ import { FriendsPage } from "@/pages/friends";
 import { SearchUsersInput } from "@/features/user/search-users";
 import { CreateProjectPage } from "@/pages/create-project";
 import { ChatsPage } from "@/pages/chats";
+import { MemberProtectedRoutes } from "./routes/member-protected-routes";
 
 const App: React.FC = () => {
     return (
@@ -30,7 +31,9 @@ const App: React.FC = () => {
                     <Route path="/confirm" element={<ConfirmPage />} />
                 </Route>
                 <Route element={<AuthProtectedRoutes />}>
-                    <Route path="/workspace/:id" element={<ProjectWorkspace />} />
+                    <Route element={<MemberProtectedRoutes />}>
+                        <Route path="/workspace/:id" element={<ProjectWorkspace />} />
+                    </Route>
                     <Route path="/chats/:id?" element={<ChatsPage />} />
                 </Route>
                 <Route path="/" element={<AppLayout />}>

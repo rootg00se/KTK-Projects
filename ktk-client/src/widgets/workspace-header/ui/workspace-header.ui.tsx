@@ -1,13 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "/ktk-logo.png";
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage
-} from "@/shared/components";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/components";
 import { isActivated, useUser } from "@/entities/user";
 import { ChangeWorkspace } from "@/features/project/change-workspace";
+import { MessageSquareText } from "lucide-react";
 
 export const WorkspaceHeader: React.FC = () => {
     const { userData } = useUser();
@@ -23,15 +20,20 @@ export const WorkspaceHeader: React.FC = () => {
                     <ChangeWorkspace />
                 </div>
                 {isUserActivated && userData ? (
-                    <Link to={`/profile/${userData.user_id}`} className="flex items-center gap-4">
-                        <Avatar className="w-10 h-10">
-                            <AvatarImage src={userData.avatar_url || ""} />
-                            <AvatarFallback className="text-sm bg-[#dadada]">
-                                {userData.nickname.slice(0, 2)}
-                            </AvatarFallback>
-                        </Avatar>
-                        <div className="text-[16px]">{userData.display_name || userData.nickname}</div>
-                    </Link>
+                    <div className="flex items-center gap-7">
+                        <Link to={`/profile/${userData.user_id}`} className="flex items-center gap-4">
+                            <Avatar className="w-10 h-10">
+                                <AvatarImage src={userData.avatar_url || ""} />
+                                <AvatarFallback className="text-sm bg-[#dadada]">
+                                    {userData.nickname.slice(0, 2)}
+                                </AvatarFallback>
+                            </Avatar>
+                            <div className="text-[16px]">{userData.display_name || userData.nickname}</div>
+                        </Link>
+                        <Link to={`/chats`}>
+                            <MessageSquareText size={20} />
+                        </Link>
+                    </div>
                 ) : (
                     <div className="flex items-center gap-2">
                         <Link to={"/sign-in"} className="underline">

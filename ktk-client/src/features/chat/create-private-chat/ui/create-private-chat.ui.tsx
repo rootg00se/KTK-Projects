@@ -23,7 +23,7 @@ export const CreatePrivateChat: React.FC<{ userId: string }> = ({ userId }) => {
     };
 
     return (
-        <Button onClick={handleCreateChat} disabled={isCreateChatPenfing} className="w-full max-w-40">
+        <Button onClick={handleCreateChat} disabled={isCreateChatPenfing} className="w-full mb-3 max-w-40">
             Написать
         </Button>
     );
