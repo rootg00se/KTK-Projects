@@ -45,10 +45,15 @@ export const ProjectItem: React.FC<IProjectItemProps> = ({
                         </Avatar>
                         <div className="w-full">
                             <div className="flex items-center justify-between w-full gap-2 mb-1">
-                                <Link to={`/profile/${userId}`} className="hover:underline font-medium text-sm max-xs:text-[12px]">
+                                <Link
+                                    to={`/profile/${userId}`}
+                                    className="hover:underline font-medium text-sm max-xs:text-[12px]"
+                                >
                                     {displayName}
                                 </Link>
-                                <span className="text-sm opacity-50 max-xs:text-[11px]">{moment(createdAt).fromNow()}</span>
+                                <span className="text-sm opacity-50 max-xs:text-[11px]">
+                                    {moment(createdAt).fromNow()}
+                                </span>
                             </div>
                             <div className="flex items-center gap-2 ml-2">
                                 <div className="sm:hidden max-w-4 -ml-2">
@@ -81,8 +86,8 @@ export const ProjectItem: React.FC<IProjectItemProps> = ({
                         <span className="text-sm">Задать вопрос</span>
                     </div>
                 </div>
+                {renderAction && <div className="max-xl:w-full mt-5 shrink-0 mb-1">{renderAction}</div>}
             </div>
-            {renderAction && <div className="shrink-0 mb-1">{renderAction}</div>}
         </div>
     );
 };

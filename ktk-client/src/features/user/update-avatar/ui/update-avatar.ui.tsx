@@ -30,7 +30,7 @@ export const UpdateAvatar: React.FC<IUpdateAvatarProps> = ({ editable, avatarUrl
 
     return (
         <div>
-            <Avatar className="w-30 h-30 mb-3 relative border-2">
+            <Avatar className="w-30 h-30 max-sm:w-23 max-sm:h-23 mb-3 relative border-2">
                <AvatarImage src={avatarUrl || ""} />
                 <AvatarFallback className="text-4xl bg-[#dadada]">{displayName.slice(0, 2)}</AvatarFallback>
                 {editable &&

@@ -55,8 +55,8 @@ export const ProfileInfo: React.FC = () => {
     return (
         <div className="bg-white rounded-md">
             <UpdateBanner editable={editMode} bannerUrl={userProfileData.banner_url} />
-            <div className="flex items-start justify-between px-5 pt-5">
-                <div className="w-full -mt-20 z-30">
+            <div className="flex items-start justify-between px-5 pt-5 max-xs:px-3 max-sm:flex-col">
+                <div className="w-full -mt-20 z-30 max-sm:-mt-15">
                     <UpdateAvatar
                         editable={editMode}
                         avatarUrl={userProfileData.avatar_url}
@@ -78,7 +78,7 @@ export const ProfileInfo: React.FC = () => {
                         <div className="">{authUserId && authUserId === id && <LogoutButton />}</div>
                     </div>
                 </div>
-                <div className="w-full flex flex-col items-end">
+                <div className="w-full flex flex-col items-end max-sm:items-start max-sm:mt-4">
                     {authUserId === id ? (
                         <Button
                             onClick={toggleEditMode}
@@ -101,13 +101,13 @@ export const ProfileInfo: React.FC = () => {
                 </div>
             </div>
             <ProfileLinks projectsCount={userProfileData.projectsCount} friendsCount={userProfileData.friendCount} />
-            <div className="p-5">
+            <div className="p-5 max-xs:p-2">
                 {editMode ? (
                     <MarkdownEditor onSave={handleUpadteProfile} value={markdown} onChange={setMarkdown} />
                 ) : markdown ? (
                     <MarkdownReader content={markdown} />
                 ) : (
-                    <p className="text-center font-bold text-xl opacity-40 pb-3">Ничего не написано</p>
+                    <p className="text-center font-bold text-xl opacity-40 pb-3 mt-2 max-md:text-lg">Ничего не написано</p>
                 )}
             </div>
         </div>

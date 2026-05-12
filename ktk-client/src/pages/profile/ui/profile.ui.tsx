@@ -10,17 +10,19 @@ export const ProfilePage: React.FC = () => {
     const { activateTab, handleTabChange } = useTabsUrlQuery("tab", "projects");
 
     return (
-        <section className="w-full max-w-180">
-            <ProfileInfo />
-            <Tabs value={activateTab} onValueChange={handleTabChange}>
-                <ProfileTabs />
-                <TabsContent value="projects">
-                    <UserProjectsList />
-                </TabsContent>
-                <TabsContent value="questions">
-                    <QuestionsList />
-                </TabsContent>
-            </Tabs>
+        <section className="w-full max-lg:flex justify-center">
+            <div className="w-full max-w-180">
+                <ProfileInfo />
+                <Tabs value={activateTab} onValueChange={handleTabChange}>
+                    <ProfileTabs />
+                    <TabsContent value="projects">
+                        <UserProjectsList />
+                    </TabsContent>
+                    <TabsContent value="questions">
+                        <QuestionsList />
+                    </TabsContent>
+                </Tabs>
+            </div>
         </section>
     );
 };

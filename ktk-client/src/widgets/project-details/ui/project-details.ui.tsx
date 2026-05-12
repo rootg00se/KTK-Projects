@@ -32,15 +32,15 @@ export const ProjectDetails: React.FC = () => {
 
     return (
         <div className="mb-5">
-            <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-4 mb-3 w-full">
-                    <Avatar className="w-14 h-14 relative">
+            <div className="flex items-start justify-between mb-4 max-sm:mb-2">
+                <div className="flex items-center gap-4 mb-3 w-full max-xs:flex-col max-xs:items-start">
+                    <Avatar className="w-14 h-14 relative max-xs:w-12 max-xs:h-12">
                         <AvatarImage src={projectData.creator.avatar_url || ""} />
                         <AvatarFallback className="text-lg bg-[#dadada]">
                             {projectData.creator.nickname.slice(0, 2)}
                         </AvatarFallback>
                     </Avatar>
-                    <div className="flex justify-between w-full">
+                    <div className="flex justify-between w-full max-sm:flex-col max-sm:gap-3">
                         <div>
                             <div className="flex items-center gap-2 mb-1">
                                 <span className="text-lg">
@@ -79,13 +79,13 @@ export const ProjectDetails: React.FC = () => {
                 </div>
             </div>
             <div className="mb-3">
-                <div className="mb-5 flex gap-2">
-                    <h2 className="text-2xl font-medium">{projectData.title}</h2>
-                    <p className="opacity-60 text-sm">{parseProjectStatus(projectData.status)}</p>
+                <div className="mb-5 flex gap-2 max-sm:mb-3">
+                    <h2 className="text-2xl font-medium max-sm:text-xl">{projectData.title}</h2>
+                    <p className="opacity-60 text-sm max-sm:text-[12px]">{parseProjectStatus(projectData.status)}</p>
                 </div>
                 <MarkdownReader content={markdown} />
             </div>
-            <div className="flex items-center gap-4 flex-wrap mb-3">
+            <div className="flex items-center gap-4 flex-wrap mb-3 max-md:gap-2">
                 {projectData.tags.map((tag) => (
                     <ProjectDetailsTag key={tag.tag_id} tag={tag.name} />
                 ))}

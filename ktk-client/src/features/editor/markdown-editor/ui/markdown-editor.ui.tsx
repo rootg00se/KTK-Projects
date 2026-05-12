@@ -46,8 +46,8 @@ export const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ value, onChange,
         <div>
             <div className="border rounded-2xl overflow-hidden bg-background">
                 <Tabs value={tab} onValueChange={(v) => setTab(v as any)}>
-                    <div className="flex items-center justify-between border-b px-3 py-2 bg-muted/50">
-                        <TabsList className="grid grid-cols-2 w-48">
+                    <div className="flex items-center justify-between border-b px-3 py-2 bg-muted/50 max-xs:h-30">
+                        <TabsList className="grid grid-cols-2 w-48 max-xs:block">
                             <TabsTrigger value="write" className="flex items-center gap-2">
                                 <Pencil size={16} /> Текст
                             </TabsTrigger>

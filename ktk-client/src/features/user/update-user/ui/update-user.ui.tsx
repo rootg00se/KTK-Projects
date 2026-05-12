@@ -26,13 +26,15 @@ export const UpdateUser: React.FC<IUpdateUserProps> = ({ displayName, nickname }
                 value={displayNameValue}
                 onChange={(e) => setDisplayNameValue(e.target.value)}
                 placeholder="Ваше имя"
+                className="max-sm:text-sm"
             />
             <Input 
                 value={nicknameValue}
                 onChange={(e) => setNicknameValue(e.target.value)} 
                 placeholder="Ваш никнейм" 
+                className="max-sm:text-sm"
              />
-            <Button className="max-w-30" onClick={handleUpdateUser}>Сохранить</Button>
+            <Button className="max-w-30 max-sm:text-[13px]" onClick={handleUpdateUser}>Сохранить</Button>
         </div>
     );
 };

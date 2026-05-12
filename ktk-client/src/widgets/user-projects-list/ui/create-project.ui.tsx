@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 
 export const CreateProject: React.FC = () => {
     return (
-        <Empty className="border-2 mb-5 max-h-40 flex flex-row items-end px-4 py-4">
+        <Empty className="border-2 mb-5 min-h-40 flex flex-row items-end px-4 py-4 max-sm:flex-col max-sm:items-start">
             <EmptyHeader className="text-left items-start gap-1">
                 <EmptyMedia variant="icon">
                     <IconFolderCode />
@@ -24,10 +24,10 @@ export const CreateProject: React.FC = () => {
             <div className="">
                 <EmptyContent className="flex-row justify-start items-start gap-2">
                     <Button>
-                        <Link to="/project/create">Создать проект</Link>
+                        <Link className="max-xs:text-[12px]" to="/project/create">Создать проект</Link>
                     </Button>
                     <Button variant="outline">
-                        <Link to="/">Найти проект</Link>
+                        <Link className="max-xs:text-[12px]" to="/">Найти проект</Link>
                     </Button>
                 </EmptyContent>
             </div>

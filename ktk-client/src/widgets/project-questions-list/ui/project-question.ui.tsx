@@ -76,17 +76,18 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
                 <div className="flex items-center gap-4">
                     <div className="flex items-center gap-1 opacity-70 cursor-pointer" onClick={handleReplies}>
                         {showReplies ? <MinusCircle size={16} /> : <PlusCircle size={16} />}
-                        <span className="text-sm">{repliesCount} Ответов</span>
+                        <span className="text-sm max-xs:hidden">{repliesCount} Ответов</span>
                     </div>
                     <div className="">
                         <Button
                             onClick={() => setActiveReplyId?.(activeReplyId === questionId ? null : questionId)}
                             variant={"link"}
+                            className="max-sm:text-[13px]"
                         >
                             {activeReplyId !== null && activeReplyId === questionId ? "Отмена" : "Ответить"}
                         </Button>
                         {canEdit && (
-                            <Button onClick={() => setEditMode((editing) => !editing)} variant={"link"}>
+                            <Button onClick={() => setEditMode((editing) => !editing)} className="max-sm:text-[13px]" variant={"link"}>
                                 {editMode ? "Отмена" : "Изменить"}
                             </Button>
                         )}
@@ -113,7 +114,7 @@ export const ProjectQuestion: React.FC<IProjectQuestionProps> = ({
                         repliesCount={reply.repliesCount}
                         userId={reply.user_id || ""}
                         projectId={reply.project_id}
-                        className="border-0 pl-15 pt-6"
+                        className="border-0 pl-15 pt-6 max-md:pl-5"
                         questionId={reply.question_id}
                         setActiveReplyId={setActiveReplyId}
                         activeReplyId={activeReplyId}

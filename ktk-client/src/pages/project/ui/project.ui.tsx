@@ -6,11 +6,11 @@ import React from "react";
 export const ProjectPage: React.FC = () => {
     return (
         <section className="w-full max-lg:flex justify-center">
-            <div className="max-w-180">
-                <div className="bg-white rounded-md p-5">
+            <div className="max-w-180 w-full">
+                <div className="bg-white rounded-md p-5 max-sm:p-3">
                     <ProjectDetails />
                     <SendQuestion />
-                    <div className="mt-10">
+                    <div className="mt-10 max-sm:mt-5">
                         <ProjectQuestionsList />
                     </div>
                 </div>

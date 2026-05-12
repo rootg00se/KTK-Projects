@@ -24,7 +24,7 @@ export const EmtpyProjects: React.FC = () => {
                     Вы пока еще не создали ни один проект. Начните свой путь создав первый проект на ktk projects.
                 </EmptyDescription>
             </EmptyHeader>
-            <EmptyContent className="flex-row justify-center gap-2">
+            <EmptyContent className="flex-row justify-center gap-2 max-sm:flex-col max-w-none">
                 <Button>
                     <Link to="/project/create">Создать проект</Link>
                 </Button>
