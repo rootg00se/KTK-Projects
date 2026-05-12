@@ -1,4 +1,4 @@
-version: '0.0.1'
+version: "1.0.0"
 
 services:
   postgres:
@@ -10,26 +10,53 @@ services:
     ports:
       - 5433:5432
     networks:
-      - backend
+      - ktk_network
     env_file:
       - ./ktk-server/.env
   redis:
     container_name: ktk_redis
     image: redis:7.2-alpine
-    restart: always 
+    restart: always
     env_file:
       - ./ktk-server/.env
     ports:
       - 6379:6379
     networks:
-      - backend
+      - ktk_network
     volumes:
       - redis_data:/data
     command: sh -c "redis-server --requirepass $${REDIS_PASSWORD}"
+  backend:
+    container_name: ktk_backend
+    build: ./ktk-server
+    restart: always
+    env_file: ./ktk-server/.env
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+      - REDIS_HOST=redis
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - ktk_network
+  frontend:
+    container_name: ktk_frontend
+    build:
+      context: ./ktk-client
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+        - VITE_GOOGLE_RECAPTCHA_SITE_KEY=${VITE_GOOGLE_RECAPTCHA_SITE_KEY}
+        - VITE_API_BASE_URL=${VITE_API_BASE_URL}
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    networks:
+      - ktk_network
 
 volumes:
   postgres_data:
   redis_data:
 
 networks:
-  backend:
+  ktk_network:
