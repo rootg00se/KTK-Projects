@@ -17,13 +17,13 @@ export const SendMessage: React.FC<{ chatId: string }> = ({ chatId }) => {
     };
 
     return (
-        <div className="flex bg-white items-center justify-center border-t gap-2">
+        <div className="flex shrink-0 items-center justify-center gap-2 border-t border-border bg-background pb-[max(0.5rem,env(safe-area-inset-bottom))]">
             <Input
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && onMessageSend()}
                 autoFocus
-                className="py-6 border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="py-6 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 max-sm:text-sm"
                 placeholder="Введите свое сообщение и нажмите enter"
             />
             <div

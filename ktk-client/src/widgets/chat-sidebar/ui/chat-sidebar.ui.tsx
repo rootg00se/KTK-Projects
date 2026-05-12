@@ -12,7 +12,7 @@ export const ChatSidebar: React.FC = () => {
     if (!userData) return null;
 
     return (
-        <div className="w-full max-w-100">
+        <div className="flex h-full min-h-0 w-full max-w-100 flex-col bg-background">
             <div className="flex items-center gap-7 min-h-18.5 border-b justify-between w-full px-5">
                 <Link to={`/profile/${userData.user_id}`} className="flex items-center gap-4">
                     <Avatar className="w-10 h-10">
@@ -30,7 +30,7 @@ export const ChatSidebar: React.FC = () => {
             <div className="p-5 flex-1 pb-0 w-full border-b">
                 <SidebarNav />
             </div>
-            <div className="px-5 w-full">
+            <div className="px-5 pb-4 w-full">
                 <SidebarFooter />
             </div>
         </div>

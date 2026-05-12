@@ -29,7 +29,7 @@ export const CreateTask: React.FC<{ trackerId: string }> = ({ trackerId }) => {
                         value={text}
                         onChange={(e) => setText(e.target.value)}
                         autoFocus={true}
-                        className="mb-3 bg-white"
+                        className="mb-3 bg-white max-sm:text-sm"
                         placeholder="Придумайте задачу"
                         onKeyDown={(e) => e.key === "Enter" && handleCreateTask()}
                     />

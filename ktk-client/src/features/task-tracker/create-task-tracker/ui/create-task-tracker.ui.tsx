@@ -61,7 +61,7 @@ export const CreateTaskTracker: React.FC = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         autoFocus={true}
-                        className="mb-3"
+                        className="mb-3 max-sm:text-sm"
                         placeholder="Введите имя трекера"
                         onKeyDown={handleKeyDown}
                     />

@@ -38,6 +38,7 @@ export const UpdateTask: React.FC<IUpdateTaskProps> = ({ initialText, taskId, tr
                     placeholder="Распишите задачу и нажмите enter"
                     onKeyDown={handleKeyDown}
                     onBlur={() => setEditMode(false)}
+                    className="max-sm:text-sm"
                 />
             ) : (
                 <p onClick={() => setEditMode(true)} className="opacity-80 cursor-pointer">

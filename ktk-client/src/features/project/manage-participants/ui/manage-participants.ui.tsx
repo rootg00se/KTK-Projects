@@ -38,7 +38,7 @@ export const ManageParticipants: React.FC<IManageParticipantsProps> = ({
     const availableFriends = friends.filter((friend) => !members.find((m) => m.user_id === friend.user_id));
 
     return (
-        <div className="mb-10 max-w-120">
+        <div className="mb-10 max-w-120 max-md:max-w-none">
             <Empty className="border-2">
                 <EmptyHeader>
                     <EmptyMedia variant="icon">

@@ -39,7 +39,7 @@ export const Chat: React.FC<IChatProps> = ({
         <div
             onClick={handleChangeChat}
             className={cn(
-                "flex min-w-95 w-full items-center gap-3 min-h-18.5 p-3 border-b cursor-pointer",
+                "flex min-h-18.5 w-full min-w-0 cursor-pointer items-center gap-3 border-b border-border p-3",
                 activeChatId === chatId && "bg-primary text-white!",
             )}
         >
@@ -49,14 +49,14 @@ export const Chat: React.FC<IChatProps> = ({
                     {(displayName || nickname).slice(0, 2)}
                 </AvatarFallback>
             </Avatar>
-            <div className="w-full">
-                <div className="flex justify-between items-start mb-1">
-                    <p className="font-medium text-[14px]">{displayName || nickname}</p>
-                    <span className="text-[12px] font-heading opacity-50">
+            <div className="min-w-0 flex-1">
+                <div className="mb-1 flex items-start justify-between gap-2">
+                    <p className="min-w-0 truncate font-medium text-[14px]">{displayName || nickname}</p>
+                    <span className="shrink-0 text-[12px] font-heading text-muted-foreground">
                         {moment(lastMessageTime).format("HH:MM")}
                     </span>
                 </div>
-                <p className="whitespace-nowrap max-w-75 truncate text-[14px] opacity-50">{messageText}</p>
+                <p className="truncate text-[14px] text-muted-foreground">{messageText}</p>
             </div>
         </div>
     );

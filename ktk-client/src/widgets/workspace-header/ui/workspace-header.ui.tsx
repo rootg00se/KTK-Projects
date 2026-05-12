@@ -12,8 +12,8 @@ export const WorkspaceHeader: React.FC = () => {
 
     return (
         <header className="py-3 bg-white sticky top-0 z-100 border-b">
-            <div className="_container flex items-center justify-between">
-                <div className="flex items-center gap-10">
+            <div className="_container flex items-center justify-between max-sm:flex-col max-sm:gap-3">
+                <div className="flex items-center gap-10 max-sm:gap-4">
                     <Link className="max-w-35" to={"/"}>
                         <img src={logo} className="w-full" alt="" />
                     </Link>

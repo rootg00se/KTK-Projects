@@ -39,6 +39,7 @@ export const UpdateProject: React.FC = () => {
                 <div className="mb-5">
                     <Label className="text-[16px] mb-3 font-normal font-heading">Название проекта:</Label>
                     <Input
+                        className="max-xs:text-sm"
                         placeholder="Введите название проекта: "
                         value={projectName}
                         onChange={(e) => setProjectName(e.target.value)}
@@ -47,6 +48,7 @@ export const UpdateProject: React.FC = () => {
                 <div>
                     <Label className="text-[16px] mb-3 font-normal font-heading">Ссылка проекта:</Label>
                     <Input
+                        className="max-xs:text-sm"
                         placeholder="Введите ссылку на репо проекта: "
                         value={link || ""}
                         onChange={(e) => setLink(e.target.value)}

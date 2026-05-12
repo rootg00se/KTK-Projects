@@ -25,7 +25,7 @@ export const ProjectWorkspace: React.FC = () => {
                 <TabsContent value="settings" className="flex-1 overflow-y-auto">
                     <WorkspaceSettings />
                 </TabsContent>
-                <TabsContent value="chat" className="flex-1 overflow-y-auto">
+                <TabsContent value="chat" className="flex-1 overflow-hidden flex flex-col">
                     <WorkspaceChat />
                 </TabsContent>
                 <TabsContent value="tracker" className="flex-1 overflow-hidden mt-0 data-[state=active]:flex flex-col">

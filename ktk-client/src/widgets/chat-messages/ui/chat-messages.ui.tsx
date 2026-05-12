@@ -32,7 +32,7 @@ export const ChatMessages: React.FC<{ chatId: string }> = ({ chatId }) => {
         <div
             ref={containerRef}
             data-slot="chat-messages-scroll"
-            className="flex flex-1 flex-col gap-1 mt-3 px-3 overflow-y-auto overflow-x-hidden pb-5 [overflow-anchor:none]"
+            className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overflow-x-hidden px-3 pb-5 pt-3 [overflow-anchor:none]"
         >
             {(() => {
                 let lastDate = "";

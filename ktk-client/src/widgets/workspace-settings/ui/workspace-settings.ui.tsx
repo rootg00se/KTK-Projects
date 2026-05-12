@@ -26,7 +26,7 @@ export const WorkspaceSettings: React.FC = () => {
     return (
         <div className="_container">
             <div className="py-10">
-                <div className="flex justify-between flex-row-reverse max-w-250">
+                <div className="flex justify-between gap-4 max-md:flex-col flex-row-reverse max-w-250">
                     <div className="w-full max-w-100 mb-10 flex flex-col">
                         <UpdateProject />
                         <div className="flex gap-3 items-center mt-auto">

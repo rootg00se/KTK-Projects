@@ -12,7 +12,7 @@ export const Task: React.FC<ITaskProps> = ({ contentSlot, statusSlot, menuSlot }
             <p className="mb-4 text-[14px]">{contentSlot}</p>
             <div className="flex items-center justify-between">
                 {statusSlot}
-                <div className="opacity-0 group-hover:opacity-100 transition-all cursor-pointer">{menuSlot}</div>
+                <div className="opacity-0 group-hover:opacity-100 transition-all cursor-pointer max-md:opacity-100">{menuSlot}</div>
             </div>
         </div>
     );

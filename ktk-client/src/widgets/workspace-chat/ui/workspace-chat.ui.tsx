@@ -36,8 +36,8 @@ export const WorkspaceChat: React.FC = () => {
     if (!projectChatData) return;
 
     return (
-        <div className="_container">
-            <div className="h-[81.5vh] overflow-y-scroll">
+        <div className="_container w-full flex flex-col h-full overflow-hidden">
+            <div className="flex-1 overflow-hidden">
                 <ChatMessages chatId={projectChatData.chat_id} />
             </div>
             <SendMessage chatId={projectChatData.chat_id} />

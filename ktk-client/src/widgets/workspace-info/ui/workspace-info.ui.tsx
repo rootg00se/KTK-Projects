@@ -36,11 +36,11 @@ export const WorkspaceInfo: React.FC = () => {
 
     return (
         <div className="_container">
-            <div className="mb-5 py-10 flex justify-between">
+            <div className="mb-5 py-10 flex gap-10 flex-wrap justify-between">
                 <div className="max-w-180">
                     <div className="flex justify-between">
-                        <div className="mb-2 flex gap-2">
-                            <h2 className="text-4xl font-semibold">{projectData.title}</h2>
+                        <div className="mb-2 flex gap-2 max-xs:flex-col">
+                            <h2 className="text-4xl font-semibold max-xs:text-3xl">{projectData.title}</h2>
                             <p className="opacity-60 text-sm">{parseProjectStatus(projectData.status)}</p>
                         </div>
                         {projectData.project_link && (
@@ -49,7 +49,7 @@ export const WorkspaceInfo: React.FC = () => {
                             </a>
                         )}
                     </div>
-                    <div className="flex items-center gap-2 ml-2 mb-5 ">
+                    <div className="flex items-center gap-2 ml-2 mb-5">
                         <div className="flex">
                             {projectData.tags.map((tag) => (
                                 <div className="max-w-7 -ml-2" key={tag.name}>
@@ -57,10 +57,10 @@ export const WorkspaceInfo: React.FC = () => {
                                 </div>
                             ))}
                         </div>
-                        <p className="text-[17px] capitalize">{projectData.tags[0].name}</p>
+                        <p className="text-[17px] capitalize max-xs:hidden">{projectData.tags[0].name}</p>
                     </div>
                     <MarkdownReader content={markdown} />
-                    <div className="flex items-center gap-4 mb-3">
+                    <div className="flex items-center flex-wrap gap-4 mb-3">
                         {projectData.tags.map((tag) => (
                             <ProjectDetailsTag key={tag.tag_id} tag={tag.name} />
                         ))}
