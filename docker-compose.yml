@@ -10,7 +10,7 @@ services:
     ports:
       - 5433:5432
     networks:
-      - ktk_network
+      - homelab_network
     env_file:
       - ./ktk-server/.env
   redis:
@@ -22,7 +22,7 @@ services:
     ports:
       - 6379:6379
     networks:
-      - ktk_network
+      - homelab_network
     volumes:
       - redis_data:/data
     command: sh -c "redis-server --requirepass $${REDIS_PASSWORD}"
@@ -32,13 +32,15 @@ services:
     restart: always
     env_file: ./ktk-server/.env
     environment:
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+      - POSTGRES_URI=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
       - REDIS_HOST=redis
+      - APPLICATION_URL=${APPLICATION_URL}
+      - CLIENT_ORIGIN=${CLIENT_ORIGIN}
     depends_on:
       - postgres
       - redis
     networks:
-      - ktk_network
+      - homelab_network
   frontend:
     container_name: ktk_frontend
     build:
@@ -48,15 +50,15 @@ services:
         - VITE_GOOGLE_RECAPTCHA_SITE_KEY=${VITE_GOOGLE_RECAPTCHA_SITE_KEY}
         - VITE_API_BASE_URL=${VITE_API_BASE_URL}
     ports:
-      - 80:80
+      - 5173:80
     depends_on:
       - backend
     networks:
-      - ktk_network
+      - homelab_network
 
 volumes:
   postgres_data:
   redis_data:
 
 networks:
-  ktk_network:
+  homelab_network:
