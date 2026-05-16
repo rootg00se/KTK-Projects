@@ -99,7 +99,7 @@ export const ChatsPage: React.FC = () => {
                         </div>
                     )}
                 </main>
-                <aside className="h-full min-h-0 w-full max-w-100 shrink-0 flex flex-col overflow-y-auto border-l border-border lg:flex">
+                <aside className="h-full min-h-0 w-full max-w-100 shrink-0 hidden flex-col overflow-y-auto border-l border-border lg:flex">
                     <ChatSidebar />
                 </aside>
             </div>

@@ -33,7 +33,7 @@ export const Header: React.FC<{ searchInput?: React.ReactNode }> = ({ searchInpu
                                     {userData.nickname.slice(0, 2)}
                                 </AvatarFallback>
                             </Avatar>
-                            <div className="text-[16px]">{userData.display_name || userData.nickname}</div>
+                            <div className="text-[16px] truncate max-w-50 max-md:max-w-45 max-sm:max-w-30">{userData.display_name || userData.nickname}</div>
                         </Link>
                         <Link to={`/chats`}>
                             <MessageSquareText size={20} />

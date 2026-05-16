@@ -79,13 +79,13 @@ export const ProjectItem: React.FC<IProjectItemProps> = ({
                 >
                     {title}
                 </Link>
-                <div className="flex items-center gap-4 mt-3">
+                <Link to={`/project/${projectId}`} className="flex items-center gap-4 mt-3">
                     <LikeProject isLiked={isLiked} projectId={projectId} likes={likes} />
                     <div className="flex items-center gap-2 opacity-70 hover:opacity-100 cursor-pointer transition-opacity">
                         <MessageCircle size={18} />
                         <span className="text-sm">Задать вопрос</span>
                     </div>
-                </div>
+                </Link>
                 {renderAction && <div className="max-xl:w-full mt-5 shrink-0 mb-1">{renderAction}</div>}
             </div>
         </div>

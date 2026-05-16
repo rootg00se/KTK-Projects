@@ -56,7 +56,6 @@ export const UpdateAvatar: React.FC<IUpdateAvatarProps> = ({ editable, avatarUrl
                 onChange={(e) => handleUpdateAvatar(e)}
                 className="hidden"
                 name="avatar"
-                accept=".png, .jpg, .jpeg, .svg, .webp, .gif"
             />
         </div>
     );

@@ -52,11 +52,13 @@ export const Chat: React.FC<IChatProps> = ({
             <div className="min-w-0 flex-1">
                 <div className="mb-1 flex items-start justify-between gap-2">
                     <p className="min-w-0 truncate font-medium text-[14px]">{displayName || nickname}</p>
-                    <span className="shrink-0 text-[12px] font-heading text-muted-foreground">
-                        {moment(lastMessageTime).format("HH:MM")}
-                    </span>
+                    {lastMessageTime && (
+                        <span className="shrink-0 text-[12px] font-heading text-muted-foreground">
+                            {moment(lastMessageTime).format("HH:MM")}
+                        </span>
+                    )}
                 </div>
-                <p className="truncate text-[14px] text-muted-foreground">{messageText}</p>
+                {messageText && <p className="truncate text-[14px] text-muted-foreground">{messageText}</p>}
             </div>
         </div>
     );

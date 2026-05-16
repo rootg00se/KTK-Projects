@@ -43,9 +43,9 @@ export const ProjectDetails: React.FC = () => {
                     <div className="flex justify-between w-full max-sm:flex-col max-sm:gap-3">
                         <div>
                             <div className="flex items-center gap-2 mb-1">
-                                <span className="text-lg">
+                                <Link to={`/profile/${projectData.creator.user_id}`} className="text-lg">
                                     {projectData.creator.display_name || projectData.creator.nickname}
-                                </span>
+                                </Link>
                                 <span className="text-sm opacity-50">{moment(projectData.created_at).fromNow()}</span>
                             </div>
                             <div className="flex items-center gap-2 ml-2">

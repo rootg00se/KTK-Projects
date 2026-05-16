@@ -45,7 +45,7 @@ export const SendQuestion: React.FC<ISendQuestionProps> = ({ parentId, className
                 >
                     Отправить вопрос
                 </Button>
-                <div className="sm:hidden flex bg-primary rounded-md p-1 items-center ml-[100%] -translate-x-full justify-center h-8 w-8 text-white">
+                <div onClick={handleSendQuestion} className="sm:hidden flex bg-primary rounded-md p-1 items-center ml-[100%] -translate-x-full justify-center h-8 w-8 text-white">
                     <Forward size={18} />
                 </div>
             </div>

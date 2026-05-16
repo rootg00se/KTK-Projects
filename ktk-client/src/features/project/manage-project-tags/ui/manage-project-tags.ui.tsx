@@ -28,16 +28,20 @@ export const ManageProjectTags: React.FC<IManageProjectTagsProps> = ({ projectTa
                 </PopoverTrigger>
                 <PopoverContent align="start" className="w-150">
                     <div className="grid grid-cols-3 gap-3">
-                        {tagsData
-                            .filter((tag) => !projectTags.find((tagName) => tag.name === tagName))
-                            .map((tag) => (
-                                <p
-                                    onClick={() => onAdd(tag.name)}
-                                    className="cursor-pointer hover:opacity-100 transition-opacity inline opacity-50"
-                                >
-                                    #{tag.name}
-                                </p>
-                            ))}
+                        {projectTags.length != tagsData.length ? (
+                            tagsData
+                                .filter((tag) => !projectTags.find((tagName) => tag.name === tagName))
+                                .map((tag) => (
+                                    <p
+                                        onClick={() => onAdd(tag.name)}
+                                        className="cursor-pointer hover:opacity-100 transition-opacity inline opacity-50"
+                                    >
+                                        #{tag.name}
+                                    </p>
+                                ))
+                        ) : (
+                            <p className="opacity-50">Больше тегов нет</p>
+                        )}
                     </div>
                 </PopoverContent>
             </Popover>

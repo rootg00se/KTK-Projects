@@ -37,7 +37,7 @@ export const WorkspaceChat: React.FC = () => {
 
     return (
         <div className="_container w-full flex flex-col h-full overflow-hidden">
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-auto">
                 <ChatMessages chatId={projectChatData.chat_id} />
             </div>
             <SendMessage chatId={projectChatData.chat_id} />
