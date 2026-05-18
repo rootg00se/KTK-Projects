@@ -1,6 +1,11 @@
 import { $api } from "@/shared/api/api";
 import { USER_ENDPOINT, USER_ENDPOINTS } from "../lib/constants";
-import { type IPaginationUsersResponse, type IUserResponse, type UpdateSkillsDto, type UpdateUserDto } from "../model/types";
+import {
+    type IPaginationUsersResponse,
+    type IUserResponse,
+    type UpdateSkillsDto,
+    type UpdateUserDto,
+} from "../model/types";
 
 export const userApi = {
     baseKey: "users",
@@ -42,5 +47,5 @@ export const userApi = {
     },
     removeFriend: async ({ userId }: { userId: string }) => {
         return await $api.delete<IUserResponse>(`${USER_ENDPOINTS.FRIENDS}/${userId}`);
-    }
+    },
 };
